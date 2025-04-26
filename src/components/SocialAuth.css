@@ -1,0 +1,40 @@
+.social-auth-buttons {
+  margin: 20px 0;
+}
+
+.social-auth-buttons ion-button {
+  margin: 10px 0;
+  height: 44px;
+}
+
+.google-btn {
+  --background: #ffffff;
+  --color: #757575;
+  --border-color: #dadce0;
+}
+
+.apple-btn {
+  --background: #000000;
+  --color: #ffffff;
+  --border-color: #000000;
+}
+
+.social-auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.social-auth-divider::before,
+.social-auth-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #dadce0;
+}
+
+.social-auth-divider span {
+  padding: 0 10px;
+  color: #757575;
+  font-size: 14px;
+}

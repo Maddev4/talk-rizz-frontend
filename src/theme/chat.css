@@ -1,0 +1,40 @@
+.chat-message {
+  --padding-start: 8px;
+  --padding-end: 8px;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.chat-message.sent {
+  --background: var(--ion-color-primary-tint);
+  margin-left: 20%;
+  border-radius: 12px 12px 0 12px;
+}
+
+.chat-message.received {
+  --background: var(--ion-color-light);
+  margin-right: 20%;
+  border-radius: 12px 12px 12px 0;
+}
+
+.message-content {
+  margin: 0;
+  color: var(--ion-color-dark);
+}
+
+.message-time {
+  font-size: 0.8em;
+  color: var(--ion-color-medium);
+  margin: 4px 0 0;
+}
+
+.chat-input {
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  --background: var(--ion-color-light);
+  border-radius: 20px;
+  margin: 8px;
+}
