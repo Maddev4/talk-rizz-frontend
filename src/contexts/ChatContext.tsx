@@ -12,11 +12,7 @@ interface ChatContextType {
   setMessages: (messages: { [roomId: string]: ChatMessage[] }) => void;
   joinRoom: (roomId: string) => void;
   sendMessage: (content: string, roomId: string) => void;
-  sendNewRoom: (room: {
-    participants: string[];
-    type: string;
-    name: string;
-  }) => void;
+  sendNewRoom: (room: { participants: string[]; type: string }) => void;
   leaveRoom: (roomId: string) => void;
 }
 
@@ -80,7 +76,6 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
           console.log("new room created", room);
           setRooms((prev) => [...prev, room]);
           if (room.participants[1] === user?.id) {
-            // window.location.href = `/app/chat/${room._id}`;
             history.push(`/app/chat/${room._id}`);
           }
         });
@@ -116,17 +111,12 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
-  const sendNewRoom = (room: {
-    participants: string[];
-    type: string;
-    name: string;
-  }) => {
+  const sendNewRoom = (room: { participants: string[]; type: string }) => {
     if (!user) return;
 
     wsService.sendNewRoom({
       participants: room.participants,
       type: room.type,
-      name: room.name,
     });
   };
 

@@ -21,8 +21,8 @@ interface ConversationParams {
 
 const Conversation: React.FC = () => {
   const { roomId } = useParams<ConversationParams>();
-  const { user } = useAuth();
-  const { rooms, joinRoom, leaveRoom, chatLoading } = useChat();
+  const { user, profile } = useAuth();
+  const { joinRoom, leaveRoom, chatLoading, rooms } = useChat();
 
   useEffect(() => {
     if (!user) {
@@ -39,11 +39,11 @@ const Conversation: React.FC = () => {
     };
   }, [user, roomId, joinRoom, leaveRoom]);
 
-  const currentRoom = rooms.find((room) => room._id === roomId);
-
   if (!user) {
     return <Spinner />;
   }
+
+  const currentRoom = rooms.find((room) => room._id === roomId);
 
   return (
     <IonPage>
@@ -69,7 +69,7 @@ const Conversation: React.FC = () => {
                 <IonBackButton defaultHref="/app/chat" />
               </IonButtons>
               <IonTitle style={{ textAlign: "center" }}>
-                {currentRoom?.name}
+                {currentRoom?.other.name}
               </IonTitle>
             </IonToolbar>
           </IonHeader>

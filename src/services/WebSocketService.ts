@@ -76,7 +76,7 @@ class WebSocketService {
     this.socket.emit("send_message", message);
   }
 
-  sendNewRoom(room: { participants: string[]; type: string; name: string }) {
+  sendNewRoom(room: { participants: string[]; type: string }) {
     if (!this.socket) {
       throw new Error("WebSocket not connected");
     }

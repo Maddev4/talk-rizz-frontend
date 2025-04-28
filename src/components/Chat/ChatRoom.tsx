@@ -17,6 +17,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { format } from "date-fns";
 import { wsService, ChatMessage } from "../../services/WebSocketService";
 import axiosInstance from "../../config/axios";
+import { useHistory } from "react-router-dom";
 
 interface ChatRoomProps {
   roomId: string;
@@ -30,6 +31,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
   const [isTyping, setIsTyping] = useState(false);
   const typingTimeoutRef = useRef<NodeJS.Timeout>();
   const [roomMessages, setRoomMessages] = useState<ChatMessage[]>([]);
+  const history = useHistory();
 
   useEffect(() => {
     const fetchChatHistory = async () => {
@@ -42,6 +44,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
           [roomId]: response.data,
         });
       } catch (error) {
+        history.push("/app/chat");
         console.error("Error fetching chat history:", error);
       }
     };
@@ -144,7 +147,13 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
                 }`}
               >
                 <IonAvatar slot="start">
-                  <img src={msg.sender.avatar} alt="avatar" />
+                  <img
+                    src={
+                      msg.sender.avatar ||
+                      "https://ionicframework.com/docs/img/demos/avatar.svg"
+                    }
+                    alt="avatar"
+                  />
                 </IonAvatar>
                 <IonLabel className="ion-text-wrap">
                   <p className="message-content">{msg.content}</p>

@@ -29,7 +29,13 @@ const ChatList: React.FC = () => {
             className={currentRoom === room._id ? "selected-room" : ""}
           >
             <IonAvatar slot="start">
-              <img src={room.other.avatar} alt="avatar" />
+              <img
+                src={
+                  room.other.avatar ||
+                  "https://ionicframework.com/docs/img/demos/avatar.svg"
+                }
+                alt="avatar"
+              />
             </IonAvatar>
             <IonLabel>
               <h2>{room.other.name || otherParticipant}</h2>
