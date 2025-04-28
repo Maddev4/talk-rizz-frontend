@@ -41,7 +41,7 @@ class WebSocketService {
   connect(token: string) {
     // const BACKEND_URL =
     //   process.env.REACT_APP_BACKEND_URL || "http://localhost:3000";
-    const BACKEND_URL = "http://localhost:3000";
+    const BACKEND_URL = "https://rizz-be.racewonder.cam";
 
     this.socket = io(BACKEND_URL, {
       auth: {
