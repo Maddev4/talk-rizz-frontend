@@ -8,6 +8,8 @@ import {
   IonButtons,
   IonBackButton,
   IonSpinner,
+  IonImg,
+  IonAvatar,
 } from "@ionic/react";
 import { useParams } from "react-router";
 import { useAuth } from "../../contexts/AuthContext";
@@ -62,15 +64,30 @@ const Conversation: React.FC = () => {
         <>
           <IonHeader>
             <IonToolbar>
-              <IonButtons
-                slot="start"
-                style={{ position: "absolute", left: "0" }}
-              >
+              <IonButtons slot="start">
                 <IonBackButton defaultHref="/app/chat" />
               </IonButtons>
-              <IonTitle style={{ textAlign: "center" }}>
-                {currentRoom?.other.name}
-              </IonTitle>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "8px",
+                  marginLeft: "40px",
+                  marginRight: "40px",
+                }}
+              >
+                <IonAvatar style={{ width: "32px", height: "32px" }}>
+                  <IonImg
+                    src={
+                      currentRoom?.other.avatar ||
+                      "https://ionicframework.com/docs/img/demos/avatar.svg"
+                    }
+                    alt={currentRoom?.other.name}
+                  />
+                </IonAvatar>
+                <IonTitle>{currentRoom?.other.name}</IonTitle>
+              </div>
             </IonToolbar>
           </IonHeader>
 

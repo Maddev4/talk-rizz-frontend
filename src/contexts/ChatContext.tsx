@@ -73,13 +73,9 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
 
         // Listen for message read updates
         wsService.onMarkAsRead((data: { roomId: string; senderId: string }) => {
-          console.log("message read", data);
           setMessages((prev) => {
-            console.log("prevMark", prev);
             const roomMessages = prev[data.roomId];
-            console.log("roomMessages", roomMessages);
             if (!roomMessages?.some((msg) => msg.read === false)) {
-              console.log("no unread messages");
               return prev;
             }
             return {
