@@ -153,17 +153,10 @@
 
 .typing-indicator {
   padding: 8px 16px;
-  background: var(--ion-color-light);
   border-radius: 10px;
   margin: 8px;
   display: inline-block;
   max-width: 80%;
-}
-
-.typing-indicator p {
-  margin: 0;
-  font-style: italic;
-  color: var(--ion-color-medium);
 }
 
 .chat-message {

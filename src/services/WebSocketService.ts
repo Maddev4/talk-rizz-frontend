@@ -1,11 +1,12 @@
 import { io, Socket } from "socket.io-client";
 
 export interface ChatMessage {
-  id: string;
+  _id: string;
   senderId: string;
   roomId: string;
   content: string;
   timestamp: Date;
+  read: boolean;
   sender: {
     name: string;
     avatar: string;
@@ -124,6 +125,20 @@ class WebSocketService {
       throw new Error("WebSocket not connected");
     }
     this.socket.emit("typing", { roomId });
+  }
+
+  markAsRead(roomId: string) {
+    if (!this.socket) {
+      throw new Error("WebSocket not connected");
+    }
+    this.socket.emit("mark_as_read", { roomId });
+  }
+
+  onMarkAsRead(callback: (data: { roomId: string; senderId: string }) => void) {
+    if (!this.socket) {
+      throw new Error("WebSocket not connected");
+    }
+    this.socket.on("message_read", callback);
   }
 }
 

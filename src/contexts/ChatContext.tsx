@@ -14,6 +14,7 @@ interface ChatContextType {
   sendMessage: (content: string, roomId: string) => void;
   sendNewRoom: (room: { participants: string[]; type: string }) => void;
   leaveRoom: (roomId: string) => void;
+  markMessagesAsRead: (roomId: string) => void;
 }
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
@@ -58,13 +59,37 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
         // Listen for new messages
         wsService.onMessage((message: { _doc: ChatMessage; sender: any }) => {
           console.log("message", message);
-          setMessages((prev) => ({
-            ...prev,
-            [message._doc.roomId]: [
-              ...(prev[message._doc.roomId] || []),
-              { ...message._doc, sender: message.sender },
-            ],
-          }));
+          setMessages((prev) => {
+            console.log("prev", prev);
+            return {
+              ...prev,
+              [message._doc.roomId]: [
+                ...(prev[message._doc.roomId] || []),
+                { ...message._doc, sender: message.sender },
+              ],
+            };
+          });
+        });
+
+        // Listen for message read updates
+        wsService.onMarkAsRead((data: { roomId: string; senderId: string }) => {
+          console.log("message read", data);
+          setMessages((prev) => {
+            console.log("prevMark", prev);
+            const roomMessages = prev[data.roomId];
+            console.log("roomMessages", roomMessages);
+            if (!roomMessages?.some((msg) => msg.read === false)) {
+              console.log("no unread messages");
+              return prev;
+            }
+            return {
+              ...prev,
+              [data.roomId]: roomMessages.map((msg) => ({
+                ...msg,
+                read: msg.senderId !== data.senderId ? true : msg.read,
+              })),
+            };
+          });
         });
 
         // Listen for room updates (you'll need to add this event on the backend)
@@ -120,6 +145,16 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
+  const markMessagesAsRead = async (roomId: string) => {
+    if (!user) return;
+
+    try {
+      wsService.markAsRead(roomId);
+    } catch (error) {
+      console.error("Error marking messages as read:", error);
+    }
+  };
+
   const value = {
     messages,
     rooms,
@@ -130,6 +165,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
     sendMessage,
     sendNewRoom,
     leaveRoom,
+    markMessagesAsRead,
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

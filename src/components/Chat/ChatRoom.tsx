@@ -11,13 +11,14 @@ import {
   IonLabel,
   IonAvatar,
 } from "@ionic/react";
-import { sendOutline } from "ionicons/icons";
+import { sendOutline, checkmark, checkmarkDone } from "ionicons/icons";
 import { useChat } from "../../contexts/ChatContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { format } from "date-fns";
 import { wsService, ChatMessage } from "../../services/WebSocketService";
 import axiosInstance from "../../config/axios";
 import { useHistory } from "react-router-dom";
+import "./ChatRoom.css";
 
 interface ChatRoomProps {
   roomId: string;
@@ -25,7 +26,7 @@ interface ChatRoomProps {
 
 const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
   const [message, setMessage] = useState("");
-  const { messages, sendMessage, setMessages } = useChat();
+  const { messages, sendMessage, setMessages, markMessagesAsRead } = useChat();
   const { user } = useAuth();
   const contentRef = useRef<HTMLDivElement>(null);
   const [isTyping, setIsTyping] = useState(false);
@@ -85,6 +86,30 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
     };
   }, [roomId, user?.id]);
 
+  // Mark messages as read when component mounts
+  useEffect(() => {
+    console.log("mark");
+    markMessagesAsRead(roomId);
+  }, [roomId, markMessagesAsRead]);
+
+  // Mark messages as read when scrolling to bottom
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (contentRef.current) {
+  //       const { scrollTop, scrollHeight, clientHeight } = contentRef.current;
+  //       if (scrollHeight - scrollTop <= clientHeight + 100) {
+  //         markMessagesAsRead(roomId);
+  //       }
+  //     }
+  //   };
+
+  //   const contentElement = contentRef.current;
+  //   if (contentElement) {
+  //     contentElement.addEventListener("scroll", handleScroll);
+  //     return () => contentElement.removeEventListener("scroll", handleScroll);
+  //   }
+  // }, [roomId, markMessagesAsRead]);
+
   const handleSend = () => {
     if (message.trim() && user) {
       sendMessage(message, roomId);
@@ -119,15 +144,21 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
       style={{
         display: "flex",
         flexDirection: "column",
+        height: "100%",
+        background: "#0B141A",
       }}
     >
-      <IonContent className="ion-padding chat-content" scrollEvents={true}>
+      <IonContent className="chat-content" scrollEvents={true}>
         <div
           ref={contentRef}
-          className="h-full overflow-y-auto"
+          className="messages-container"
           style={{
             height: "100%",
             overflowY: "auto",
+            padding: "16px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "8px",
           }}
         >
           {roomMessages.length === 0 ? (
@@ -135,68 +166,122 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
               className="flex flex-col items-center justify-center"
               style={{ height: "calc(100% - 20px)" }}
             >
-              <IonLabel className="text-xl">No messages yet</IonLabel>
+              <IonLabel className="text-xl" style={{ color: "#8696A0" }}>
+                No messages yet
+              </IonLabel>
             </div>
           ) : (
             roomMessages.map((msg, index) => (
-              <IonItem
+              <div
                 key={index}
-                lines="none"
-                className={`chat-message ${
+                className={`message-wrapper ${
                   msg.senderId === user?.id ? "sent" : "received"
                 }`}
+                style={{
+                  display: "flex",
+                  justifyContent:
+                    msg.senderId === user?.id ? "flex-end" : "flex-start",
+                  marginBottom: "8px",
+                }}
               >
-                <IonAvatar slot="start">
-                  <img
-                    src={
-                      msg.sender.avatar ||
-                      "https://ionicframework.com/docs/img/demos/avatar.svg"
-                    }
-                    alt="avatar"
-                  />
-                </IonAvatar>
-                <IonLabel className="ion-text-wrap">
-                  <p className="message-content">{msg.content}</p>
-                  <p className="message-time">
-                    {format(new Date(msg.timestamp), "HH:mm")}
-                  </p>
-                </IonLabel>
-              </IonItem>
+                <div
+                  className={`message-bubble ${
+                    msg.senderId === user?.id ? "sent" : "received"
+                  }`}
+                  style={{
+                    maxWidth: "65%",
+                    padding: "8px 12px",
+                    borderRadius: "8px",
+                    backgroundColor:
+                      msg.senderId === user?.id ? "#005C4B" : "#202C33",
+                    color: "#E9EDF0",
+                  }}
+                >
+                  <div
+                    className="message-content"
+                    style={{ marginBottom: "4px" }}
+                  >
+                    {msg.content}
+                  </div>
+                  <div
+                    className="message-meta"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "4px",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "11px",
+                        color: "#8696A0",
+                        marginRight: msg.senderId === user?.id ? "4px" : "0",
+                      }}
+                    >
+                      {format(new Date(msg.timestamp), "HH:mm")}
+                    </span>
+                    {msg.senderId === user?.id && (
+                      <IonIcon
+                        icon={msg.read ? checkmarkDone : checkmark}
+                        style={{
+                          fontSize: "14px",
+                          color: msg.read ? "#53BDEB" : "#8696A0",
+                        }}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
             ))
           )}
-          {isTyping ? (
-            <IonLabel>
-              <p>Someone is typing...</p>
-            </IonLabel>
-          ) : null}
+          {isTyping && (
+            <div
+              className="typing-indicator"
+              style={{ color: "#8696A0", fontSize: "14px", padding: "8px" }}
+            >
+              Someone is typing...
+            </div>
+          )}
         </div>
       </IonContent>
-      <IonFooter className="chat-footer">
-        <div style={{ display: "flex", alignItems: "center", padding: "6px" }}>
+      <IonFooter className="chat-footer" style={{ backgroundColor: "#202C33" }}>
+        <div
+          style={{ display: "flex", alignItems: "center", padding: "8px 16px" }}
+        >
           <div
             style={{
               position: "relative",
               width: "100%",
               display: "flex",
               alignItems: "center",
+              backgroundColor: "#2A3942",
+              borderRadius: "8px",
+              padding: "6px 12px",
             }}
           >
             <IonInput
               value={message}
-              placeholder="Type a message"
-              onIonChange={(e) => setMessage(e.detail.value!)}
+              placeholder="Message"
+              onIonInput={(e) => setMessage(e.detail.value || "")}
               onKeyDown={handleKeyPress}
               style={{
-                padding: "0px !important",
+                "--placeholder-color": "#8696A0",
+                "--color": "#E9EDF0",
               }}
             />
             <IonButton
               onClick={handleSend}
               disabled={!message.trim()}
               fill="clear"
-              className="send-button"
+              style={{
+                margin: 0,
+                "--color": "#00A884",
+                "--padding-start": "8px",
+                "--padding-end": "8px",
+              }}
             >
-              <IonIcon icon={sendOutline} />
+              <IonIcon icon={sendOutline} style={{ fontSize: "24px" }} />
             </IonButton>
           </div>
         </div>

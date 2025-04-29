@@ -1,0 +1,40 @@
+.messages-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+  background: #374045;
+  border-radius: 3px;
+}
+
+.message-bubble.sent {
+  border-radius: 8px 0 8px 8px;
+}
+
+.message-bubble.received {
+  border-radius: 0 8px 8px 8px;
+}
+
+.chat-content::part(scroll) {
+  background-color: #0b141a;
+}
+
+/* Custom styling for the input */
+ion-input {
+  --padding-start: 0;
+  --padding-end: 0;
+  font-size: 15px;
+}
+
+/* Remove default Ionic button hover effects */
+ion-button {
+  --ripple-color: transparent;
+}
+
+ion-button:hover {
+  opacity: 0.9;
+}

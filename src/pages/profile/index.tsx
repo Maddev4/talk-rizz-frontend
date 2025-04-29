@@ -16,7 +16,6 @@ import { Profile } from "../../components/Profile/Profile";
 import { ProfileEditor } from "../../components/Profile/ProfileEditor";
 import { UserProfile } from "../../types/profile";
 import "./index.css";
-import { profileService } from "../../services/profileService";
 
 const ProfilePage: React.FC = () => {
   const { profile: authProfile, setProfile: setAuthProfile } = useAuth();
@@ -47,7 +46,6 @@ const ProfilePage: React.FC = () => {
     try {
       // Update the profile in the backend
       console.log("Updating profile:", updatedProfile);
-      // await profileService.updateProfile(updatedProfile);
 
       // Update local state
       setAuthProfile(updatedProfile as UserProfile);

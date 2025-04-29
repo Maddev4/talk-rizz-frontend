@@ -30,9 +30,9 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({
   initialProfile,
   onSave,
 }) => {
-  const [activeSegment, setActiveSegment] = useState<
-    "basic" | "general" | "dating"
-  >("basic");
+  const [activeSegment, setActiveSegment] = useState<"general" | "profile">(
+    "general"
+  );
   const [profile, setProfile] = useState<UserProfile>(
     initialProfile || {
       basicProfile: {
@@ -145,11 +145,11 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({
         value={activeSegment}
         onIonChange={(e) => setActiveSegment(e.detail.value as any)}
       >
-        <IonSegmentButton value="basic">Basic</IonSegmentButton>
         <IonSegmentButton value="general">General</IonSegmentButton>
+        <IonSegmentButton value="profile">Profile</IonSegmentButton>
       </IonSegment>
 
-      {activeSegment === "basic" && (
+      {activeSegment === "general" && (
         <IonList>
           <IonItem className="ion-text-center">
             <div className="w-full">
@@ -220,7 +220,7 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({
         </IonList>
       )}
 
-      {activeSegment === "general" && (
+      {activeSegment === "profile" && (
         <IonList>
           <IonItem>
             <IonLabel position="stacked">Friendship</IonLabel>
