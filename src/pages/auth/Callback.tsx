@@ -11,7 +11,8 @@ const Callback: React.FC = () => {
     const handleRedirect = async () => {
       try {
         await handleAuthCallback();
-        history.replace("/app/home");
+        // history.replace("/app/home");
+        history.replace("/app/profile");
       } catch (error) {
         console.error("Error handling auth callback:", error);
         history.replace("/auth/login");

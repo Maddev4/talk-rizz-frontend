@@ -32,6 +32,7 @@ export interface ChatRoom {
   description?: string;
   participants: ChatParticipant[];
   lastMessage?: Message;
+  category?: string;
   createdAt: Date;
   updatedAt: Date;
   isPrivate: boolean;

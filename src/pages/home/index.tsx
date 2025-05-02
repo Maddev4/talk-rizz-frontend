@@ -26,8 +26,10 @@ import axiosInstance from "../../config/axios";
 import { useHistory } from "react-router-dom";
 import { useChat } from "../../contexts/ChatContext";
 import { profileService } from "../../services/profileService";
+import { connectService } from "../../services/connectService";
+
 const Home: React.FC = () => {
-  const { isLoading, user, profile } = useAuth();
+  const { isLoading, user, profile, connect } = useAuth();
   const { sendNewRoom } = useChat();
   const history = useHistory();
   const [rizzPoint, setRizzPoint] = useState(profile?.rizzPoint || 0);

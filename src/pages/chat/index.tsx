@@ -5,27 +5,85 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-  IonFab,
-  IonFabButton,
-  IonIcon,
   IonGrid,
   IonRow,
   IonCol,
   IonSpinner,
+  IonButtons,
+  IonButton,
+  IonIcon,
 } from "@ionic/react";
+import { arrowBack } from "ionicons/icons";
 import { useAuth } from "../../contexts/AuthContext";
-import "./Chat.css";
 import Spinner from "../../components/Spinner";
 import ChatList from "../../components/Chat/ChatList";
+import CategoryMenu from "../../components/Chat/CategoryMenu";
 import { useChat } from "../../contexts/ChatContext";
+import { useHistory } from "react-router-dom";
+import "./Chat.css";
 
 const Chat: React.FC = () => {
   const { user, isLoading } = useAuth();
-  const { rooms, chatLoading } = useChat();
+  const { chatLoading } = useChat();
+  const history = useHistory();
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedSubcategory, setSelectedSubcategory] = useState<{
+    key: string;
+    title: string;
+  }>({ key: "", title: "" });
+  const [assistMode, setAssistMode] = useState<string>("");
 
   if (!user) {
     return <Spinner />;
   }
+
+  const handleCategorySelect = (
+    category: string,
+    subcategory: { key: string; title: string }
+  ) => {
+    setSelectedCategory(category);
+    setSelectedSubcategory(subcategory);
+  };
+
+  const handleBack = () => {
+    // if (selectedCategory.includes("assistant") && assistMode.length > 0) {
+    //   setAssistMode("");
+    // } else {
+    setSelectedCategory("");
+    setSelectedSubcategory({ key: "", title: "" });
+    // }
+  };
+
+  const renderContent = () => {
+    if (selectedCategory) {
+      return (
+        <>
+          {selectedCategory.includes("assistant") ? (
+            <div className="flex flex-row gap-4 justify-center p-4">
+              <IonButton
+                className="w-full"
+                onClick={() => history.push(`/app/chatbot/suggestion`)}
+              >
+                Suggestion
+              </IonButton>
+              <IonButton
+                className="w-full"
+                onClick={() => history.push(`/app/chatbot/report`)}
+              >
+                Report
+              </IonButton>
+            </div>
+          ) : (
+            <ChatList
+              category={selectedCategory}
+              subcategory={selectedSubcategory}
+            />
+          )}
+        </>
+      );
+    }
+    return <CategoryMenu onSelectSubcategory={handleCategorySelect} />;
+  };
 
   return (
     <IonPage>
@@ -44,8 +102,27 @@ const Chat: React.FC = () => {
         <>
           <IonHeader>
             <IonToolbar>
-              <div className="chat-header">
-                <IonTitle>Messages</IonTitle>
+              <div className="relative chat-header">
+                {selectedCategory && (
+                  <IonButtons
+                    slot="start"
+                    style={{ position: "absolute", left: 0 }}
+                  >
+                    <IonButton onClick={handleBack}>
+                      <IonIcon icon={arrowBack} />
+                    </IonButton>
+                  </IonButtons>
+                )}
+                <h1 className="absolute left-1/2 -translate-x-1/2 m-0 w-full text-center">
+                  {selectedCategory
+                    ? selectedSubcategory.title.length > 0
+                      ? `${
+                          selectedCategory[0].toUpperCase() +
+                          selectedCategory.slice(1)
+                        } - ${selectedSubcategory.title}`
+                      : selectedCategory
+                    : "Messages"}
+                </h1>
               </div>
             </IonToolbar>
           </IonHeader>
@@ -53,15 +130,7 @@ const Chat: React.FC = () => {
           <IonContent>
             <IonGrid>
               <IonRow>
-                <IonCol>
-                  {rooms.length === 0 ? (
-                    <div className="no-chats-message">
-                      <p>No conversations yet</p>
-                    </div>
-                  ) : (
-                    <ChatList />
-                  )}
-                </IonCol>
+                <IonCol>{renderContent()}</IonCol>
               </IonRow>
             </IonGrid>
           </IonContent>

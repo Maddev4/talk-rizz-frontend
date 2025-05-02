@@ -1,0 +1,29 @@
+.category-menu {
+  padding: 16px;
+}
+
+.category-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+}
+
+.subcategory-list {
+  margin-left: 16px;
+  margin-bottom: 16px;
+}
+
+.subcategory-item {
+  --padding-start: 32px;
+  margin-bottom: 4px;
+  border-radius: 8px;
+}
+
+.category-item ion-label {
+  font-weight: 500;
+}
+
+.subcategory-item ion-label {
+  font-size: 0.9em;
+}

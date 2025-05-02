@@ -16,6 +16,8 @@ import {
   IonGrid,
   IonRow,
   IonCol,
+  IonSelect,
+  IonSelectOption,
 } from "@ionic/react";
 import { add, close, camera } from "ionicons/icons";
 import { UserProfile, BasicProfile, GeneralProfile } from "../../types/profile";
@@ -48,6 +50,7 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({
         friendship: "",
         professional: "",
         dating: "",
+        general: "",
       },
     }
   );
@@ -98,6 +101,7 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({
 
   const handleSubmit = async () => {
     try {
+      console.log("Profile:", profile);
       const response = await profileService.updateProfile(
         profile,
         selectedFile || undefined
@@ -210,18 +214,32 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({
           </IonItem>
           <IonItem>
             <IonLabel position="stacked">Gender</IonLabel>
-            <IonInput
+            <IonSelect
               value={profile.basicProfile.gender}
               onIonChange={(e) =>
                 handleBasicProfileChange("gender", e.detail.value!)
               }
-            />
+            >
+              <IonSelectOption value="male">Male</IonSelectOption>
+              <IonSelectOption value="female">Female</IonSelectOption>
+              <IonSelectOption value="non-binary">Non-binary</IonSelectOption>
+            </IonSelect>
           </IonItem>
         </IonList>
       )}
 
       {activeSegment === "profile" && (
         <IonList>
+          <IonItem>
+            <IonLabel position="stacked">General</IonLabel>
+            <IonTextarea
+              value={profile.generalProfile.general}
+              rows={3}
+              onIonChange={(e) =>
+                handleGeneralProfileChange("general", e.detail.value!)
+              }
+            />
+          </IonItem>
           <IonItem>
             <IonLabel position="stacked">Friendship</IonLabel>
             <IonTextarea

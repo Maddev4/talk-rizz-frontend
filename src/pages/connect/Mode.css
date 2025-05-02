@@ -1,0 +1,91 @@
+.mode-container {
+  padding: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+ion-toggle {
+  flex: none;
+  width: auto;
+  padding-right: 0px;
+}
+
+.dating-options {
+  margin: 16px;
+}
+
+.dating-options h2 {
+  margin-bottom: 16px;
+  font-size: 1.5em;
+}
+
+.dating-options ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  margin: 8px 0;
+  cursor: pointer;
+}
+
+.life-partner-preferences {
+  padding: 16px;
+}
+
+.life-partner-preferences h2 {
+  margin-bottom: 24px;
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+.preference-section {
+  margin-bottom: 24px;
+}
+
+.preference-section h3 {
+  margin-bottom: 16px;
+  font-size: 1.2em;
+  color: var(--ion-color-medium);
+}
+
+.looking-for-text {
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.preference-section ion-list {
+  background: transparent;
+}
+
+.preference-section ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 50px;
+  margin-bottom: 8px;
+}
+
+.preference-section ion-icon {
+  font-size: 24px;
+  margin-right: 16px;
+}
+
+.preference-score {
+  padding: 4px 8px;
+  background-color: var(--ion-color-light);
+  border-radius: 4px;
+  color: var(--ion-color-medium);
+}
+
+.connect-now-button {
+  margin-top: 24px;
+}
+
+.save-button {
+  width: 30%;
+  height: 20px;
+  margin-top: 24px;
+  margin-left: 70%;
+}
+
+ion-icon {
+  margin-right: 6px;
+}

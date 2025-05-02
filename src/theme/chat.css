@@ -13,7 +13,6 @@
 }
 
 .chat-message.received {
-  --background: var(--ion-color-light);
   margin-right: 20%;
   border-radius: 12px 12px 12px 0;
 }
@@ -34,7 +33,6 @@
   --padding-end: 12px;
   --padding-top: 8px;
   --padding-bottom: 8px;
-  --background: var(--ion-color-light);
   border-radius: 20px;
   margin: 8px;
 }

@@ -40,6 +40,7 @@ export const Profile: React.FC<ProfileProps> = ({
           </div>
         </IonCardHeader>
         <IonCardContent>
+          <p>{generalProfile.general}</p>
           <p>{generalProfile.friendship}</p>
           <p>{generalProfile.professional}</p>
           <p>{generalProfile.dating}</p>

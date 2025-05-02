@@ -3,6 +3,8 @@ import { supabase } from "../config/supabase";
 import { useHistory } from "react-router-dom";
 import { UserProfile } from "../types/profile";
 import { profileService } from "../services/profileService";
+import { connectService } from "../services/connectService";
+import { Connect } from "../types/connect";
 
 interface User {
   id: string;
@@ -22,6 +24,8 @@ interface AuthContextType {
   user: User | null;
   profile: UserProfile | null;
   setProfile: (profile: UserProfile) => void;
+  connect: Connect | null;
+  setConnect: (connect: Connect) => void;
   isLoading: boolean;
   setIsLoading: (isLoading: boolean) => void;
   isDirectChat: boolean;
@@ -37,6 +41,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [connect, setConnect] = useState<Connect | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isDirectChat, setIsDirectChat] = useState(false);
   const history = useHistory();
@@ -69,6 +74,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         const name = userData?.name || null;
         await handleMongoDBUser(name);
+        await handleMongoDBConnect();
 
         console.log("Data user~~~~:", data.user);
 
@@ -185,6 +191,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (session?.user) {
         const name = session.user.user_metadata.full_name || null;
         await handleMongoDBUser(name);
+        await handleMongoDBConnect();
 
         setSession({
           access_token: session.access_token,
@@ -234,6 +241,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const handleMongoDBConnect = async () => {
+    const response = await connectService.getConnect();
+    console.log("getConnect response", response);
+
+    if (response.status === 200) {
+      setConnect(response.data);
+    } else {
+      console.error("Failed to fetch connect");
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -242,6 +260,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user: session?.user || null,
         profile,
         setProfile,
+        connect,
+        setConnect,
         isLoading,
         setIsLoading,
         isDirectChat,

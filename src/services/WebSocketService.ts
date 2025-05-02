@@ -20,6 +20,7 @@ export interface ChatRoom {
   lastActivity: Date;
   type: "direct" | "group";
   name?: string;
+  category?: string;
   other: {
     name: string;
     avatar: string;
@@ -77,7 +78,11 @@ class WebSocketService {
     this.socket.emit("send_message", message);
   }
 
-  sendNewRoom(room: { participants: string[]; type: string }) {
+  sendNewRoom(room: {
+    participants: string[];
+    type: string;
+    category: string;
+  }) {
     if (!this.socket) {
       throw new Error("WebSocket not connected");
     }

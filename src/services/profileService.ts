@@ -19,7 +19,7 @@ class ProfileService {
     profile: UserProfile,
     profilePicture?: File
   ): Promise<AxiosResponse<UserProfile>> {
-    console.log(profile);
+    console.log("Profile:", profile);
     if (!profile) {
       throw new Error("Profile is required");
     }

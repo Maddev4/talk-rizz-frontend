@@ -11,16 +11,21 @@ import { Route, Redirect, useLocation } from "react-router-dom";
 import {
   chatbubble,
   chatbubbleOutline,
-  documentText,
-  documentTextOutline,
   timer,
   timerOutline,
+  people,
+  peopleOutline,
+  documentText,
+  documentTextOutline,
 } from "ionicons/icons";
 
 import Home from "./home";
 import Chat from "./chat";
 import Profile from "./profile";
+import Connect from "./connect";
 import Conversation from "./chat/conversation";
+import Chatbot from "./chat/chatbot";
+import Mode from "./connect/mode";
 
 interface TabConfig {
   tab: string;
@@ -34,19 +39,26 @@ const Tabs: React.FC = () => {
   const location = useLocation();
 
   const tabConfig: TabConfig[] = [
-    {
-      tab: "home",
-      href: "/app/home",
-      label: "Home",
-      icon: timer,
-      outlineIcon: timerOutline,
-    },
+    // {
+    //   tab: "home",
+    //   href: "/app/home",
+    //   label: "Home",
+    //   icon: timer,
+    //   outlineIcon: timerOutline,
+    // },
     {
       tab: "profile",
       href: "/app/profile",
       label: "Profile",
       icon: documentText,
       outlineIcon: documentTextOutline,
+    },
+    {
+      tab: "connect",
+      href: "/app/connect",
+      label: "Connect",
+      icon: people,
+      outlineIcon: peopleOutline,
     },
     {
       tab: "chat",
@@ -63,7 +75,12 @@ const Tabs: React.FC = () => {
       "/app/custominstruction",
       "/app/chooseCategory",
       "/app/chat/:roomId",
-    ].includes(location.pathname) || location.pathname.startsWith("/app/chat/");
+      "/app/connect/:mode",
+      "/app/chatbot/:mode",
+    ].includes(location.pathname) ||
+    location.pathname.startsWith("/app/chat/") ||
+    location.pathname.startsWith("/app/connect/") ||
+    location.pathname.startsWith("/app/chatbot/");
 
   const renderTabButton = ({
     tab,
@@ -82,7 +99,7 @@ const Tabs: React.FC = () => {
         key={tab}
         tab={tab}
         href={href}
-        className={`bg-transparent ${href}`}
+        className={`bg-transparent ${href} text-center`}
       >
         <IonIcon
           icon={isActive ? icon : outlineIcon}
@@ -100,6 +117,9 @@ const Tabs: React.FC = () => {
         <Route exact path="/app/profile" render={() => <Profile />} />
         <Route exact path="/app/chat" component={Chat} />
         <Route exact path="/app/chat/:roomId" component={Conversation} />
+        <Route exact path="/app/chatbot/:mode" component={Chatbot} />
+        <Route exact path="/app/connect" component={Connect} />
+        <Route exact path="/app/connect/:mode" component={Mode} />
       </IonRouterOutlet>
       <IonTabBar
         slot="bottom"

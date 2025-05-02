@@ -139,7 +139,6 @@
 }
 
 .talkjs-container :global(.talkjs-message-received) {
-  background-color: var(--ion-color-light);
   color: var(--ion-color-dark);
 }
 
@@ -173,7 +172,6 @@
 }
 
 .chat-message.received {
-  --background: var(--ion-color-light);
   margin-right: 20%;
   border-radius: 10px;
 }
@@ -192,13 +190,8 @@
 ion-textarea {
   --padding-start: 10px;
   --padding-end: 10px;
-  --background: var(--ion-color-light);
   border-radius: 20px;
   margin: 5px;
-}
-
-.selected-room {
-  --background: var(--ion-color-light-tint);
 }
 
 ion-avatar {
@@ -235,10 +228,13 @@ ion-avatar {
 
 .chat-header {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   align-items: center;
-  padding: 0 10px;
+  padding: 8px;
+}
+
+.chat-header ion-title {
+  font-size: 1.2em;
+  font-weight: 500;
 }
 
 .new-chat-button {
@@ -247,14 +243,9 @@ ion-avatar {
 }
 
 .no-chats-message {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
   text-align: center;
-  color: var(--ion-color-medium);
   padding: 20px;
+  color: #666;
 }
 
 .no-chat-selected {
@@ -289,4 +280,12 @@ ion-avatar {
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+ion-content {
+  --background: #f8f8f8;
+}
+
+ion-grid {
+  padding: 0;
 }

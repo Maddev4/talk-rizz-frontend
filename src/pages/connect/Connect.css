@@ -1,0 +1,143 @@
+.connect-container {
+  padding: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.connect-button {
+  margin: 20px 0;
+  width: 200px;
+}
+
+.connection-options {
+  width: 85%;
+  max-width: 400px;
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+.options-explanation {
+  padding: 16px;
+  border-bottom: 1px solid var(--ion-color-medium);
+  margin-bottom: 16px;
+}
+
+.options-explanation h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.options-list {
+  background: white;
+}
+
+.options-list ion-list {
+  background: transparent;
+  padding: 0;
+}
+
+.option-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 44px;
+  border-bottom: 1px solid var(--ion-color-light);
+}
+
+.option-item:last-child {
+  border-bottom: none;
+}
+
+.option-item ion-label {
+  color: var(--ion-color-dark);
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.connection-select-container {
+  padding: 16px;
+}
+
+.connection-option {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  margin: 8px 0;
+  border-radius: 8px;
+}
+
+ion-icon {
+  font-size: 24px;
+  margin-right: 16px;
+}
+
+ion-list {
+  background: transparent;
+}
+
+ion-card {
+  margin: 16px 0;
+}
+
+ion-card-content h2 {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+ion-card-content p {
+  margin-bottom: 16px;
+  color: var(--ion-color-medium);
+}
+
+.connect-options {
+  padding: 16px;
+}
+
+.dating-preferences {
+  padding: 16px;
+}
+
+.chat-interface {
+  padding: 16px;
+}
+
+.chat-message {
+  margin: 8px 0;
+  padding: 12px;
+  border-radius: 8px;
+  max-width: 80%;
+}
+
+.chat-message.assistant {
+  margin-right: auto;
+}
+
+.chat-message.user {
+  background-color: var(--ion-color-primary);
+  color: white;
+  margin-left: auto;
+}
+
+.chat-message.system {
+  background-color: var(--ion-color-medium);
+  color: white;
+  margin: 16px auto;
+  text-align: center;
+}
+
+.chat-message p {
+  margin: 0;
+}
+
+ion-toggle {
+  padding-right: 16px;
+}
+
+select {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid var(--ion-color-medium);
+  width: 150px;
+}

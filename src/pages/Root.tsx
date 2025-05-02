@@ -11,11 +11,19 @@ import { useAuth } from "../contexts/AuthContext";
 import { ChatProvider } from "../contexts/ChatContext";
 import { supabase } from "../config/supabase";
 import { profileService } from "../services/profileService";
+import { connectService } from "../services/connectService";
 import "./index.css";
 
 const RootScreen: React.FC = () => {
-  const { isLoading, user, signOut, setIsLoading, setSession, setProfile } =
-    useAuth();
+  const {
+    isLoading,
+    user,
+    signOut,
+    setIsLoading,
+    setSession,
+    setProfile,
+    setConnect,
+  } = useAuth();
   const history = useHistory();
 
   useEffect(() => {
@@ -47,12 +55,21 @@ const RootScreen: React.FC = () => {
               } else {
                 console.error("Failed to fetch profile");
               }
+
+              const response1 = await connectService.getConnect();
+              console.log("response1", response1);
+              if (response1.status === 200) {
+                setConnect(response1.data);
+              } else {
+                console.error("Failed to fetch connect");
+              }
             } catch (error) {
               console.error("Error fetching profile:", error);
             }
 
             if (window.location.pathname.includes("/auth")) {
-              history.push("/app/home");
+              // history.push("/app/home");
+              history.replace("/app/profile");
             } else {
               history.push(window.location.pathname);
             }

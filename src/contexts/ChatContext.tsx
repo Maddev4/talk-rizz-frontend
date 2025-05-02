@@ -12,7 +12,11 @@ interface ChatContextType {
   setMessages: (messages: { [roomId: string]: ChatMessage[] }) => void;
   joinRoom: (roomId: string) => void;
   sendMessage: (content: string, roomId: string) => void;
-  sendNewRoom: (room: { participants: string[]; type: string }) => void;
+  sendNewRoom: (room: {
+    participants: string[];
+    type: string;
+    category: string;
+  }) => void;
   leaveRoom: (roomId: string) => void;
   markMessagesAsRead: (roomId: string) => void;
 }
@@ -132,12 +136,17 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
-  const sendNewRoom = (room: { participants: string[]; type: string }) => {
+  const sendNewRoom = (room: {
+    participants: string[];
+    type: string;
+    category: string;
+  }) => {
     if (!user) return;
 
     wsService.sendNewRoom({
       participants: room.participants,
       type: room.type,
+      category: room.category,
     });
   };
 
