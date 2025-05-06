@@ -184,7 +184,7 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({
               }
             />
           </IonItem>
-          <IonItem>
+          {/* <IonItem>
             <IonLabel position="stacked">Display Name</IonLabel>
             <IonInput
               value={profile.basicProfile.displayName}
@@ -192,7 +192,7 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({
                 handleBasicProfileChange("displayName", e.detail.value!)
               }
             />
-          </IonItem>
+          </IonItem> */}
           <IonItem>
             <IonLabel position="stacked">Location</IonLabel>
             <IonInput

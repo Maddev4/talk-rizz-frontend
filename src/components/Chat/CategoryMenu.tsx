@@ -16,11 +16,12 @@ type Categories = {
 };
 
 const CategoryMenu: React.FC<CategoryMenuProps> = ({ onSelectSubcategory }) => {
-  const { user } = useAuth();
+  const { profile } = useAuth();
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
   const categories: Categories = {
-    [`${user?.name}'s exclusive assistant` || "User Assistant"]: [],
+    [`${profile?.basicProfile?.name}'s exclusive assistant` ||
+    "User Assistant"]: [],
     "surprise me!": [],
     friendship: [],
     professional: [],

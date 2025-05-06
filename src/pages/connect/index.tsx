@@ -14,10 +14,12 @@ import {
   IonBackButton,
   IonTitle,
 } from "@ionic/react";
+import { useAuth } from "../../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
 import "./Connect.css";
 
 const Connect: React.FC = () => {
+  const { profile } = useAuth();
   const [showDropdown, setShowDropdown] = useState(false);
   const history = useHistory();
 
@@ -49,21 +51,23 @@ const Connect: React.FC = () => {
           </IonButton>
 
           <div className="options-explanation">
-            <h3>Explanation of what each mode do.</h3>
+            {profile?.basicProfile.name}, the more active you are, the more
+            modes we’ll unlock for you! As you connect with more people, we’ll
+            also learn what you like.
           </div>
           {showDropdown && (
             <IonCard className="connection-options">
               <IonCardContent>
                 <h2 className="text-center">Connect Options</h2>
                 <IonList className="flex flex-col items-center w-full">
-                  <IonItem button onClick={() => handleOptionClick("random")}>
+                  {/* <IonItem button onClick={() => handleOptionClick("random")}>
                     <IonLabel>Random</IonLabel>
-                  </IonItem>
+                  </IonItem> */}
                   <IonItem
                     button
                     onClick={() => handleOptionClick("surprise-me")}
                   >
-                    <IonLabel>Surprise!</IonLabel>
+                    <span className="text-md">Surprise Me!</span>
                   </IonItem>
                   <IonItem
                     button

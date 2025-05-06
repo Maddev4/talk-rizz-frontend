@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import {
   IonContent,
   IonFooter,
@@ -27,11 +27,15 @@ interface ChatRoomProps {
 const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
   const [message, setMessage] = useState("");
   const { messages, sendMessage, setMessages, markMessagesAsRead } = useChat();
+  const roomMessages = useMemo(
+    () => messages[roomId] || [],
+    [messages, roomId]
+  );
   const { user } = useAuth();
   const contentRef = useRef<HTMLDivElement>(null);
   const [isTyping, setIsTyping] = useState(false);
   const typingTimeoutRef = useRef<NodeJS.Timeout>();
-  const [roomMessages, setRoomMessages] = useState<ChatMessage[]>([]);
+  // const [roomMessages, setRoomMessages] = useState<ChatMessage[]>([]);
   const history = useHistory();
 
   useEffect(() => {
@@ -52,17 +56,20 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
     fetchChatHistory();
   }, []);
 
-  useEffect(() => {
-    if (messages[roomId]) {
-      setRoomMessages(messages[roomId]);
-    }
-  }, [messages]);
+  // useEffect(() => {
+  //   if (messages[roomId]) {
+  //     setRoomMessages(messages[roomId]);
+  //   }
+  // }, [messages]);
 
   useEffect(() => {
     if (contentRef.current) {
       contentRef.current.scrollTop = contentRef.current.scrollHeight;
     }
-  }, [roomMessages]);
+  }, [
+    roomMessages.length,
+    roomMessages.filter((msg) => msg.read === false).length,
+  ]);
 
   useEffect(() => {
     let timerId: NodeJS.Timeout;
@@ -88,8 +95,9 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
 
   // Mark messages as read when component mounts
   useEffect(() => {
-    console.log("mark");
-    markMessagesAsRead(roomId);
+    if (roomId && markMessagesAsRead) {
+      markMessagesAsRead(roomId);
+    }
   }, [roomId, markMessagesAsRead]);
 
   // Mark messages as read when scrolling to bottom

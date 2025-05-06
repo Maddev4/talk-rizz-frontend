@@ -50,6 +50,8 @@ const RootScreen: React.FC = () => {
             try {
               const response = await profileService.getUserProfile();
 
+              console.log("response", response);
+
               if (response.status === 200) {
                 setProfile(response.data);
               } else {

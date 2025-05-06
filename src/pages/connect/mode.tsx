@@ -415,6 +415,27 @@ const Mode: React.FC = () => {
     </div>
   );
 
+  const renderSurpriseMe = () => (
+    <div className="life-partner-preferences">
+      <h2>Surprise Me!</h2>
+
+      <div className="preference-section">
+        <div className="looking-for-text">
+          Hit "Surprise Me" to meet someone totally random — it could be someone
+          who looks like you, shares your vibe, or feels strangely familiar.😉
+        </div>
+      </div>
+
+      <IonButton
+        expand="block"
+        className="connect-now-button"
+        onClick={addRandomUser}
+      >
+        Surprise Me Now!
+      </IonButton>
+    </div>
+  );
+
   return (
     <IonPage>
       <IonHeader>
@@ -448,6 +469,7 @@ const Mode: React.FC = () => {
             {mode === "dating" &&
               detailMode === "lifePartner" &&
               renderLifePartnerPreferences()}
+            {mode === "surprise-me" && renderSurpriseMe()}
           </div>
         )}
       </IonContent>

@@ -142,25 +142,27 @@ const ChatbotRoom: React.FC<ChatbotRoomProps> = ({ mode }) => {
               <div
                 key={index}
                 className={`message-wrapper ${
-                  msg.senderId === user?.id ? "sent" : "received"
+                  !msg.senderId.includes("bot") ? "sent" : "received"
                 }`}
                 style={{
                   display: "flex",
-                  justifyContent:
-                    msg.senderId === user?.id ? "flex-end" : "flex-start",
+                  justifyContent: !msg.senderId.includes("bot")
+                    ? "flex-end"
+                    : "flex-start",
                   marginBottom: "8px",
                 }}
               >
                 <div
                   className={`message-bubble ${
-                    msg.senderId === user?.id ? "sent" : "received"
+                    !msg.senderId.includes("bot") ? "sent" : "received"
                   }`}
                   style={{
                     maxWidth: "65%",
                     padding: "8px 12px",
                     borderRadius: "8px",
-                    backgroundColor:
-                      msg.senderId === user?.id ? "#005C4B" : "#202C33",
+                    backgroundColor: !msg.senderId.includes("bot")
+                      ? "#005C4B"
+                      : "#202C33",
                     color: "#E9EDF0",
                   }}
                 >

@@ -26,6 +26,8 @@ import Connect from "./connect";
 import Conversation from "./chat/conversation";
 import Chatbot from "./chat/chatbot";
 import Mode from "./connect/mode";
+import Report from "./chat/report";
+import ReportChat from "./chat/report_chat";
 
 interface TabConfig {
   tab: string;
@@ -120,6 +122,12 @@ const Tabs: React.FC = () => {
         <Route exact path="/app/chatbot/:mode" component={Chatbot} />
         <Route exact path="/app/connect" component={Connect} />
         <Route exact path="/app/connect/:mode" component={Mode} />
+        <Route exact path="/app/chat/:roomId/report" component={Report} />
+        <Route
+          exact
+          path="/app/chat/:roomId/report/:reason"
+          component={ReportChat}
+        />
       </IonRouterOutlet>
       <IonTabBar
         slot="bottom"

@@ -51,7 +51,6 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
       if (session?.access_token) {
         setChatLoading(true);
         try {
-          console.log("fetching rooms");
           const response = await axiosInstance.get("/chat/rooms");
           setRooms(response.data);
         } catch (error) {
@@ -62,9 +61,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
 
         // Listen for new messages
         wsService.onMessage((message: { _doc: ChatMessage; sender: any }) => {
-          console.log("message", message);
           setMessages((prev) => {
-            console.log("prev", prev);
             return {
               ...prev,
               [message._doc.roomId]: [
@@ -79,7 +76,11 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
         wsService.onMarkAsRead((data: { roomId: string; senderId: string }) => {
           setMessages((prev) => {
             const roomMessages = prev[data.roomId];
-            if (!roomMessages?.some((msg) => msg.read === false)) {
+            if (
+              !roomMessages?.some(
+                (msg) => msg.read === false && msg.senderId !== data.senderId
+              )
+            ) {
               return prev;
             }
             return {

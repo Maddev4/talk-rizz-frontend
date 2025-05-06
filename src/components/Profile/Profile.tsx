@@ -36,7 +36,7 @@ export const Profile: React.FC<ProfileProps> = ({
               alt="Profile"
               className="flex justify-center items-center w-24 h-24 rounded-full text-center"
             />
-            <IonCardTitle>{basicProfile.displayName}</IonCardTitle>
+            <IonCardTitle>{basicProfile.name}</IonCardTitle>
           </div>
         </IonCardHeader>
         <IonCardContent>
