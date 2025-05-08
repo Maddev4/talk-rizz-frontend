@@ -88,7 +88,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           },
         });
 
-        history.push("/");
+        history.push("/app/profile");
       } else {
         signOut();
       }

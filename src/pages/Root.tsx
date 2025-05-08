@@ -110,7 +110,7 @@ const RootScreen: React.FC = () => {
   return (
     <ChatProvider>
       <IonRouterOutlet>
-        <Route exact path="/" render={() => <Redirect to={"/app/home"} />} />
+        <Route exact path="/" render={() => <Redirect to={"/app/profile"} />} />
         <PrivateRoute path="/app" component={Tabs} />
         <Route exact path="/auth/callback" component={Callback} />
         <Route exact path="/auth/login" component={Login} />

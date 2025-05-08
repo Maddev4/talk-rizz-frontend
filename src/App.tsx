@@ -19,6 +19,7 @@ import "./theme/tailwindcss.css";
 import RootScreen from "./pages/Root";
 import { AuthProvider } from "./contexts/AuthContext";
 import { IonReactRouter } from "@ionic/react-router";
+import { DeepLinkHandler } from "./components/DeepLinkHandler";
 
 setupIonicReact();
 
@@ -27,6 +28,7 @@ const App: React.FC = () => {
     <IonApp className="background">
       <IonReactRouter>
         <AuthProvider>
+          <DeepLinkHandler />
           <RootScreen />
         </AuthProvider>
       </IonReactRouter>

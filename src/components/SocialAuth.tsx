@@ -3,6 +3,7 @@ import { IonButton, IonIcon } from "@ionic/react";
 import { logoGoogle, logoApple } from "ionicons/icons";
 import { supabase } from "../config/supabase";
 import { Provider } from "@supabase/supabase-js";
+import { getPlatforms } from "@ionic/react";
 import "./SocialAuth.css";
 
 interface SocialAuthProps {
@@ -14,10 +15,15 @@ const SocialAuth: React.FC<SocialAuthProps> = ({ mode, onError }) => {
   const handleSocialAuth = async (provider: Provider) => {
     try {
       console.log("provider", provider);
+      const platforms = getPlatforms();
+      console.log("platforms", platforms);
+      const isAndroid = platforms.includes("android");
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo: isAndroid
+            ? "io.catnnect.connect://oauth"
+            : `${window.location.origin}/auth/callback`,
           queryParams: {
             access_type: "offline",
             prompt: "consent",

@@ -11,7 +11,8 @@ import {
 } from "@ionic/react";
 import { checkmarkCircle, closeCircle } from "ionicons/icons";
 import { UserProfile } from "../../types/profile";
-
+import { IonButton } from "@ionic/react";
+import { useAuth } from "../../contexts/AuthContext";
 interface ProfileProps {
   profile: UserProfile;
   showDatingProfile?: boolean;
@@ -22,6 +23,7 @@ export const Profile: React.FC<ProfileProps> = ({
   showDatingProfile = false,
 }) => {
   const { basicProfile, generalProfile } = profile;
+  const { signOut } = useAuth();
 
   return (
     <div className="profile-container">
@@ -45,6 +47,11 @@ export const Profile: React.FC<ProfileProps> = ({
           <p>{generalProfile.professional}</p>
           <p>{generalProfile.dating}</p>
         </IonCardContent>
+        {/* <div className="flex justify-center mt-4">
+          <IonButton expand="block" color="danger" onClick={() => signOut()}>
+            Sign Out
+          </IonButton>
+        </div> */}
       </IonCard>
     </div>
   );
