@@ -27,7 +27,10 @@ const ChatList: React.FC<{
           if (subcategory.key.length > 0) {
             return room.category === `${category} - ${subcategory.key}`;
           }
-          return room.category === category;
+          return (
+            room.category ===
+            (category === "surprise me!" ? "surprise-me" : category)
+          );
         })
         .map((room) => {
           const otherParticipant = getOtherParticipant(room.participants);

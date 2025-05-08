@@ -197,7 +197,7 @@ const Mode: React.FC = () => {
           sendNewRoom({
             participants: [selectedUser.userId, user?.id],
             type: "direct",
-            category: `${mode} - ${detailMode}`,
+            category: detailMode.length ? `${mode} - ${detailMode}` : mode,
           });
           // Redirect to the conversation page
           // history.push(`/app/chat/${newChatroom._id}`);
@@ -295,27 +295,6 @@ const Mode: React.FC = () => {
                 </IonButton>
               </IonCol>
             </IonRow>
-            <IonRow>
-              <IonCol>
-                <div className="flex items-center justify-between">
-                  <IonRange
-                    min={0}
-                    max={1}
-                    step={0.1}
-                    value={newMustHave.value}
-                    onIonChange={(e) =>
-                      setNewMustHave({
-                        ...newMustHave,
-                        value: e.detail.value as number,
-                      })
-                    }
-                  >
-                    <IonLabel slot="start">0</IonLabel>
-                    <IonLabel slot="end">1</IonLabel>
-                  </IonRange>
-                </div>
-              </IonCol>
-            </IonRow>
           </IonGrid>
         </div>
       </div>
@@ -368,27 +347,6 @@ const Mode: React.FC = () => {
                 <IonButton expand="block" onClick={addDealBreaker}>
                   Add
                 </IonButton>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                <div className="flex items-center justify-between">
-                  <IonRange
-                    min={0}
-                    max={1}
-                    step={0.1}
-                    value={newDealBreaker.value}
-                    onIonChange={(e) =>
-                      setNewDealBreaker({
-                        ...newDealBreaker,
-                        value: e.detail.value as number,
-                      })
-                    }
-                  >
-                    <IonLabel slot="start">0</IonLabel>
-                    <IonLabel slot="end">1</IonLabel>
-                  </IonRange>
-                </div>
               </IonCol>
             </IonRow>
           </IonGrid>

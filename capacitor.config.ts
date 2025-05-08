@@ -1,9 +1,9 @@
-import type { CapacitorConfig } from '@capacitor/cli';
+import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'AI Chat',
-  webDir: 'dist',
+  appId: "io.catnnect.connect",
+  appName: "Catnnect Connect",
+  webDir: "dist",
   plugins: {
     PushNotifications: {
       presentationOptions: ["badge", "sound", "alert"],

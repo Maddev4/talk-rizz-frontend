@@ -88,6 +88,7 @@ const Home: React.FC = () => {
           sendNewRoom({
             participants: [selectedUser.userId, user?.id],
             type: "direct",
+            category: "dating",
           });
           // Redirect to the conversation page
           // history.push(`/app/chat/${newChatroom._id}`);

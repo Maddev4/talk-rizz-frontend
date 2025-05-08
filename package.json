@@ -1,5 +1,5 @@
 {
-  "name": "AI Chat",
+  "name": "Catnnect Connect",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -10,10 +10,12 @@
     "test.e2e": "cypress run",
     "test.unit": "vitest",
     "lint": "eslint",
+    "android:dev": "ionic cap run android -l --external",
     "ios:dev": "LOCAL_DEV=1 ionic capacitor run ios -l --external"
   },
   "dependencies": {
     "@capacitor-community/in-app-review": "^6.0.0",
+    "@capacitor/android": "6.1.1",
     "@capacitor/app": "6.0.0",
     "@capacitor/camera": "^6.0.2",
     "@capacitor/clipboard": "^6.0.1",
