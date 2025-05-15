@@ -17,7 +17,10 @@ const SocialAuth: React.FC<SocialAuthProps> = ({ mode, onError }) => {
       console.log("provider", provider);
       const platforms = getPlatforms();
       console.log("platforms", platforms);
-      const isAndroid = platforms.includes("android");
+      let isAndroid = platforms.includes("android");
+      isAndroid = false;
+      console.log("isAndroid", isAndroid);
+      console.log("window.location.origin", window.location.origin);
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {

@@ -214,6 +214,23 @@ const Mode: React.FC = () => {
     }
   };
 
+  const sendSurpriseMeRequest = async () => {
+    try {
+      const response = await axiosInstance.post("/connect/request", {
+        requestType: "surpriseMe",
+      });
+      console.log("response", response);
+      setShowToast(true);
+      if (response.data.success) {
+        setToastMessage("Request sent");
+      } else {
+        setToastMessage(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error sending request:", error);
+    }
+  };
+
   const renderDatingOptions = () => (
     <IonCard className="dating-options">
       <IonCardContent>
@@ -366,7 +383,8 @@ const Mode: React.FC = () => {
       <IonButton
         expand="block"
         className="connect-now-button"
-        onClick={addRandomUser}
+        // onClick={addRandomUser}
+        // onClick={sendSurpriseMeRequest}
       >
         Connect Now!
       </IonButton>
@@ -387,7 +405,8 @@ const Mode: React.FC = () => {
       <IonButton
         expand="block"
         className="connect-now-button"
-        onClick={addRandomUser}
+        // onClick={addRandomUser}
+        onClick={sendSurpriseMeRequest}
       >
         Surprise Me Now!
       </IonButton>
