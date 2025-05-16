@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { isPlatform } from "@ionic/react";
 
 import {
   Camera,
@@ -56,6 +55,6 @@ export function usePhotoGallery() {
     loadPhoto,
     takePhoto,
     photos,
-    setPhotos
+    setPhotos,
   };
 }

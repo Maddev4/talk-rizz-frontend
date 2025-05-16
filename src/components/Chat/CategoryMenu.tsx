@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { IonList, IonItem, IonLabel, IonButton, IonIcon } from "@ionic/react";
 import { chevronDown, chevronUp } from "ionicons/icons";
 import { useAuth } from "../../contexts/AuthContext";
-import "./CategoryMenu.css";
+import { getPlatforms } from "@ionic/react";
 
+import "./CategoryMenu.css";
 interface CategoryMenuProps {
   onSelectSubcategory: (
     category: string,
@@ -14,6 +15,8 @@ interface CategoryMenuProps {
 type Categories = {
   [key: string]: { key: string; title: string }[];
 };
+
+console.log("platform", getPlatforms());
 
 const CategoryMenu: React.FC<CategoryMenuProps> = ({ onSelectSubcategory }) => {
   const { profile } = useAuth();
@@ -61,7 +64,7 @@ const CategoryMenu: React.FC<CategoryMenuProps> = ({ onSelectSubcategory }) => {
             <IonLabel>
               {category.charAt(0).toUpperCase() + category.slice(1)}
             </IonLabel>
-            {subcategories.length > 0 && (
+            {subcategories.length > 0 && !getPlatforms().includes("ios") && (
               <IonIcon
                 icon={expandedCategory === category ? chevronUp : chevronDown}
               />
