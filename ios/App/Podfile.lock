@@ -28,12 +28,6 @@ PODS:
     - Capacitor
   - CordovaPlugins (6.1.1):
     - CapacitorCordova
-  - PurchasesHybridCommon (13.5.0):
-    - RevenueCat (= 5.6.0)
-  - RevenueCat (5.6.0)
-  - RevenuecatPurchasesCapacitor (9.0.4):
-    - Capacitor
-    - PurchasesHybridCommon (= 13.5.0)
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
@@ -51,12 +45,6 @@ DEPENDENCIES:
   - "CapacitorStatusBar (from `../../node_modules/@capacitor/status-bar`)"
   - CapacitorVoiceRecorder (from `../../node_modules/capacitor-voice-recorder`)
   - CordovaPlugins (from `../capacitor-cordova-ios-plugins`)
-  - "RevenuecatPurchasesCapacitor (from `../../node_modules/@revenuecat/purchases-capacitor`)"
-
-SPEC REPOS:
-  trunk:
-    - PurchasesHybridCommon
-    - RevenueCat
 
 EXTERNAL SOURCES:
   Capacitor:
@@ -89,29 +77,24 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/capacitor-voice-recorder"
   CordovaPlugins:
     :path: "../capacitor-cordova-ios-plugins"
-  RevenuecatPurchasesCapacitor:
-    :path: "../../node_modules/@revenuecat/purchases-capacitor"
 
 SPEC CHECKSUMS:
-  Capacitor: 8941aba4364ba9d1b22188569001f2ce45cc2b00
-  CapacitorApp: 9d53aec7101f7b030a950c5bdc4df8612576b279
-  CapacitorCamera: 81ce64062cd82b82cc75a79616fda4bd09d7f643
-  CapacitorClipboard: 756cd7e83e8d5d19b0c74f40b57517c287bd5fe2
-  CapacitorCommunityInAppReview: c69a9392f39a10f28092d823cfa979637f4fa079
+  Capacitor: 7b38922425a542e0b5936c8f72ea89d876dd4df1
+  CapacitorApp: 30145f2ea2311e4f3744472119ec87d2ddf4c0a7
+  CapacitorCamera: c2924acc75205066d2282b799a31f6eab35a28a1
+  CapacitorClipboard: 0ceeee488e55bef7cced5c8097d97f330c109f61
+  CapacitorCommunityInAppReview: e5c93959637a956ce993134734d7df90390ea167
   CapacitorCordova: 8f2cc8d8d3619c566e9418fe8772064a94266106
-  CapacitorDevice: 7097a1deb4224b77fd13a6e60a355d0062a5d772
-  CapacitorHaptics: fe689ade56ef20ec9b041a753c6da70c5d8ec9a9
-  CapacitorKeyboard: 5f32a712adf41e07a61caafb82cf29fb6d8ba123
-  CapacitorPushNotifications: ccd797926c030acad3d5498ef452c735c90a2c89
-  CapacitorScreenReader: 80aea6586fc25d13892aefd0f68913babb17696f
-  CapacitorShare: 591ae4693d85686ceb590db8e8b44aa014ec6490
-  CapacitorStatusBar: 2e4369f99166125435641b1908d05f561eaba6f6
-  CapacitorVoiceRecorder: d44c1da901cc3918eb9c92c24834d8dc90f071f4
-  CordovaPlugins: 4d8fecd1fbe7af8c6b02b727466a111f088a4e97
-  PurchasesHybridCommon: 7c6fb07b091588d82180eec2590035f216ffbf55
-  RevenueCat: a7117d40c27bc1e8a48e41ca4ea6856209664097
-  RevenuecatPurchasesCapacitor: 7364b7571a32dcf57786298cff43caa593c53c2a
+  CapacitorDevice: da1884f895e17992648b27f6c8ee2be72cd0ce2e
+  CapacitorHaptics: 05d33e20e394b1977dfd2a00a2621e04098164c1
+  CapacitorKeyboard: f38d730356be5569d72eb87ad9c8166947728c36
+  CapacitorPushNotifications: 88f40c5f06dfe54f2c0619173e11ecbff8661a2f
+  CapacitorScreenReader: a603caab8d98962fd0f1669379b937426ba8b65d
+  CapacitorShare: 5d49f1b220e991372b4d5d34be9a6080a042bae4
+  CapacitorStatusBar: 129c68650d3f950e080e8e7e03d69c3b361dbe52
+  CapacitorVoiceRecorder: 27c4c998c2280571d853579f319f6f53f884bdee
+  CordovaPlugins: d0a80a067352fe02acca1d370d0f4304e72232ca
 
-PODFILE CHECKSUM: 9f3f601b86a310f1e62ee31750ae6545f27135dd
+PODFILE CHECKSUM: c5931db6a712377604c5dc47dd92e58103a88ad2
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

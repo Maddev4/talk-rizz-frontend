@@ -34,7 +34,6 @@
     "@ionic/react": "^8.0.0",
     "@ionic/react-router": "^8.0.0",
     "@ionic/storage": "^4.0.0",
-    "@revenuecat/purchases-capacitor": "^9.0.1",
     "@supabase/supabase-js": "^2.39.3",
     "@talkjs/react": "^0.1.11",
     "@types/mixpanel-browser": "^2.50.1",
