@@ -117,4 +117,8 @@
   }
 }
 
+.ion-page {
+  opacity: 1 !important;
+}
+
 /* Add any additional custom styling you need */

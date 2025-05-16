@@ -46,8 +46,6 @@ const Login: React.FC = () => {
       setError("");
 
       await signIn(email, password);
-      // history.push("/app/home");
-      history.replace("/app/profile");
     } catch (err: any) {
       setShowLoading(false);
       setError(
