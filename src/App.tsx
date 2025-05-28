@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { IonApp, setupIonicReact } from "@ionic/react";
+import { AdMobService } from "./utils/admob";
 
 // Import Ionic CSS
 import "@ionic/react/css/core.css";
@@ -24,15 +25,79 @@ import { DeepLinkHandler } from "./components/DeepLinkHandler";
 setupIonicReact();
 
 const App: React.FC = () => {
+  const [adInitialized, setAdInitialized] = useState(false);
+  const [adError, setAdError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const initializeAdMob = async () => {
+      try {
+        console.log("Starting AdMob initialization in App component...");
+        const adMobService = AdMobService.getInstance();
+        await adMobService.initialize();
+        setAdInitialized(true);
+        console.log("AdMob initialized in App component");
+
+        // Add a small delay before showing the ad
+        setTimeout(async () => {
+          try {
+            console.log("Attempting to show banner ad...");
+            await adMobService.showBannerAd();
+          } catch (error) {
+            console.error("Error showing banner ad:", error);
+            setAdError(
+              error instanceof Error ? error.message : "Failed to show ad"
+            );
+          }
+        }, 2000); // Increased delay to 2 seconds
+      } catch (error) {
+        console.error("Error initializing AdMob:", error);
+        setAdError(
+          error instanceof Error ? error.message : "Failed to initialize AdMob"
+        );
+      }
+    };
+
+    initializeAdMob();
+  }, []);
+
   return (
-    <IonApp className="background">
-      <IonReactRouter>
-        <AuthProvider>
-          <DeepLinkHandler />
-          <RootScreen />
-        </AuthProvider>
-      </IonReactRouter>
-    </IonApp>
+    <>
+      <IonApp
+        className="background"
+        // style={{ height: "calc(100vh - 64px)", marginTop: "64px" }}
+      >
+        <IonReactRouter>
+          <AuthProvider>
+            <DeepLinkHandler />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100vh",
+              }}
+            >
+              {/* Main content */}
+              <div style={{ flex: 1, overflow: "auto" }}>
+                <RootScreen />
+              </div>
+              {/* Banner Ad */}
+              {/* <div
+              id="banner-ad-container"
+              style={{
+                width: "100%",
+                height: 50,
+                background: "transparent",
+                position: "relative",
+                zIndex: 9999,
+              }}
+            /> */}
+              {/* Tab bar (your existing tab bar component) */}
+              {/* <TabBarComponent /> */}
+            </div>
+          </AuthProvider>
+        </IonReactRouter>
+      </IonApp>
+    </>
   );
 };
 

@@ -170,7 +170,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setProfile(null);
       setIsDirectChat(false);
       setIsLoading(false);
-      history.push("/auth/login");
+      console.log("window.location.pathname", window.location.pathname);
+      if (window.location.pathname !== "/onboarding-chat") {
+        history.push("/");
+      }
     } catch (error: any) {
       console.error("Error signing out:", error.message);
       throw error;

@@ -14,6 +14,7 @@
     "ios:dev": "LOCAL_DEV=1 ionic capacitor run ios -l --external"
   },
   "dependencies": {
+    "@capacitor-community/admob": "^7.0.3",
     "@capacitor-community/in-app-review": "^6.0.0",
     "@capacitor/android": "6.1.1",
     "@capacitor/app": "6.0.0",

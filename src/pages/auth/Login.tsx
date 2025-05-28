@@ -77,7 +77,7 @@ const Login: React.FC = () => {
 
               <IonCard>
                 <IonCardContent>
-                  <form onSubmit={handleLogin}>
+                  {/* <form onSubmit={handleLogin}>
                     {error && (
                       <IonText color="danger">
                         <p className="ion-text-center">{error}</p>
@@ -123,19 +123,10 @@ const Login: React.FC = () => {
                   </form>
                   <div className="social-auth-divider">
                     <span>or</span>
-                  </div>
-                  <SocialAuth mode="signin" onError={setError} />
+                  </div> */}
+                  <SocialAuth onError={setError} />
                 </IonCardContent>
               </IonCard>
-
-              <div className="ion-text-center ion-margin-top">
-                <p>
-                  Don't have an account?{" "}
-                  <IonRouterLink routerLink="/auth/register">
-                    Sign up
-                  </IonRouterLink>
-                </p>
-              </div>
             </IonCol>
           </IonRow>
         </IonGrid>

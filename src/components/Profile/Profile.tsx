@@ -49,7 +49,7 @@ export const Profile: React.FC<ProfileProps> = ({
         </IonCardContent>
         {/* <div className="flex justify-center mt-4">
           <IonButton expand="block" color="danger" onClick={() => signOut()}>
-            Sign Out
+            Logout
           </IonButton>
         </div> */}
       </IonCard>

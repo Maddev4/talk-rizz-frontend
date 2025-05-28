@@ -5,15 +5,14 @@ import Tabs from "./Tabs";
 import Spinner from "../components/Spinner";
 import Callback from "./auth/Callback";
 import Login from "./auth/Login";
-import Register from "./auth/Register";
-import PrivateRoute from "../components/PrivateRoute";
+import Onboarding from "./onboarding/index";
+import OnboardingChat from "./onboarding/chat";
 import { useAuth } from "../contexts/AuthContext";
 import { ChatProvider } from "../contexts/ChatContext";
 import { supabase } from "../config/supabase";
 import { profileService } from "../services/profileService";
 import { connectService } from "../services/connectService";
 import "./index.css";
-
 const RootScreen: React.FC = () => {
   const {
     isLoading,
@@ -110,11 +109,11 @@ const RootScreen: React.FC = () => {
   return (
     <ChatProvider>
       <IonRouterOutlet>
-        <Route exact path="/" render={() => <Redirect to={"/app/profile"} />} />
-        <PrivateRoute path="/app" component={Tabs} />
+        <Route exact path="/" component={Onboarding} />
+        <Route exact path="/onboarding-chat" component={OnboardingChat} />
+        <Route path="/app" component={Tabs} />
         <Route exact path="/auth/callback" component={Callback} />
         <Route exact path="/auth/login" component={Login} />
-        <Route exact path="/auth/register" component={Register} />
       </IonRouterOutlet>
     </ChatProvider>
   );

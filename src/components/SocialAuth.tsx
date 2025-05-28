@@ -7,18 +7,17 @@ import { getPlatforms } from "@ionic/react";
 import "./SocialAuth.css";
 
 interface SocialAuthProps {
-  mode: "signin" | "signup";
   onError: (error: string) => void;
 }
 
-const SocialAuth: React.FC<SocialAuthProps> = ({ mode, onError }) => {
+const SocialAuth: React.FC<SocialAuthProps> = ({ onError }) => {
   const handleSocialAuth = async (provider: Provider) => {
     try {
       console.log("provider", provider);
       const platforms = getPlatforms();
       console.log("platforms", platforms);
       let isAndroid = platforms.includes("android");
-      isAndroid = false;
+      // isAndroid = false;
       console.log("isAndroid", isAndroid);
       console.log("window.location.origin", window.location.origin);
       const { data, error } = await supabase.auth.signInWithOAuth({
@@ -56,7 +55,7 @@ const SocialAuth: React.FC<SocialAuthProps> = ({ mode, onError }) => {
         className="google-btn"
       >
         <IonIcon slot="start" icon={logoGoogle} />
-        {mode === "signin" ? "Sign in" : "Sign up"} with Google
+        Continue with Google
       </IonButton>
 
       <IonButton
@@ -66,7 +65,7 @@ const SocialAuth: React.FC<SocialAuthProps> = ({ mode, onError }) => {
         className="apple-btn"
       >
         <IonIcon slot="start" icon={logoApple} />
-        {mode === "signin" ? "Sign in" : "Sign up"} with Apple
+        Continue with Apple
       </IonButton>
     </div>
   );
