@@ -1,9 +1,14 @@
 import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: "io.catnnect.connect",
+  // appId: "io.catnnect.connect",
+  appId: "com.catnnect.connect",
   appName: "Catnnect Connect",
   webDir: "dist",
+  server: {
+    androidScheme: "https",
+    iosScheme: "https",
+  },
   plugins: {
     PushNotifications: {
       presentationOptions: ["badge", "sound", "alert"],
@@ -15,6 +20,12 @@ const config: CapacitorConfig = {
       rewardedAdId: "ca-app-pub-7556755881195797/2273722777",
       isTesting: true,
     },
+  },
+  ios: {
+    scheme: "Catnnect Connect",
+  },
+  android: {
+    allowMixedContent: true,
   },
 };
 

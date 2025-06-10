@@ -18,14 +18,12 @@ import {
 } from "ionicons/icons";
 import { ReactNode, useState, useRef, useEffect } from "react";
 import { ScaleLoader } from "react-spinners";
-import TouchableOpacity from "./TouchableOpacity";
 import CustomButton from "./CustomButton";
 import CustomLayoutModal from "./CustomLayoutModal";
 import useChatStore from "../stores/chat.store";
 import useUserStore from "../stores/user.store";
 import useLoadingStore from "../stores/loading.store";
 import useOnboardingStore from "../stores/onboarding.store";
-import { createChat, generatePreSignedurls } from "../apis/Chat";
 import {
   BUCKET_NAME,
   CHAT_TYPE,
@@ -36,11 +34,10 @@ import {
 } from "../utils/constants";
 import { generateUniqueId } from "../utils/generateUniqueId";
 import { usePhotoGallery } from "../hooks/usePhotoGallery";
-import { getMessageCount, sendChatsToSlack } from "../apis/User";
 import { SpeechRecognition } from "@ionic-native/speech-recognition";
 import useHapticFeedback from "../hooks/useHapticFeedback";
 import { InAppReview } from "@capacitor-community/in-app-review";
-import FeedbackModal from "./FeedbackModal";
+// import FeedbackModal from "./FeedbackModal";
 import useMixpanel from "../hooks/useMixpanel";
 
 interface Props {
@@ -94,18 +91,18 @@ const Layout = ({
 
   const { hapticsImpactLight } = useHapticFeedback();
 
-  const goSettings = () => {
-    history.push("/settings");
-  };
+  // const goSettings = () => {
+  //   history.push("/settings");
+  // };
 
-  const goBack = async () => {
-    if (isAboutMeCompleted) router.goBack();
-    else {
-      sendFirstInteractionToSlack();
-      router.push("/home", "back", "push");
-      setIsAboutMeCompleted();
-    }
-  };
+  // const goBack = async () => {
+  //   if (isAboutMeCompleted) router.goBack();
+  //   else {
+  //     sendFirstInteractionToSlack();
+  //     router.push("/home", "back", "push");
+  //     setIsAboutMeCompleted();
+  //   }
+  // };
 
   const showFooter =
     location.pathname === "/home" || location.pathname === "/chat";
@@ -137,9 +134,9 @@ const Layout = ({
 
   const handleSendMessage = async () => {
     setLoading(true);
-    const response = await getMessageCount(user.id);
-    if (response.count > reviewMessageCount) InAppReview.requestReview();
-    if (response.count > limitMessageCount && !isSubscribedUser) {
+    // const response = await getMessageCount(user.id);
+    // if (response.count > reviewMessageCount) InAppReview.requestReview();
+    // if (response.count > limitMessageCount && !isSubscribedUser) {
       openPurchase(false);
       setVisiblePaywall(true);
       setLoading(false);
@@ -151,16 +148,16 @@ const Layout = ({
     }
     if (!activeChatId) {
       const messageId = generateUniqueId(inputText);
-      const response = await createChat(
-        user.id,
-        CHAT_TYPE.Text,
-        inputText,
-        messageId
-      );
+      // const response = await createChat(
+      //   user.id,
+      //   CHAT_TYPE.Text,
+      //   inputText,
+      //   messageId
+      // );
       let metaData = "";
       if (scanFile !== "") metaData = JSON.stringify({ images: [scanFile] });
-      setActiveChatId(response.chat._id);
-      setActiveChatTitle(response.chat.title);
+      // setActiveChatId(response.chat._id);
+      // setActiveChatTitle(response.chat.title);
       setActiveChatType(CHAT_TYPE.Text);
       if (inputRef.current) {
         inputRef.current.value = "";
@@ -202,116 +199,115 @@ const Layout = ({
         inputRef.current.value = "";
       }
     }
-  };
 
-  const sendFirstInteractionToSlack = async () => {
-    await sendChatsToSlack(messageList);
-  };
+  // const sendFirstInteractionToSlack = async () => {
+  //   await sendChatsToSlack(messageList);
+  // };
 
-  const uploadFile = () => {
-    if (fileRef) fileRef.current?.click();
-  };
+  // const uploadFile = () => {
+  //   if (fileRef) fileRef.current?.click();
+  // };
 
-  const handleChangeFile = async (blobData: any) => {
-    setLoading(true, "Uploading...");
-    const data = await generatePreSignedurls(1);
-    const preSignedURL = data.urls[0];
-    const response = await fetch(blobData);
-    const blob = await response.blob();
-    await fetch(preSignedURL.uploadURL, {
-      method: "PUT",
-      headers: {
-        "Content-Type": blob.type,
-      },
-      body: blob,
-    });
-    setScanFile(
-      `https://${BUCKET_NAME}.s3.${REGION_NAME}.amazonaws.com/${preSignedURL.key}`
-    );
-    setLoading(false);
-  };
+  // const handleChangeFile = async (blobData: any) => {
+  //   setLoading(true, "Uploading...");
+  //   const data = await generatePreSignedurls(1);
+  //   const preSignedURL = data.urls[0];
+  //   const response = await fetch(blobData);
+  //   const blob = await response.blob();
+  //   await fetch(preSignedURL.uploadURL, {
+  //     method: "PUT",
+  //     headers: {
+  //       "Content-Type": blob.type,
+  //     },
+  //     body: blob,
+  //   });
+  //   setScanFile(
+  //     `https://${BUCKET_NAME}.s3.${REGION_NAME}.amazonaws.com/${preSignedURL.key}`
+  //   );
+  //   setLoading(false);
+  // };
 
-  const removeImage = () => {
-    setPhotos([]);
-    setScanFile("");
-  };
+  // const removeImage = () => {
+  //   setPhotos([]);
+  //   setScanFile("");
+  // };
 
-  const turnOnTranscribing = async () => {
-    console.log("[Turn On Transcribing]");
-    const hasPermission = await SpeechRecognition.hasPermission();
-    console.log(hasPermission);
-    if (!hasPermission) {
-      setIsRecording(false);
-      setLoading(false);
-      await SpeechRecognition.requestPermission();
-    } else {
-      startRecording();
-    }
-  };
+  // const turnOnTranscribing = async () => {
+  //   console.log("[Turn On Transcribing]");
+  //   const hasPermission = await SpeechRecognition.hasPermission();
+  //   console.log(hasPermission);
+  //   if (!hasPermission) {
+  //     setIsRecording(false);
+  //     setLoading(false);
+  //     await SpeechRecognition.requestPermission();
+  //   } else {
+  //     startRecording();
+  //   }
+  // };
 
-  const startRecording = () => {
-    console.log("[Start Recording]");
-    setIsRecording(true);
-    SpeechRecognition.startListening({
-      language: "en-EN",
-      matches: 1,
-    }).subscribe(
-      (_matches: any) => {
-        if (_matches && _matches.length > 0) {
-          inputRef.current.value = _matches[0];
-          inputRef.current.focus();
-          inputRef.current.setSelectionRange(
-            inputRef.current.value.length,
-            inputRef.current.value.length
-          );
-          setInputText(_matches[0]);
-          setLoading(false);
-        }
-      },
-      (_e) => {
-        // if something went wrong, show an error message
-        alert("I couldn't understand what you said. Perhaps you're drunk?");
-        setLoading(false);
-      }
-    );
-  };
+  // const startRecording = () => {
+  //   console.log("[Start Recording]");
+  //   setIsRecording(true);
+  //   SpeechRecognition.startListening({
+  //     language: "en-EN",
+  //     matches: 1,
+  //   }).subscribe(
+  //     (_matches: any) => {
+  //       if (_matches && _matches.length > 0) {
+  //         inputRef.current.value = _matches[0];
+  //         inputRef.current.focus();
+  //         inputRef.current.setSelectionRange(
+  //           inputRef.current.value.length,
+  //           inputRef.current.value.length
+  //         );
+  //         setInputText(_matches[0]);
+  //         setLoading(false);
+  //       }
+  //     },
+  //     (_e) => {
+  //       // if something went wrong, show an error message
+  //       alert("I couldn't understand what you said. Perhaps you're drunk?");
+  //       setLoading(false);
+  //     }
+  //   );
+  // };
 
-  const stopRecording = async () => {
-    const hasPermission = await SpeechRecognition.hasPermission();
-    console.log("[Has permission]", hasPermission);
-    if (hasPermission) {
-      setIsRecording(false);
-      SpeechRecognition.stopListening();
-      setLoading(true, "Processing");
-    }
-  };
+  // const stopRecording = async () => {
+  //   const hasPermission = await SpeechRecognition.hasPermission();
+  //   console.log("[Has permission]", hasPermission);
+  //   if (hasPermission) {
+  //     setIsRecording(false);
+  //     SpeechRecognition.stopListening();
+  //     setLoading(true, "Processing");
+  //   }
+  // };
 
-  useEffect(() => {
-    if (photos.length > 0) {
-      handleChangeFile(photos[0].webviewPath);
-    }
-  }, [photos]);
+  // useEffect(() => {
+  //   if (photos.length > 0) {
+  //     handleChangeFile(photos[0].webviewPath);
+  //   }
+  // }, [photos]);
 
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyPress);
-    setInterval(trackUserActivity, 86400);
-    return () => {
-      window.removeEventListener("keydown", handleKeyPress);
-    };
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener("keydown", handleKeyPress);
+  //   setInterval(trackUserActivity, 86400);
+  //   return () => {
+  //     window.removeEventListener("keydown", handleKeyPress);
+  //   };
+  // }, []);
 
   const trackUserActivity = async () => {};
 
-  const handleKeyPress = () => {
-    hapticsImpactLight();
-  };
+  // const handleKeyPress = () => {
+  //   hapticsImpactLight();
+  // };
 
   return (
     <IonPage>
       <IonHeader className="bg-[rgba(255,255,255,0.1)] backdrop-blur-md h-[102px] absolute w-full shadow-lg shadow-black/25">
         <div className="w-full h-full pb-3 flex flex-col justify-end">
           <div className="w-[90%] mx-auto relative flex items-center justify-between">
-            {showSetting && (
+            {/* {showSetting && (
               <TouchableOpacity className="h-6">
                 <IonIcon
                   icon={settingsOutline}
@@ -328,7 +324,7 @@ const Layout = ({
                   onClick={goBack}
                 />
               </TouchableOpacity>
-            )}
+            )} */}
             {/* <TouchableOpacity className="h-6">
               <IonIcon
                 icon={trashOutline}
@@ -337,7 +333,7 @@ const Layout = ({
               />
             </TouchableOpacity> */}
             <div className="absolute w-max left-1/2 -translate-x-1/2">
-              {chatAction ? (
+              {/* {chatAction ? (
                 <TouchableOpacity
                   className="flex items-center"
                   onPress={() => setModalVisible(true)}
@@ -350,11 +346,11 @@ const Layout = ({
                     className="text-xl text-white h-6 opacity-70"
                   />
                 </TouchableOpacity>
-              ) : (
+              ) : ( */}
                 <h1 className="font-bold text-[var(--ion-text-primary)] text-[17px]">
                   {title}
                 </h1>
-              )}
+              {/* )} */}
             </div>
           </div>
         </div>
@@ -388,19 +384,19 @@ const Layout = ({
               >
                 {scanFile ? (
                   <div className="relative w-max pb-3">
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                       className="absolute translate-x-1/2 -translate-y-1/2 right-[15px] top-[15px] rounded-full bg-black/30 w-6 h-6 flex items-center justify-center"
                       onPress={removeImage}
                     >
                       <span className="leading-none text-white">&times;</span>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <img src={scanFile} className="max-h-[100px] max-w-full" />
                   </div>
                 ) : (
                   <></>
                 )}
                 <div className="w-full relative flex">
-                  {scanButton && (
+                  {/* {scanButton && (
                     <>
                       <TouchableOpacity
                         className="absolute right-2 w-6 h-6 top-1/2 -translate-y-1/2"
@@ -413,8 +409,8 @@ const Layout = ({
                         />
                       </TouchableOpacity>
                     </>
-                  )}
-                  <textarea
+                  )} */}
+                  {/* <textarea
                     id="chattext_input"
                     rows={1}
                     placeholder="Type text here"
@@ -423,10 +419,10 @@ const Layout = ({
                     }`}
                     onChange={handleInputChange}
                     ref={inputRef}
-                  />
+                  /> */}
                 </div>
               </div>
-              {inputText.length > 0 ? (
+              {/* {inputText.length > 0 ? (
                 <CustomButton
                   className="!w-14 h-10 flex items-center justify-center"
                   onClick={handleSendMessage}
@@ -447,7 +443,7 @@ const Layout = ({
                     className="text-2xl font-bold text-white"
                   />
                 </CustomButton>
-              )}
+              )} */}
             </div>
           </div>
         </IonFooter>
@@ -457,7 +453,7 @@ const Layout = ({
         onClose={() => setModalVisible(false)}
         setIsOpen={setModalVisible}
       />
-      <IonActionSheet
+      {/* <IonActionSheet
         isOpen={bottomSheetVisible}
         onDidDismiss={() => setBottomSheetVisible(false)}
         buttons={[
@@ -480,9 +476,9 @@ const Layout = ({
         isOpen={feedbackModalInfo.visible}
         setIsOpen={setFeedbackModalInfo}
         feedbackType={feedbackModalInfo.type}
-      />
+      /> */}
     </IonPage>
   );
+// };
 };
-
 export default Layout;
