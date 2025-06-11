@@ -31,7 +31,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const adMobService = AdMobService.getInstance();
-    
+
     const handleAdVisibility = (isVisible: boolean) => {
       setHideValue(isVisible); // When ad is visible, hide the content
     };
@@ -48,12 +48,11 @@ const App: React.FC = () => {
           try {
             console.log("Attempting to show banner ad...");
             await adMobService.showBannerAd();
-            
+
             // Check status after 3 seconds
             setTimeout(() => {
               adMobService.checkAdStatus();
             }, 3000);
-            
           } catch (error) {
             console.error("Error showing banner ad:", error);
             setAdError(
@@ -71,7 +70,7 @@ const App: React.FC = () => {
 
     // Add visibility listener
     adMobService.addVisibilityListener(handleAdVisibility);
-    
+
     // Initialize AdMob
     initializeAdMob();
 
@@ -83,12 +82,15 @@ const App: React.FC = () => {
 
   return (
     <>
-      <div style={{ display: hideValue ? 'none' : 'block', height: "50px" }}>
+      <div style={{ display: hideValue ? "none" : "block", height: "50px" }}>
         {/* Your content to hide when ad is visible */}
         <h1>Content to hide when ad is visible</h1>
       </div>
 
-      <IonApp className="background" style={{ height: "calc(100vh - 50px)", marginTop: "50px" }}>
+      <IonApp
+        className="background"
+        style={{ height: "calc(100vh - 50px)", marginTop: "50px" }}
+      >
         <IonReactRouter>
           <AuthProvider>
             <DeepLinkHandler />

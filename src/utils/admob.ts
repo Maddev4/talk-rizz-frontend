@@ -27,11 +27,13 @@ export class AdMobService {
   }
 
   removeVisibilityListener(listener: (isVisible: boolean) => void) {
-    this.visibilityListeners = this.visibilityListeners.filter(l => l !== listener);
+    this.visibilityListeners = this.visibilityListeners.filter(
+      (l) => l !== listener
+    );
   }
 
   private notifyVisibilityChange(isVisible: boolean) {
-    this.visibilityListeners.forEach(listener => listener(isVisible));
+    this.visibilityListeners.forEach((listener) => listener(isVisible));
   }
 
   async initialize(): Promise<void> {
@@ -70,12 +72,11 @@ export class AdMobService {
 
       console.log("Showing banner ad with options:", JSON.stringify(options));
       await AdMob.showBanner(options);
-      
+
       this.bannerVisible = true;
       this.notifyVisibilityChange(true);
       console.log("Banner ad shown successfully");
       console.log("Google Ad Displayed:", true);
-      
     } catch (error) {
       this.bannerVisible = false;
       this.notifyVisibilityChange(false);
