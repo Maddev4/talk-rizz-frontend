@@ -10,6 +10,8 @@ import {
 export class AdMobService {
   private static instance: AdMobService;
   private initialized = false;
+  private bannerVisible = false;
+  private visibilityListeners: ((isVisible: boolean) => void)[] = [];
 
   private constructor() {}
 
@@ -18,6 +20,18 @@ export class AdMobService {
       AdMobService.instance = new AdMobService();
     }
     return AdMobService.instance;
+  }
+
+  addVisibilityListener(listener: (isVisible: boolean) => void) {
+    this.visibilityListeners.push(listener);
+  }
+
+  removeVisibilityListener(listener: (isVisible: boolean) => void) {
+    this.visibilityListeners = this.visibilityListeners.filter(l => l !== listener);
+  }
+
+  private notifyVisibilityChange(isVisible: boolean) {
+    this.visibilityListeners.forEach(listener => listener(isVisible));
   }
 
   async initialize(): Promise<void> {
@@ -51,13 +65,22 @@ export class AdMobService {
         position: BannerAdPosition.TOP_CENTER,
         margin: 0,
         isTesting: true,
+        adSize: BannerAdSize.BANNER,
       };
 
       console.log("Showing banner ad with options:", JSON.stringify(options));
       await AdMob.showBanner(options);
+      
+      this.bannerVisible = true;
+      this.notifyVisibilityChange(true);
       console.log("Banner ad shown successfully");
+      console.log("Google Ad Displayed:", true);
+      
     } catch (error) {
+      this.bannerVisible = false;
+      this.notifyVisibilityChange(false);
       console.error("Error showing banner ad:", error);
+      console.log("Google Ad Displayed:", false);
       throw error;
     }
   }
@@ -65,11 +88,23 @@ export class AdMobService {
   async hideBannerAd(): Promise<void> {
     try {
       await AdMob.hideBanner();
+      this.bannerVisible = false;
+      this.notifyVisibilityChange(false);
       console.log("Banner ad hidden successfully");
+      console.log("Google Ad Displayed:", false);
     } catch (error) {
       console.error("Error hiding banner ad:", error);
       throw error;
     }
+  }
+
+  isBannerVisible(): boolean {
+    return this.bannerVisible;
+  }
+
+  checkAdStatus(): void {
+    console.log("Google Ad Displayed:", this.bannerVisible);
+    this.notifyVisibilityChange(this.bannerVisible);
   }
 
   async showInterstitialAd(): Promise<void> {

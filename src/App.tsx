@@ -27,12 +27,18 @@ setupIonicReact();
 const App: React.FC = () => {
   const [adInitialized, setAdInitialized] = useState(false);
   const [adError, setAdError] = useState<string | null>(null);
+  const [hideValue, setHideValue] = useState(false);
 
   useEffect(() => {
+    const adMobService = AdMobService.getInstance();
+    
+    const handleAdVisibility = (isVisible: boolean) => {
+      setHideValue(isVisible); // When ad is visible, hide the content
+    };
+
     const initializeAdMob = async () => {
       try {
         console.log("Starting AdMob initialization in App component...");
-        const adMobService = AdMobService.getInstance();
         await adMobService.initialize();
         setAdInitialized(true);
         console.log("AdMob initialized in App component");
@@ -42,13 +48,19 @@ const App: React.FC = () => {
           try {
             console.log("Attempting to show banner ad...");
             await adMobService.showBannerAd();
+            
+            // Check status after 3 seconds
+            setTimeout(() => {
+              adMobService.checkAdStatus();
+            }, 3000);
+            
           } catch (error) {
             console.error("Error showing banner ad:", error);
             setAdError(
               error instanceof Error ? error.message : "Failed to show ad"
             );
           }
-        }, 2000); // Increased delay to 2 seconds
+        }, 2000);
       } catch (error) {
         console.error("Error initializing AdMob:", error);
         setAdError(
@@ -57,15 +69,26 @@ const App: React.FC = () => {
       }
     };
 
+    // Add visibility listener
+    adMobService.addVisibilityListener(handleAdVisibility);
+    
+    // Initialize AdMob
     initializeAdMob();
+
+    // Cleanup
+    return () => {
+      adMobService.removeVisibilityListener(handleAdVisibility);
+    };
   }, []);
 
   return (
     <>
-      <IonApp
-        className="background"
-        // style={{ height: "calc(100vh - 64px)", marginTop: "64px" }}
-      >
+      <div style={{ display: hideValue ? 'none' : 'block', height: "50px" }}>
+        {/* Your content to hide when ad is visible */}
+        <h1>Content to hide when ad is visible</h1>
+      </div>
+
+      <IonApp className="background" style={{ height: "calc(100vh - 50px)", marginTop: "50px" }}>
         <IonReactRouter>
           <AuthProvider>
             <DeepLinkHandler />
@@ -74,25 +97,12 @@ const App: React.FC = () => {
                 display: "flex",
                 flexDirection: "column",
                 height: "100vh",
+                position: "relative",
               }}
             >
-              {/* Main content */}
               <div style={{ flex: 1, overflow: "auto" }}>
                 <RootScreen />
               </div>
-              {/* Banner Ad */}
-              {/* <div
-              id="banner-ad-container"
-              style={{
-                width: "100%",
-                height: 50,
-                background: "transparent",
-                position: "relative",
-                zIndex: 9999,
-              }}
-            /> */}
-              {/* Tab bar (your existing tab bar component) */}
-              {/* <TabBarComponent /> */}
             </div>
           </AuthProvider>
         </IonReactRouter>
