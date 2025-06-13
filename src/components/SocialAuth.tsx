@@ -5,10 +5,10 @@ import { supabase } from "../config/supabase";
 import { Provider } from "@supabase/supabase-js";
 import { getPlatforms } from "@ionic/react";
 import { Capacitor } from "@capacitor/core";
-import { 
-  SignInWithApple, 
-  SignInWithAppleOptions, 
-  SignInWithAppleResponse 
+import {
+  SignInWithApple,
+  SignInWithAppleOptions,
+  SignInWithAppleResponse,
 } from "@capacitor-community/apple-sign-in";
 import "./SocialAuth.css";
 
@@ -23,13 +23,13 @@ const SocialAuth: React.FC<SocialAuthProps> = ({ onError, onSuccess }) => {
 
   const saveSessionData = (session: any) => {
     // Store session data in localStorage or your preferred storage
-    localStorage.setItem('supabase.auth.token', JSON.stringify(session));
+    localStorage.setItem("supabase.auth.token", JSON.stringify(session));
   };
 
   const saveUserData = (email: string, userId: string) => {
     // Store user data in localStorage or your preferred storage
-    localStorage.setItem('user.email', email);
-    localStorage.setItem('user.id', userId);
+    localStorage.setItem("user.email", email);
+    localStorage.setItem("user.id", userId);
   };
 
   const handleSuccessfulSignIn = (data: any) => {
@@ -37,6 +37,7 @@ const SocialAuth: React.FC<SocialAuthProps> = ({ onError, onSuccess }) => {
     if (onSuccess) {
       onSuccess(data);
     }
+    // window.location.href = "/";
     // Additional success handling logic here
   };
 
@@ -46,7 +47,8 @@ const SocialAuth: React.FC<SocialAuthProps> = ({ onError, onSuccess }) => {
     if (Capacitor.isNativePlatform()) {
       let options: SignInWithAppleOptions = {
         clientId: "com.catnnect.ios",
-        redirectURI: "https://sqttehzyiacxmmiqsovw.supabase.co/auth/v1/callback",
+        redirectURI: "io.catnnect.connect",
+        // "https://sqttehzyiacxmmiqsovw.supabase.co/auth/v1/callback",
         scopes: "email name",
       };
 
@@ -57,7 +59,9 @@ const SocialAuth: React.FC<SocialAuthProps> = ({ onError, onSuccess }) => {
       } catch (err) {
         console.log("Apple catch error: ", err);
         setIsAppleLoading(false);
-        onError(err instanceof Error ? err.message : "Apple authentication failed");
+        onError(
+          err instanceof Error ? err.message : "Apple authentication failed"
+        );
         return;
       }
 
@@ -96,7 +100,9 @@ const SocialAuth: React.FC<SocialAuthProps> = ({ onError, onSuccess }) => {
       } catch (err) {
         setIsAppleLoading(false);
         console.error("Apple Sign In error:", err);
-        onError(err instanceof Error ? err.message : "Apple authentication failed");
+        onError(
+          err instanceof Error ? err.message : "Apple authentication failed"
+        );
       }
     } else {
       // Fallback to web OAuth for web platform
@@ -105,7 +111,9 @@ const SocialAuth: React.FC<SocialAuthProps> = ({ onError, onSuccess }) => {
       } catch (err) {
         setIsAppleLoading(false);
         console.error("Apple web auth error:", err);
-        onError(err instanceof Error ? err.message : "Apple authentication failed");
+        onError(
+          err instanceof Error ? err.message : "Apple authentication failed"
+        );
       }
     }
   };
@@ -120,12 +128,12 @@ const SocialAuth: React.FC<SocialAuthProps> = ({ onError, onSuccess }) => {
       const isAndroid = platforms.includes("android");
       const isIOS = platforms.includes("ios");
       const isMobile = isAndroid || isIOS;
-      
+
       // Determine redirect URL based on platform
       let redirectTo: string;
-      
+
       if (isMobile) {
-        redirectTo = "io.catnnect.connect://oauth";
+        redirectTo = "App://oauth";
       } else {
         // Web fallback
         redirectTo = `${window.location.origin}/auth/callback`;
@@ -136,6 +144,7 @@ const SocialAuth: React.FC<SocialAuthProps> = ({ onError, onSuccess }) => {
       // Configure auth options based on provider
       const authOptions: any = {
         redirectTo,
+        skipBrowserRedirect: isMobile, // Skip browser redirect on mobile
       };
 
       // Provider-specific configurations
@@ -156,7 +165,13 @@ const SocialAuth: React.FC<SocialAuthProps> = ({ onError, onSuccess }) => {
       }
 
       console.log("Auth data:", data);
-      
+
+      // For mobile platforms, we need to handle the redirect manually
+      if (isMobile && data?.url) {
+        // Open the URL in the device's browser
+        window.location.href = data.url;
+      }
+
       if (provider === "google") {
         setIsGoogleLoading(false);
       }

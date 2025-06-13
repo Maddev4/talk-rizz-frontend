@@ -1,5 +1,5 @@
 {
-  "appId": "com.catnnect.connect",
+  "appId": "com.catnnect.ios",
   "appName": "Catnnect Connect",
   "webDir": "dist",
   "server": {
@@ -19,7 +19,7 @@
     }
   },
   "ios": {
-    "scheme": "App"
+    "scheme": "io.catnnect.connect"
   },
   "android": {
     "allowMixedContent": true
