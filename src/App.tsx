@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { IonApp, setupIonicReact } from "@ionic/react";
 import { AdMobService } from "./utils/admob";
+import PushNotificationService from "./PushNotificationService";
 
 // Import Ionic CSS
 import "@ionic/react/css/core.css";
@@ -30,6 +31,9 @@ const App: React.FC = () => {
   const [hideValue, setHideValue] = useState(false);
 
   useEffect(() => {
+    // Initialize push notifications
+    PushNotificationService.init();
+    
     const adMobService = AdMobService.getInstance();
 
     const handleAdVisibility = (isVisible: boolean) => {

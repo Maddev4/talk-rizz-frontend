@@ -129,11 +129,17 @@ const SocialAuth: React.FC<SocialAuthProps> = ({ onError, onSuccess }) => {
       const isIOS = platforms.includes("ios");
       const isMobile = isAndroid || isIOS;
 
+      // const isMobile = true;
+
       // Determine redirect URL based on platform
       let redirectTo: string;
 
       if (isMobile) {
-        redirectTo = "App://oauth";
+        if (isIOS) {
+          redirectTo = "App://oauth";
+        } else {
+          redirectTo = "io.catnnect.connect://oauth";
+        }
       } else {
         // Web fallback
         redirectTo = `${window.location.origin}/auth/callback`;
