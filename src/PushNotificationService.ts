@@ -12,12 +12,19 @@ interface NotificationData {
 
 class PushNotificationService {
     private static currentChatRoomId: string | null = null;
+    private static initialized = false;
     
     static setCurrentChatRoomId(roomId: string | null) {
         this.currentChatRoomId = roomId;
     }
 
     static async init() {
+        // Prevent multiple initialization
+        if (this.initialized) {
+            console.log('Push notifications already initialized');
+            return;
+        }
+
         // Check if we're on a native platform that supports notifications
         if (!Capacitor.isNativePlatform()) {
             console.log('Push notifications are only available on native platforms');
@@ -25,15 +32,19 @@ class PushNotificationService {
         }
 
         const isPlatformAndroid = Capacitor.getPlatform() === 'android';
+        console.log(`Current platform: ${Capacitor.getPlatform()}`);
 
         try {
             if (isPlatformAndroid) {
                 // Android-specific implementation using Firebase
+                console.log('Initializing Android FCM');
                 await this.initAndroid();
             } else {
                 // iOS implementation using Capacitor PushNotifications
+                console.log('Initializing iOS Push Notifications');
                 await this.initIOS();
             }
+            this.initialized = true;
         } catch (error) {
             console.error('Error initializing push notifications:', error);
         }
@@ -55,62 +66,87 @@ class PushNotificationService {
     }
 
     private static async initAndroid() {
-        // Request permission for FCM
-        const { receive } = await FirebaseMessaging.requestPermissions();
+        console.log('Starting FCM initialization for Android...');
         
-        if (receive === 'granted') {
-            try {
-                // Get FCM token
-                const { token } = await FirebaseMessaging.getToken();
-                console.log('FCM Token:', token);
-                localStorage.setItem('pushToken', token);
+        try {
+            // Check if permission is already granted
+            const permStatus = await FirebaseMessaging.checkPermissions();
+            console.log('Current FCM permission status:', permStatus);
+            
+            if (permStatus.receive !== 'granted') {
+                // Request permission for FCM
+                console.log('Requesting FCM permissions...');
+                const { receive } = await FirebaseMessaging.requestPermissions();
+                console.log('FCM permission request result:', receive);
                 
-                // Send the token to the server for registration
-                await this.sendTokenToServer(token);
-
-                // Listen for token refresh
-                FirebaseMessaging.addListener('tokenReceived', async (event) => {
-                    console.log('FCM token refreshed:', event.token);
-                    localStorage.setItem('pushToken', event.token);
-                    await this.sendTokenToServer(event.token);
-                });
-
-                // Handle foreground messages
-                FirebaseMessaging.addListener('notificationReceived', 
-                    (event: NotificationReceivedEvent) => {
-                        console.log('Push notification received (Android):', event);
-                        const notification = event.notification;
-                        const data = notification.data as NotificationData || {};
-                        const roomId = data.roomId;
-                        
-                        if (roomId !== this.currentChatRoomId) {
-                            this.showLocalNotification(
-                                notification.title || 'New Message',
-                                notification.body || 'You received a new message',
-                                data
-                            );
-                        }
-                    }
-                );
-
-                // Handle notification open
-                FirebaseMessaging.addListener('notificationActionPerformed', 
-                    (event: any) => {
-                        console.log('Push notification opened (Android):', event);
-                        const notification = event.notification;
-                        const data = notification.data as NotificationData || {};
-                        const roomId = data.roomId;
-                        
-                        if (roomId) {
-                            window.location.href = `/chat/conversation/${roomId}`;
-                        }
-                    }
-                );
-            } catch (error) {
-                console.error('Error setting up Firebase Messaging:', error);
+                if (receive !== 'granted') {
+                    console.error('FCM permission not granted');
+                    return;
+                }
             }
-        } else {
-            console.error('FCM permission not granted');
+            
+            // Get FCM token
+            console.log('Getting FCM token...');
+            const { token } = await FirebaseMessaging.getToken();
+            console.log('FCM Token retrieved:', token);
+            
+            if (!token) {
+                console.error('Failed to get FCM token');
+                return;
+            }
+            
+            // Store token locally
+            localStorage.setItem('pushToken', token);
+            
+            // Send the token to the server for registration
+            await this.sendTokenToServer(token);
+
+            // Delete any existing listeners to prevent duplicates
+            console.log('Setting up FCM listeners...');
+            await FirebaseMessaging.removeAllListeners();
+
+            // Listen for token refresh
+            FirebaseMessaging.addListener('tokenReceived', async (event) => {
+                console.log('FCM token refreshed:', event.token);
+                localStorage.setItem('pushToken', event.token);
+                await this.sendTokenToServer(event.token);
+            });
+
+            // Handle foreground messages
+            FirebaseMessaging.addListener('notificationReceived', 
+                (event: NotificationReceivedEvent) => {
+                    console.log('Push notification received (Android):', event);
+                    const notification = event.notification;
+                    const data = notification.data as NotificationData || {};
+                    const roomId = data.roomId;
+                    
+                    if (roomId !== this.currentChatRoomId) {
+                        this.showLocalNotification(
+                            notification.title || 'New Message',
+                            notification.body || 'You received a new message',
+                            data
+                        );
+                    }
+                }
+            );
+
+            // Handle notification open
+            FirebaseMessaging.addListener('notificationActionPerformed', 
+                (event: any) => {
+                    console.log('Push notification opened (Android):', event);
+                    const notification = event.notification;
+                    const data = notification.data as NotificationData || {};
+                    const roomId = data.roomId;
+                    
+                    if (roomId) {
+                        window.location.href = `/chat/conversation/${roomId}`;
+                    }
+                }
+            );
+            
+            console.log('FCM initialization completed successfully');
+        } catch (error) {
+            console.error('Error setting up Firebase Messaging:', error);
         }
     }
 
@@ -184,19 +220,31 @@ class PushNotificationService {
     }
 
     private static async showLocalNotification(title: string, body: string, data: any = {}) {
-        await LocalNotifications.schedule({
-            notifications: [
-                {
-                    id: new Date().getTime(),
-                    title: title,
-                    body: body,
-                    smallIcon: 'ic_launcher_foreground',
-                    largeIcon: 'ic_launcher',
-                    sound: undefined,
-                    extra: data
-                }
-            ]
-        });
+        try {
+            // Generate a proper notification ID (needs to be an integer)
+            // Use a random number between 1000-9999 to avoid potential conflicts
+            const notificationId = Math.floor(Math.random() * 9000) + 1000;
+            
+            console.log(`Scheduling local notification with ID: ${notificationId}, title: ${title}`);
+            
+            await LocalNotifications.schedule({
+                notifications: [
+                    {
+                        id: notificationId,
+                        title: title,
+                        body: body,
+                        smallIcon: 'ic_notification',
+                        largeIcon: 'ic_launcher',
+                        sound: 'default',
+                        extra: data
+                    }
+                ]
+            });
+            
+            console.log('Local notification scheduled successfully');
+        } catch (error) {
+            console.error('Error showing local notification:', error);
+        }
     }
 
     static async showNotification(title: string, body: string, data: any = {}) {
