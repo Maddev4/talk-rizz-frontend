@@ -108,7 +108,7 @@ const Home: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar style={{ height: "60px", paddingTop: "0px" }}>
           <IonTitle>Home</IonTitle>
         </IonToolbar>
       </IonHeader>

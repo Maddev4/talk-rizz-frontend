@@ -117,7 +117,7 @@ class PushNotificationService {
                 (event: NotificationReceivedEvent) => {
                     console.log('Push notification received (Android):', event);
                     const notification = event.notification;
-                    const data = notification.data as NotificationData || {};
+                    const data = (notification.data as NotificationData) || {};
                     const roomId = data.roomId;
                     
                     if (roomId !== this.currentChatRoomId) {
@@ -135,11 +135,11 @@ class PushNotificationService {
                 (event: any) => {
                     console.log('Push notification opened (Android):', event);
                     const notification = event.notification;
-                    const data = notification.data as NotificationData || {};
+                    const data = (notification.data as NotificationData) || {};
                     const roomId = data.roomId;
                     
                     if (roomId) {
-                        window.location.href = `/chat/conversation/${roomId}`;
+                        window.location.href = `/app/chat/${roomId}`;
                     }
                 }
             );
@@ -201,7 +201,7 @@ class PushNotificationService {
             
             if (roomId) {
                 // Use window.location for navigation
-                window.location.href = `/chat/conversation/${roomId}`;
+                window.location.href = `/app/chat/${roomId}`;
             }
         });
         
@@ -214,7 +214,7 @@ class PushNotificationService {
             
             if (roomId) {
                 // Use window.location for navigation
-                window.location.href = `/chat/conversation/${roomId}`;
+                window.location.href = `/app/chat/${roomId}`;
             }
         });
     }

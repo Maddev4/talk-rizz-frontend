@@ -68,7 +68,7 @@ const Login: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar style={{ height: "60px", paddingTop: "5px" }}>
           <IonTitle>Login</IonTitle>
         </IonToolbar>
       </IonHeader>

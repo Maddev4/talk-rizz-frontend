@@ -67,8 +67,10 @@ const OnboardingChat: React.FC = () => {
               <div
                 className={`max-w-[80%] p-3 rounded-lg ${
                   message.sender === "bot"
-                    ? "bg-[#FFFFFF15] text-[var(--ion-text-primary)]"
-                    : "bg-[var(--ion-color-primary)] text-black"
+                    ? "bg-[#e8e8e8] --ion-text-primary"
+                    : "bg-[#007aff] text-white"
+                    // ? "bg-[#FFFFFF15] text-[var(--ion-text-primary)]"
+                    // : "bg-[var(--ion-color-primary)] text-black"
                 }`}
               >
                 {message.text}
@@ -78,7 +80,7 @@ const OnboardingChat: React.FC = () => {
           {showStartBtn && (
             <div className="flex justify-center">
               <div
-                className="text-white text-lg font-bold bg-black p-4 rounded-full hover:scale-105 active:scale-95 transition-transform duration-200 cursor-pointer shadow-lg hover:shadow-xl"
+                className="text-white text-lg font-bold bg-[var(--ion-color-primary)] p-4 rounded-full hover:scale-105 active:scale-95 transition-transform duration-200 cursor-pointer shadow-lg hover:shadow-xl"
                 onClick={() => router.push("/auth/login", "forward")}
               >
                 Let's Start!
@@ -88,10 +90,10 @@ const OnboardingChat: React.FC = () => {
         </div>
 
         <div className="p-4 border-t border-[#FFFFFF30]">
-          <input
+          <input  
             type="text"
             placeholder="Type your response..."
-            className="w-full p-3 rounded-lg bg-[#FFFFFF15] text-[var(--ion-text-primary)] outline-none"
+            className="w-full p-3 rounded-lg bg-[#e6e6e8] text-black outline-none"
             onKeyPress={(e) => {
               if (
                 e.key === "Enter" &&

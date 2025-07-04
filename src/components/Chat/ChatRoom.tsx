@@ -201,8 +201,8 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
                     padding: "8px 12px",
                     borderRadius: "8px",
                     backgroundColor:
-                      msg.senderId === user?.id ? "#005C4B" : "#202C33",
-                    color: "#E9EDF0",
+                      msg.senderId === user?.id ? "#007AFF" : "#E6E6E8",
+                    color: msg.senderId === user?.id ? "#E9EDF0" : "##1e1e1e",
                   }}
                 >
                   <div
@@ -253,7 +253,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
           )}
         </div>
       </IonContent>
-      <IonFooter className="chat-footer" style={{ backgroundColor: "#202C33" }}>
+      <IonFooter className="chat-footer" style={{ backgroundColor: "#e6e6e8"}}>
         <div
           style={{ display: "flex", alignItems: "center", padding: "8px 16px" }}
         >
@@ -263,7 +263,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
               width: "100%",
               display: "flex",
               alignItems: "center",
-              backgroundColor: "#2A3942",
+              backgroundColor: "#ffffff",
               borderRadius: "8px",
               padding: "6px 12px",
             }}
@@ -275,7 +275,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
               onKeyDown={handleKeyPress}
               style={{
                 "--placeholder-color": "#8696A0",
-                "--color": "#E9EDF0",
+                "--color": "#000000",
               }}
             />
             <IonButton
@@ -284,7 +284,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
               fill="clear"
               style={{
                 margin: 0,
-                "--color": "#00A884",
+                "--color": "#F46F1C",
                 "--padding-start": "8px",
                 "--padding-end": "8px",
               }}

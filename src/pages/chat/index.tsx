@@ -101,7 +101,7 @@ const Chat: React.FC = () => {
       ) : (
         <>
           <IonHeader>
-            <IonToolbar>
+            <IonToolbar style={{ height: "60px", paddingTop: "5px" }}>
               <div className="relative chat-header">
                 {selectedCategory && (
                   <IonButtons
@@ -113,7 +113,7 @@ const Chat: React.FC = () => {
                     </IonButton>
                   </IonButtons>
                 )}
-                <h1 className="absolute left-1/2 -translate-x-1/2 m-0 w-full text-center">
+                <IonTitle>
                   {selectedCategory
                     ? selectedSubcategory.title.length > 0
                       ? `${
@@ -122,7 +122,7 @@ const Chat: React.FC = () => {
                         } - ${selectedSubcategory.title}`
                       : selectedCategory
                     : "Messages"}
-                </h1>
+                </IonTitle>
               </div>
             </IonToolbar>
           </IonHeader>

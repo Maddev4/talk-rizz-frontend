@@ -226,16 +226,16 @@ ion-avatar {
   color: var(--ion-color-medium);
 }
 
-.chat-header {
+/* .chat-header {
   display: flex;
   align-items: center;
   padding: 8px;
-}
+} */
 
-.chat-header ion-title {
+/* .chat-header ion-title {
   font-size: 1.2em;
   font-weight: 500;
-}
+} */
 
 .new-chat-button {
   width: 35px;

@@ -24,6 +24,16 @@
   width: 100%;
 }
 
+.login-logo {
+  margin: 20px auto;
+  text-align: center;
+}
+
+.login-logo h2 {
+  color: var(--ion-color-primary);
+  margin-bottom: 20px;
+}
+
 .forgot-password {
   text-align: center;
   margin-top: 16px;
@@ -72,4 +82,9 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
+}
+
+/* Ensure the content takes the full height minus the top banner */
+ion-content {
+  --padding-top: 10px;
 }

@@ -1,0 +1,11 @@
+/* Make select options text color black */
+ion-select::part(text),
+ion-select::part(placeholder),
+ion-select-option {
+  color: var(--ion-color-step-100) !important;
+}
+
+/* Style the actual dropdown options when open */
+.select-interface-option {
+  color: var(--ion-color-step-100) !important;
+}

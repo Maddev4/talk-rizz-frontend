@@ -87,7 +87,7 @@ const Conversation: React.FC = () => {
       ) : (
         <>
           <IonHeader>
-            <IonToolbar>
+            <IonToolbar style={{ height: "60px", paddingTop: "0px" }}>
               <div className="flex justify-between items-center flex-row">
                 <IonButtons slot="start">
                   <IonBackButton defaultHref="/app/chat" />

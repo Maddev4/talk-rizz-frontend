@@ -50,7 +50,7 @@ const Chatbot: React.FC = () => {
       ) : (
         <>
           <IonHeader>
-            <IonToolbar>
+            <IonToolbar style={{ height: "60px", paddingTop: "0px" }}>
               <div className="relative chat-header">
                 <IonButtons
                   slot="start"

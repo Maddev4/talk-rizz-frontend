@@ -40,7 +40,7 @@ const Report: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar style={{ height: "60px", paddingTop: "0px" }}>
           <IonButtons slot="start">
             <IonBackButton defaultHref={`/app/chat/${roomId}`} />
           </IonButtons>

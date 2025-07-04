@@ -36,7 +36,7 @@ const Connect: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar style={{ height: "60px", paddingTop: "5px" }}>
           <IonTitle>Connect</IonTitle>
         </IonToolbar>
       </IonHeader>

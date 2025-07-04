@@ -68,8 +68,8 @@ const ProfilePage: React.FC = () => {
   return (
     <IonPage className="h-full overflow-auto">
       <IonHeader>
-        <IonToolbar>
-          <IonTitle>Profile</IonTitle>
+        <IonToolbar style={{ height: "60px", paddingTop: "0px" }}>
+          <IonTitle style={{ textAlign: "center" }}>Profile</IonTitle>
           <IonButton
             slot="end"
             onClick={() => setIsEditing(!isEditing)}

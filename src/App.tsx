@@ -4,6 +4,7 @@ import { AdMobService } from "./utils/admob";
 import PushNotificationService from "./PushNotificationService";
 import { Capacitor } from '@capacitor/core';
 import { initializeApp } from 'firebase/app';
+import { supabase } from "./config/supabase";
 
 // Import Ionic CSS
 import "@ionic/react/css/core.css";
@@ -46,13 +47,54 @@ const App: React.FC = () => {
   const [adInitialized, setAdInitialized] = useState(false);
   const [adError, setAdError] = useState<string | null>(null);
   const [hideValue, setHideValue] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+
+  // Function to check if the current path is part of the onboarding or auth flow
+  const isOnboardingOrAuthPath = (path: string): boolean => {
+    return path === "/" || 
+           path.startsWith("/onboarding") || 
+           path.startsWith("/auth/") ||
+           path === "/auth/login";
+  };
+
+  // Listen for route changes
+  useEffect(() => {
+    const handleRouteChange = () => {
+      setCurrentPath(window.location.pathname);
+    };
+
+    window.addEventListener('popstate', handleRouteChange);
+    return () => {
+      window.removeEventListener('popstate', handleRouteChange);
+    };
+  }, []);
+
+  // Check auth state
+  useEffect(() => {
+    const checkAuthState = async () => {
+      const { data } = await supabase.auth.getSession();
+      setIsAuthenticated(!!data.session);
+
+      // Subscribe to auth changes
+      const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+        setIsAuthenticated(!!session);
+      });
+
+      return () => {
+        authListener.subscription.unsubscribe();
+      };
+    };
+
+    checkAuthState();
+  }, []);
 
   useEffect(() => {
     // Initialize push notifications
     PushNotificationService.init().catch(err => {
       console.error('Error initializing push notifications:', err);
     });
-    
+
     const adMobService = AdMobService.getInstance();
 
     const handleAdVisibility = (isVisible: boolean) => {
@@ -66,29 +108,42 @@ const App: React.FC = () => {
         setAdInitialized(true);
         console.log("AdMob initialized in App component");
 
-        // Add a small delay before showing the ad
-        setTimeout(async () => {
-          try {
-            console.log("Attempting to show banner ad...");
-            await adMobService.showBannerAd();
-
-            // Check status after 3 seconds
-            setTimeout(() => {
-              adMobService.checkAdStatus();
-            }, 3000);
-          } catch (error) {
-            console.error("Error showing banner ad:", error);
-            setAdError(
-              error instanceof Error ? error.message : "Failed to show ad"
-            );
-          }
-        }, 2000);
+        // Only show ads if user is authenticated AND not in onboarding/auth paths
+        if (isAuthenticated && !isOnboardingOrAuthPath(currentPath)) {
+          displayAd(adMobService);
+        } else {
+          // Hide any existing ads when in onboarding/auth flow
+          adMobService.hideBannerAd().catch(error => {
+            console.log("Error hiding banner ad:", error);
+          });
+          setHideValue(false);
+        }
       } catch (error) {
         console.error("Error initializing AdMob:", error);
         setAdError(
           error instanceof Error ? error.message : "Failed to initialize AdMob"
         );
       }
+    };
+
+    const displayAd = async (adMobService: AdMobService) => {
+      // Add a small delay before showing the ad
+      setTimeout(async () => {
+        try {
+          console.log("Attempting to show banner ad...");
+          await adMobService.showBannerAd();
+
+          // Check status after 3 seconds
+          setTimeout(() => {
+            adMobService.checkAdStatus();
+          }, 3000);
+        } catch (error) {
+          console.error("Error showing banner ad:", error);
+          setAdError(
+            error instanceof Error ? error.message : "Failed to show ad"
+          );
+        }
+      }, 2000);
     };
 
     // Add visibility listener
@@ -101,13 +156,31 @@ const App: React.FC = () => {
     return () => {
       adMobService.removeVisibilityListener(handleAdVisibility);
     };
-  }, []);
+  }, [isAuthenticated, currentPath]);
+
+  // Determine whether to show Google Ad or the image
+  const shouldShowImage = !hideValue || !isAuthenticated || isOnboardingOrAuthPath(currentPath);
+  
+  useEffect(() => {
+    console.log("Ad visibility state:", {
+      hideValue,
+      isAuthenticated,
+      currentPath,
+      isOnboardingPath: isOnboardingOrAuthPath(currentPath),
+      shouldShowImage
+    });
+  }, [hideValue, isAuthenticated, currentPath]);
 
   return (
     <>
-      <div style={{ display: hideValue ? "none" : "block", height: "50px" }}>
-        {/* Your content to hide when ad is visible */}
-        <h1>Content to hide when ad is visible</h1>
+      <div style={{ height: "50px", backgroundColor: "#121212" }}>
+        {shouldShowImage ? (
+          <img
+            src="/assets/images/Catnnect_Feature_graphic.png"
+            alt="Ad Banner"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        ) : null}
       </div>
 
       <IonApp

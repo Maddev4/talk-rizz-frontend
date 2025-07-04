@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IonButton, IonIcon } from "@ionic/react";
+import { IonButton, IonIcon, isPlatform } from "@ionic/react";
 import { logoGoogle, logoApple } from "ionicons/icons";
 import { supabase } from "../config/supabase";
 import { Provider } from "@supabase/supabase-js";
@@ -131,9 +131,15 @@ const SocialAuth: React.FC<SocialAuthProps> = ({ onError, onSuccess }) => {
       // Determine redirect URL based on platform
       let redirectTo: string;
 
+      // const isMobile = false;
+
       if (isMobile) {
-        redirectTo = "io.catnnect.connect://oauth";
-        console.log(`Using mobile redirect URL for ${provider}:`, redirectTo);
+        // if (isAndroid) {
+          redirectTo = "io.catnnect.connect://oauth";
+        // } else {
+        //   redirectTo = "app://oauth";
+        // }
+        // console.log(`Using mobile redirect URL for ${provider}:`, redirectTo);
       } else {
         // Web fallback
         redirectTo = `${window.location.origin}/auth/callback`;

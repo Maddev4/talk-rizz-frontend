@@ -7,7 +7,8 @@
 }
 
 .messages-container::-webkit-scrollbar-thumb {
-  background: #374045;
+  /* background: #374045; */
+  background: #ffffff;
   border-radius: 3px;
 }
 
@@ -20,7 +21,8 @@
 }
 
 .chat-content::part(scroll) {
-  background-color: #0b141a;
+  /* background-color: #0b141a; */
+  background-color: #ffffff;
 }
 
 /* Custom styling for the input */

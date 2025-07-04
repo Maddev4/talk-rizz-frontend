@@ -20,7 +20,7 @@
 }
 
 .chat-content::part(scroll) {
-  background-color: #0b141a;
+  background-color: #ffffff;
 }
 
 /* Custom styling for the input */

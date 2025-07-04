@@ -416,7 +416,7 @@ const Mode: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar style={{ height: "60px", paddingTop: "5px" }}>
           <IonButtons
             slot="start"
             style={{ position: "absolute", left: "8px" }}

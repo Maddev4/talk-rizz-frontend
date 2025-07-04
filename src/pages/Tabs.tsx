@@ -17,6 +17,8 @@ import {
   peopleOutline,
   documentText,
   documentTextOutline,
+  settings,
+  settingsOutline,
 } from "ionicons/icons";
 
 import Home from "./home";
@@ -28,6 +30,8 @@ import Chatbot from "./chat/chatbot";
 import Mode from "./connect/mode";
 import Report from "./chat/report";
 import ReportChat from "./chat/report_chat";
+import Status from "./status";
+import Settings from "./settings";
 
 interface TabConfig {
   tab: string;
@@ -69,6 +73,20 @@ const Tabs: React.FC = () => {
       icon: chatbubble,
       outlineIcon: chatbubbleOutline,
     },
+    {
+      tab: "status",
+      href: "/app/status",
+      label: "Status",
+      icon: timer,
+      outlineIcon: timerOutline,
+    },
+    {
+      tab: "setting",
+      href: "/app/setting",
+      label: "Setting",
+      icon: settings,
+      outlineIcon: settingsOutline,
+    }
   ];
 
   const shouldHideTabBar =
@@ -128,6 +146,8 @@ const Tabs: React.FC = () => {
           path="/app/chat/:roomId/report/:reason"
           component={ReportChat}
         />
+        <Route exact path="/app/status" component={Status} />
+        <Route exact path="/app/setting" component={Settings} />
       </IonRouterOutlet>
       <IonTabBar
         slot="bottom"
