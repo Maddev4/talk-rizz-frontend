@@ -33,7 +33,8 @@ export const Profile: React.FC<ProfileProps> = ({
             <img
               src={
                 basicProfile.profilePicture ||
-                "https://ionicframework.com/docs/img/demos/avatar.svg"
+                "https://img.icons8.com/?size=100&id=tZuAOUGm9AuS&format=png&color=000000"
+                // "https://ionicframework.com/docs/img/demos/avatar.svg"
               }
               alt="Profile"
               className="flex justify-center items-center w-24 h-24 rounded-full text-center"

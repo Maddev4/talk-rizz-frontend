@@ -52,6 +52,7 @@
     "firebase": "^10.14.1",
     "framer-motion": "^11.3.21",
     "i": "^0.3.7",
+    "i18next": "^25.3.0",
     "ionicons": "^7.0.0",
     "md5": "^2.3.0",
     "mixpanel-browser": "^2.55.1",

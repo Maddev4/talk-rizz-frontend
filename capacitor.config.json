@@ -18,7 +18,8 @@
       "isTesting": true
     },
     "FirebaseMessaging": {
-      "presentationOptions": ["badge", "sound", "alert"]
+      "presentationOptions": ["badge", "sound", "alert"],
+      "platform": "android"
     }
   },
   "ios": {

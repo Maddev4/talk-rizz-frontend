@@ -160,7 +160,8 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({
               <img
                 src={
                   profile.basicProfile.profilePicture ||
-                  "https://ionicframework.com/docs/img/demos/avatar.svg"
+                  "https://img.icons8.com/?size=100&id=tZuAOUGm9AuS&format=png&color=000000"
+                  // "https://ionicframework.com/docs/img/demos/avatar.svg"
                 }
                 className="w-32 h-32 rounded-full mx-auto object-cover"
                 onClick={() => fileInputRef.current?.click()}

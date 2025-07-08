@@ -49,13 +49,13 @@ const Status: React.FC = () => {
           <IonCard>
             <IonCardHeader>
               <IonCardTitle style={{ color: "var(--ion-color-step-50)" }}>{userProfile?.basicProfile.name}</IonCardTitle>
-              <IonCardSubtitle style={{ color: "var(--ion-color-step-150)" }}>Referral Code: {userProfile?.rizzCode}</IonCardSubtitle>
+              <IonCardSubtitle style={{ color: "var(--ion-color-step-50)" }}>Referral Code: 342314{userProfile?.rizzCode}</IonCardSubtitle>
             </IonCardHeader>
           </IonCard>
 
           <IonList>
             <IonListHeader>
-              <IonLabel style={{ color: "var(--ion-color-step-50)" }}>Positive Comments</IonLabel>
+              <IonLabel style={{ color: "var(--ion-color-step-50)", fontSize: "16px" }}>Positive Comments</IonLabel>
             </IonListHeader>
             {/* {userProfile?.generalProfile.comments.map((comment, idx) => (
               <IonItem key={idx}>
