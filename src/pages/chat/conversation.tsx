@@ -116,7 +116,7 @@ const Conversation: React.FC = () => {
                     <IonImg
                       src={
                         currentRoom?.other.avatar ||
-                        "https://ionicframework.com/docs/img/demos/avatar.svg"
+                        "https://img.icons8.com/?size=100&id=tZuAOUGm9AuS&format=png&color=000000"
                       }
                       alt={currentRoom?.other.name}
                     />
@@ -167,7 +167,7 @@ const Conversation: React.FC = () => {
                     <IonImg
                       src={
                         currentRoom?.other.avatar ||
-                        "https://ionicframework.com/docs/img/demos/avatar.svg"
+                        "https://img.icons8.com/?size=100&id=tZuAOUGm9AuS&format=png&color=000000"
                       }
                       alt={currentRoom?.other.name}
                     />

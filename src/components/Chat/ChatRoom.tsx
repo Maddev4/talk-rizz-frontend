@@ -223,7 +223,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
                     <span
                       style={{
                         fontSize: "11px",
-                        color: "#8696A0",
+                        color: msg.senderId === user?.id ? "#E9EDF0" : "##1e1e1e",
                         marginRight: msg.senderId === user?.id ? "4px" : "0",
                       }}
                     >

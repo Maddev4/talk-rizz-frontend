@@ -173,7 +173,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <div style={{ height: "50px", backgroundColor: "#121212" }}>
+      <div style={{ height: "60px", backgroundColor: "#121212" }}>
         {shouldShowImage ? (
           <img
             src="/assets/images/Catnnect_Feature_graphic.png"
@@ -185,7 +185,7 @@ const App: React.FC = () => {
 
       <IonApp
         className="background"
-        style={{ height: "calc(100vh - 50px)", marginTop: "50px" }}
+        style={{ height: "calc(100vh - 60px)", marginTop: "60px" }}
       >
         <IonReactRouter>
           <AuthProvider>

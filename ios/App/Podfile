@@ -14,7 +14,7 @@ def capacitor_pods
   pod 'CapacitorCommunityAdmob', :path => '../../node_modules/@capacitor-community/admob'
   pod 'CapacitorCommunityAppleSignIn', :path => '../../node_modules/@capacitor-community/apple-sign-in'
   pod 'CapacitorCommunityInAppReview', :path => '../../node_modules/@capacitor-community/in-app-review'
-  pod 'CapacitorFirebaseMessaging', :path => '../../node_modules/@capacitor-firebase/messaging'
+  # pod 'CapacitorFirebaseMessaging', :path => '../../node_modules/@capacitor-firebase/messaging'
   pod 'CapacitorApp', :path => '../../node_modules/@capacitor/app'
   pod 'CapacitorCamera', :path => '../../node_modules/@capacitor/camera'
   pod 'CapacitorClipboard', :path => '../../node_modules/@capacitor/clipboard'
