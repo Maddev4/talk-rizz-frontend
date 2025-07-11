@@ -32,6 +32,7 @@ import Report from "./chat/report";
 import ReportChat from "./chat/report_chat";
 import Status from "./status";
 import Settings from "./settings";
+import { Capacitor } from "@capacitor/core";
 
 interface TabConfig {
   tab: string;
@@ -86,7 +87,7 @@ const Tabs: React.FC = () => {
       label: "Setting",
       icon: settings,
       outlineIcon: settingsOutline,
-    }
+    },
   ];
 
   const shouldHideTabBar =
@@ -101,6 +102,9 @@ const Tabs: React.FC = () => {
     location.pathname.startsWith("/app/chat/") ||
     location.pathname.startsWith("/app/connect/") ||
     location.pathname.startsWith("/app/chatbot/");
+
+  const tabBarMarginBottom =
+    Capacitor.getPlatform() === "ios" ? "mb-[60px]" : "";
 
   const renderTabButton = ({
     tab,
@@ -151,7 +155,7 @@ const Tabs: React.FC = () => {
       </IonRouterOutlet>
       <IonTabBar
         slot="bottom"
-        className={`bg-[rgba(0,0,0,0.16)] h-20 w-full ${
+        className={`bg-[rgba(0,0,0,0.16)] h-20 w-full ${tabBarMarginBottom} ${
           shouldHideTabBar && "hidden"
         }`}
       >

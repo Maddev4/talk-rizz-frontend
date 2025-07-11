@@ -1,6 +1,6 @@
 import UIKit
 import Capacitor
-import FirebaseCore
+// import FirebaseCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -11,33 +11,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         // Configure Firebase directly here instead of using a separate class
-        if let filePath = Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist") {
-            print("Found GoogleService-Info.plist at \(filePath)")
-            if let options = FirebaseOptions(contentsOfFile: filePath) {
-                FirebaseApp.configure(options: options)
-                print("Firebase configured successfully with options from plist file")
-            } else {
-                print("Error: Failed to load Firebase options from file")
-                FirebaseApp.configure() // Fallback to default
-            }
-        } else {
-            print("ERROR: GoogleService-Info.plist not found in bundle!")
+        // if let filePath = Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist") {
+        //     print("Found GoogleService-Info.plist at \(filePath)")
+        //     if let options = FirebaseOptions(contentsOfFile: filePath) {
+        //         FirebaseApp.configure(options: options)
+        //         print("Firebase configured successfully with options from plist file")
+        //     } else {
+        //         print("Error: Failed to load Firebase options from file")
+        //         FirebaseApp.configure() // Fallback to default
+        //     }
+        // } else {
+        //     print("ERROR: GoogleService-Info.plist not found in bundle!")
             
-            // Try to find it in the main directory
-            let alternativePath = Bundle.main.bundlePath + "/GoogleService-Info.plist"
-            if FileManager.default.fileExists(atPath: alternativePath) {
-                print("Found GoogleService-Info.plist at alternative location: \(alternativePath)")
-                if let options = FirebaseOptions(contentsOfFile: alternativePath) {
-                    FirebaseApp.configure(options: options)
-                    print("Firebase configured with options from alternative path")
-                } else {
-                    FirebaseApp.configure() // Fallback to default
-                }
-            } else {
-                print("GoogleService-Info.plist not found in any location, using default configuration")
-                FirebaseApp.configure() // Fallback to default configuration
-            }
-        }
+        //     // Try to find it in the main directory
+        //     let alternativePath = Bundle.main.bundlePath + "/GoogleService-Info.plist"
+        //     if FileManager.default.fileExists(atPath: alternativePath) {
+        //         print("Found GoogleService-Info.plist at alternative location: \(alternativePath)")
+        //         if let options = FirebaseOptions(contentsOfFile: alternativePath) {
+        //             FirebaseApp.configure(options: options)
+        //             print("Firebase configured with options from alternative path")
+        //         } else {
+        //             FirebaseApp.configure() // Fallback to default
+        //         }
+        //     } else {
+        //         print("GoogleService-Info.plist not found in any location, using default configuration")
+        //         FirebaseApp.configure() // Fallback to default configuration
+        //     }
+        // }
         
         return true
     }

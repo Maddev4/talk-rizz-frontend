@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { IonApp, setupIonicReact } from "@ionic/react";
 import { AdMobService } from "./utils/admob";
 import PushNotificationService from "./PushNotificationService";
-import { Capacitor } from '@capacitor/core';
-import { initializeApp } from 'firebase/app';
+import { Capacitor } from "@capacitor/core";
+import { initializeApp } from "firebase/app";
 import { supabase } from "./config/supabase";
 
 // Import Ionic CSS
@@ -35,11 +35,11 @@ const firebaseConfig = {
   projectId: "catnnect-ab73f",
   storageBucket: "catnnect-ab73f.firebasestorage.app",
   messagingSenderId: "871084142539",
-  appId: "1:871084142539:android:daae6bb42cb5243f1cd04e"
+  appId: "1:871084142539:android:daae6bb42cb5243f1cd04e",
 };
 
 // Initialize Firebase if on Android
-if (Capacitor.getPlatform() === 'android') {
+if (Capacitor.getPlatform() === "android") {
   initializeApp(firebaseConfig);
 }
 
@@ -52,10 +52,12 @@ const App: React.FC = () => {
 
   // Function to check if the current path is part of the onboarding or auth flow
   const isOnboardingOrAuthPath = (path: string): boolean => {
-    return path === "/" || 
-           path.startsWith("/onboarding") || 
-           path.startsWith("/auth/") ||
-           path === "/auth/login";
+    return (
+      path === "/" ||
+      path.startsWith("/onboarding") ||
+      path.startsWith("/auth/") ||
+      path === "/auth/login"
+    );
   };
 
   // Listen for route changes
@@ -64,9 +66,9 @@ const App: React.FC = () => {
       setCurrentPath(window.location.pathname);
     };
 
-    window.addEventListener('popstate', handleRouteChange);
+    window.addEventListener("popstate", handleRouteChange);
     return () => {
-      window.removeEventListener('popstate', handleRouteChange);
+      window.removeEventListener("popstate", handleRouteChange);
     };
   }, []);
 
@@ -77,9 +79,11 @@ const App: React.FC = () => {
       setIsAuthenticated(!!data.session);
 
       // Subscribe to auth changes
-      const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-        setIsAuthenticated(!!session);
-      });
+      const { data: authListener } = supabase.auth.onAuthStateChange(
+        (event, session) => {
+          setIsAuthenticated(!!session);
+        }
+      );
 
       return () => {
         authListener.subscription.unsubscribe();
@@ -91,8 +95,8 @@ const App: React.FC = () => {
 
   useEffect(() => {
     // Initialize push notifications
-    PushNotificationService.init().catch(err => {
-      console.error('Error initializing push notifications:', err);
+    PushNotificationService.init().catch((err) => {
+      console.error("Error initializing push notifications:", err);
     });
 
     const adMobService = AdMobService.getInstance();
@@ -113,7 +117,7 @@ const App: React.FC = () => {
           displayAd(adMobService);
         } else {
           // Hide any existing ads when in onboarding/auth flow
-          adMobService.hideBannerAd().catch(error => {
+          adMobService.hideBannerAd().catch((error) => {
             console.log("Error hiding banner ad:", error);
           });
           setHideValue(false);
@@ -159,33 +163,47 @@ const App: React.FC = () => {
   }, [isAuthenticated, currentPath]);
 
   // Determine whether to show Google Ad or the image
-  const shouldShowImage = !hideValue || !isAuthenticated || isOnboardingOrAuthPath(currentPath);
-  
+  const shouldShowImage =
+    !hideValue || !isAuthenticated || isOnboardingOrAuthPath(currentPath);
+
   useEffect(() => {
     console.log("Ad visibility state:", {
       hideValue,
       isAuthenticated,
       currentPath,
       isOnboardingPath: isOnboardingOrAuthPath(currentPath),
-      shouldShowImage
+      shouldShowImage,
     });
   }, [hideValue, isAuthenticated, currentPath]);
 
   return (
     <>
-      <div style={{ height: "60px", backgroundColor: "#121212" }}>
-        {shouldShowImage ? (
+      {shouldShowImage && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: "60px",
+            backgroundColor: "#121212",
+            zIndex: 1000,
+          }}
+        >
           <img
             src="/assets/images/Catnnect_Feature_graphic.png"
             alt="Ad Banner"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
-        ) : null}
-      </div>
+        </div>
+      )}
 
       <IonApp
         className="background"
-        style={{ height: "calc(100vh - 60px)", marginTop: "60px" }}
+        style={{
+          height: "100vh",
+          paddingTop: shouldShowImage ? "60px" : "0px",
+        }}
       >
         <IonReactRouter>
           <AuthProvider>

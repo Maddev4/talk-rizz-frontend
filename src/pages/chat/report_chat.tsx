@@ -38,6 +38,7 @@ import {
   getReportMessages,
   sendReportMessage,
 } from "../../services/reportService";
+import { Capacitor } from "@capacitor/core";
 
 interface ReportChatParams {
   roomId: string;
@@ -139,7 +140,12 @@ const ReportChat: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar style={{ height: "60px", paddingTop: "0px" }}>
+        <IonToolbar
+          style={{
+            height: Capacitor.getPlatform() === "ios" ? "80px" : "60px",
+            paddingTop: "0px",
+          }}
+        >
           <IonButtons
             slot="start"
             style={{ position: "absolute", left: "8px" }}

@@ -17,6 +17,7 @@ import {
 import { useAuth } from "../../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
 import "./Connect.css";
+import { Capacitor } from "@capacitor/core";
 
 const Connect: React.FC = () => {
   const { profile } = useAuth();
@@ -36,7 +37,12 @@ const Connect: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar style={{ height: "60px", paddingTop: "5px" }}>
+        <IonToolbar
+          style={{
+            height: Capacitor.getPlatform() === "ios" ? "80px" : "60px",
+            paddingTop: "15px",
+          }}
+        >
           <IonTitle>Connect</IonTitle>
         </IonToolbar>
       </IonHeader>

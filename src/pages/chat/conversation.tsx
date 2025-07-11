@@ -24,6 +24,7 @@ import Spinner from "../../components/Spinner";
 import { useHistory } from "react-router-dom";
 import axiosInstance from "../../config/axios";
 import "./Chat.css";
+import { Capacitor } from "@capacitor/core";
 
 interface ConversationParams {
   roomId: string;
@@ -87,7 +88,12 @@ const Conversation: React.FC = () => {
       ) : (
         <>
           <IonHeader>
-            <IonToolbar style={{ height: "60px", paddingTop: "0px" }}>
+            <IonToolbar
+              style={{
+                height: Capacitor.getPlatform() === "ios" ? "80px" : "60px",
+                paddingTop: "15px",
+              }}
+            >
               <div className="flex justify-between items-center flex-row">
                 <IonButtons slot="start">
                   <IonBackButton defaultHref="/app/chat" />

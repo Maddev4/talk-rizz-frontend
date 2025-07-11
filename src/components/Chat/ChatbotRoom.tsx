@@ -197,7 +197,10 @@ const ChatbotRoom: React.FC<ChatbotRoomProps> = ({ mode }) => {
           )}
         </div>
       </IonContent>
-      <IonFooter className="chat-footer" style={{ backgroundColor: "#202C33" }}>
+      <IonFooter
+        className="chat-footer"
+        style={{ backgroundColor: "#202C33", marginBottom: "95px" }}
+      >
         <div
           style={{ display: "flex", alignItems: "center", padding: "8px 16px" }}
         >

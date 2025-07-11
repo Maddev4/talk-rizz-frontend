@@ -20,6 +20,7 @@ import ChatList from "../../components/Chat/ChatList";
 import CategoryMenu from "../../components/Chat/CategoryMenu";
 import { useChat } from "../../contexts/ChatContext";
 import { useHistory } from "react-router-dom";
+import { Capacitor } from "@capacitor/core";
 import "./Chat.css";
 
 const Chat: React.FC = () => {
@@ -101,7 +102,12 @@ const Chat: React.FC = () => {
       ) : (
         <>
           <IonHeader>
-            <IonToolbar style={{ height: "60px", paddingTop: "5px" }}>
+            <IonToolbar
+              style={{
+                height: Capacitor.getPlatform() === "ios" ? "80px" : "60px",
+                paddingTop: "15px",
+              }}
+            >
               <div className="relative chat-header">
                 {selectedCategory && (
                   <IonButtons

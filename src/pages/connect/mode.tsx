@@ -36,6 +36,7 @@ import { profileService } from "../../services/profileService";
 import { useChat } from "../../contexts/ChatContext";
 import Spinner from "../../components/Spinner";
 import "./Mode.css";
+import { Capacitor } from "@capacitor/core";
 
 interface ModeParams {
   mode: string;
@@ -416,7 +417,12 @@ const Mode: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar style={{ height: "60px", paddingTop: "5px" }}>
+        <IonToolbar
+          style={{
+            height: Capacitor.getPlatform() === "ios" ? "80px" : "60px",
+            paddingTop: "15px",
+          }}
+        >
           <IonButtons
             slot="start"
             style={{ position: "absolute", left: "8px" }}

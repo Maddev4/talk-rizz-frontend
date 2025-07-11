@@ -16,6 +16,7 @@ import { Profile } from "../../components/Profile/Profile";
 import { ProfileEditor } from "../../components/Profile/ProfileEditor";
 import { UserProfile } from "../../types/profile";
 import "./index.css";
+import { Capacitor } from "@capacitor/core";
 
 const ProfilePage: React.FC = () => {
   const { profile: authProfile, setProfile: setAuthProfile } = useAuth();
@@ -68,7 +69,12 @@ const ProfilePage: React.FC = () => {
   return (
     <IonPage className="h-full overflow-auto">
       <IonHeader>
-        <IonToolbar style={{ height: "60px", paddingTop: "0px" }}>
+        <IonToolbar
+          style={{
+            height: Capacitor.getPlatform() === "ios" ? "80px" : "60px",
+            paddingTop: "0px",
+          }}
+        >
           <IonTitle style={{ textAlign: "center" }}>Profile</IonTitle>
           <IonButton
             slot="end"

@@ -223,7 +223,8 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
                     <span
                       style={{
                         fontSize: "11px",
-                        color: msg.senderId === user?.id ? "#E9EDF0" : "##1e1e1e",
+                        color:
+                          msg.senderId === user?.id ? "#E9EDF0" : "##1e1e1e",
                         marginRight: msg.senderId === user?.id ? "4px" : "0",
                       }}
                     >
@@ -253,7 +254,10 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
           )}
         </div>
       </IonContent>
-      <IonFooter className="chat-footer" style={{ backgroundColor: "#e6e6e8"}}>
+      <IonFooter
+        className="chat-footer"
+        style={{ backgroundColor: "#e6e6e8", marginBottom: "95px" }}
+      >
         <div
           style={{ display: "flex", alignItems: "center", padding: "8px 16px" }}
         >
