@@ -4,19 +4,20 @@ import {
   IonTabBar,
   IonTabButton,
   IonIcon,
-  IonLabel,
   IonRouterOutlet,
 } from "@ionic/react";
 import { Route, Redirect, useLocation } from "react-router-dom";
 import {
   chatbubble,
   chatbubbleOutline,
-  timer,
-  timerOutline,
+  personCircle,
+  personCircleOutline,
   people,
   peopleOutline,
-  documentText,
-  documentTextOutline,
+  heart,
+  heartOutline,
+  pulse,
+  pulseOutline,
   settings,
   settingsOutline,
 } from "ionicons/icons";
@@ -37,7 +38,6 @@ import { Capacitor } from "@capacitor/core";
 interface TabConfig {
   tab: string;
   href: string;
-  label: string;
   icon: string;
   outlineIcon: string;
 }
@@ -46,45 +46,33 @@ const Tabs: React.FC = () => {
   const location = useLocation();
 
   const tabConfig: TabConfig[] = [
-    // {
-    //   tab: "home",
-    //   href: "/app/home",
-    //   label: "Home",
-    //   icon: timer,
-    //   outlineIcon: timerOutline,
-    // },
     {
       tab: "profile",
       href: "/app/profile",
-      label: "Profile",
-      icon: documentText,
-      outlineIcon: documentTextOutline,
+      icon: personCircle,
+      outlineIcon: personCircleOutline,
     },
     {
       tab: "connect",
       href: "/app/connect",
-      label: "Connect",
-      icon: people,
-      outlineIcon: peopleOutline,
+      icon: heart,
+      outlineIcon: heartOutline,
     },
     {
       tab: "chat",
       href: "/app/chat",
-      label: "Chat",
       icon: chatbubble,
       outlineIcon: chatbubbleOutline,
     },
     {
       tab: "status",
       href: "/app/status",
-      label: "Status",
-      icon: timer,
-      outlineIcon: timerOutline,
+      icon: pulse,
+      outlineIcon: pulseOutline,
     },
     {
       tab: "setting",
       href: "/app/setting",
-      label: "Setting",
       icon: settings,
       outlineIcon: settingsOutline,
     },
@@ -106,13 +94,7 @@ const Tabs: React.FC = () => {
   const tabBarMarginBottom =
     Capacitor.getPlatform() === "ios" ? "mb-[60px]" : "";
 
-  const renderTabButton = ({
-    tab,
-    href,
-    label,
-    icon,
-    outlineIcon,
-  }: TabConfig) => {
+  const renderTabButton = ({ tab, href, icon, outlineIcon }: TabConfig) => {
     const isActive = location.pathname === href;
     const activeClass = isActive
       ? "text-[var(--ion-color-primary)]"
@@ -127,9 +109,8 @@ const Tabs: React.FC = () => {
       >
         <IonIcon
           icon={isActive ? icon : outlineIcon}
-          className={`w-[26px] h-[26px] ${activeClass}`}
+          className={`w-[32px] h-[32px] ${activeClass}`}
         />
-        <IonLabel className={`text-xs ${activeClass}`}>{label}</IonLabel>
       </IonTabButton>
     );
   };
@@ -155,9 +136,7 @@ const Tabs: React.FC = () => {
       </IonRouterOutlet>
       <IonTabBar
         slot="bottom"
-        className={`bg-[rgba(0,0,0,0.16)] h-20 w-full ${
-          shouldHideTabBar && "hidden"
-        }`}
+        className={`bg-white h-20 w-full ${shouldHideTabBar && "hidden"}`}
         style={{
           position: "fixed",
           bottom: "env(safe-area-inset-bottom)",

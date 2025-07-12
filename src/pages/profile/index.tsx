@@ -10,7 +10,9 @@ import {
   IonSegment,
   IonSegmentButton,
   IonLabel,
+  IonIcon,
 } from "@ionic/react";
+import { pencil, checkmark } from "ionicons/icons";
 import { useAuth } from "../../contexts/AuthContext";
 import { Profile } from "../../components/Profile/Profile";
 import { ProfileEditor } from "../../components/Profile/ProfileEditor";
@@ -72,16 +74,38 @@ const ProfilePage: React.FC = () => {
         <IonToolbar
           style={{
             height: Capacitor.getPlatform() === "ios" ? "80px" : "60px",
-            paddingTop: "0px",
+            paddingTop: Capacitor.getPlatform() === "ios" ? "0px" : "0px",
+            position: "relative",
           }}
         >
-          <IonTitle style={{ textAlign: "center" }}>Profile</IonTitle>
-          <IonButton
-            slot="end"
-            onClick={() => setIsEditing(!isEditing)}
-            className="ion-margin-end"
+          <IonTitle
+            style={{
+              textAlign: "center",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+              width: "100%",
+            }}
           >
-            {isEditing ? "Cancel" : "Edit"}
+            Profile
+          </IonTitle>
+          <IonButton
+            onClick={() => setIsEditing(!isEditing)}
+            fill="clear"
+            style={{
+              position: "absolute",
+              right: "8px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              color: "var(--ion-color-primary)",
+              fontSize: "20px",
+              width: "44px",
+              height: "44px",
+              zIndex: 1,
+            }}
+          >
+            <IonIcon icon={isEditing ? checkmark : pencil} slot="icon-only" />
           </IonButton>
         </IonToolbar>
       </IonHeader>

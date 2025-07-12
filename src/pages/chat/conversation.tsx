@@ -91,10 +91,21 @@ const Conversation: React.FC = () => {
             <IonToolbar
               style={{
                 height: Capacitor.getPlatform() === "ios" ? "80px" : "60px",
-                paddingTop: "15px",
+                backgroundColor: "#ffffff",
+                display: "flex",
+                alignItems: "center",
+                paddingTop: Capacitor.getPlatform() === "ios" ? "15px" : "0px",
               }}
             >
-              <div className="flex justify-between items-center flex-row">
+              <div
+                className="flex justify-between items-center flex-row"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
                 <IonButtons slot="start">
                   <IonBackButton defaultHref="/app/chat" />
                 </IonButtons>

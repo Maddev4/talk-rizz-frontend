@@ -153,7 +153,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        background: "#0B141A",
+        background: "#ffffff",
       }}
     >
       <IonContent className="chat-content" scrollEvents={true}>

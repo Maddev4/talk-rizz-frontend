@@ -11,9 +11,7 @@
 }
 
 .background {
-  background-image: url("/assets/images/Background.png");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  background-color: white;
 }
 
 .onboarding-background {
@@ -131,7 +129,7 @@ ion-tab-bar {
   left: 0;
   right: 0;
   z-index: 100;
-  background: rgba(0, 0, 0, 0.16);
+  background: #ffffff;
 }
 
 /* Ensure content doesn't overlap with tab bar */
@@ -144,13 +142,15 @@ ion-header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: transparent;
+  background: #ffffff;
 }
 
 /* Ensure proper layering */
 ion-header ion-toolbar {
-  background: transparent;
-  --background: transparent;
+  background: #ffffff;
+  --background: #ffffff;
+  display: flex;
+  align-items: center;
 }
 
 *::-webkit-scrollbar {
