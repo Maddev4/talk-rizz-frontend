@@ -112,16 +112,8 @@ const App: React.FC = () => {
         setAdInitialized(true);
         console.log("AdMob initialized in App component");
 
-        // Only show ads if user is authenticated AND not in onboarding/auth paths
-        if (isAuthenticated && !isOnboardingOrAuthPath(currentPath)) {
-          displayAd(adMobService);
-        } else {
-          // Hide any existing ads when in onboarding/auth flow
-          adMobService.hideBannerAd().catch((error) => {
-            console.log("Error hiding banner ad:", error);
-          });
-          setHideValue(false);
-        }
+        // Show ads always, regardless of authentication status
+        displayAd(adMobService);
       } catch (error) {
         console.error("Error initializing AdMob:", error);
         setAdError(
@@ -136,10 +128,12 @@ const App: React.FC = () => {
         try {
           console.log("Attempting to show banner ad...");
           await adMobService.showBannerAd();
+          console.log("Banner ad call completed");
 
           // Check status after 3 seconds
           setTimeout(() => {
             adMobService.checkAdStatus();
+            console.log("Ad status checked");
           }, 3000);
         } catch (error) {
           console.error("Error showing banner ad:", error);
@@ -147,7 +141,7 @@ const App: React.FC = () => {
             error instanceof Error ? error.message : "Failed to show ad"
           );
         }
-      }, 2000);
+      }, 1000); // Reduced delay to 1 second for faster testing
     };
 
     // Add visibility listener
@@ -160,11 +154,40 @@ const App: React.FC = () => {
     return () => {
       adMobService.removeVisibilityListener(handleAdVisibility);
     };
-  }, [isAuthenticated, currentPath]);
+  }, []); // Remove dependencies since we want banner to show always
 
   // Determine whether to show Google Ad or the image
-  const shouldShowImage =
-    !hideValue || !isAuthenticated || isOnboardingOrAuthPath(currentPath);
+  const shouldShowImage = false; // Always show AdMob banner, never show image
+
+  useEffect(() => {
+    // Fix for touch event coordinates
+    const fixTouchEvents = () => {
+      // Prevent AdMob banner from affecting touch coordinates
+      const bannerElements = document.querySelectorAll(
+        ".admob-banner, .admob-banner-container"
+      );
+      bannerElements.forEach((element) => {
+        (element as HTMLElement).style.pointerEvents = "none";
+        (element as HTMLElement).style.userSelect = "none";
+        (element as HTMLElement).style.webkitUserSelect = "none";
+      });
+
+      // Ensure app content has proper touch handling
+      const appContent = document.querySelector("ion-app");
+      if (appContent) {
+        (appContent as HTMLElement).style.position = "relative";
+        (appContent as HTMLElement).style.zIndex = "1";
+      }
+    };
+
+    // Apply fix after component mounts
+    setTimeout(fixTouchEvents, 100);
+
+    // Re-apply fix when banner visibility changes
+    const interval = setInterval(fixTouchEvents, 1000);
+
+    return () => clearInterval(interval);
+  }, [hideValue]);
 
   useEffect(() => {
     console.log("Ad visibility state:", {
@@ -180,14 +203,10 @@ const App: React.FC = () => {
     <>
       {shouldShowImage && (
         <div
+          className="admob-banner-container"
           style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
             height: "60px",
             backgroundColor: "#121212",
-            zIndex: 1000,
           }}
         >
           <img
@@ -202,7 +221,10 @@ const App: React.FC = () => {
         className="background"
         style={{
           height: "100vh",
-          paddingTop: shouldShowImage ? "60px" : "0px",
+          paddingTop: hideValue ? "50px" : "0px", // Space for AdMob banner
+          touchAction: "manipulation", // Ensure proper touch handling
+          position: "relative",
+          zIndex: 1,
         }}
       >
         <IonReactRouter>
@@ -214,9 +236,20 @@ const App: React.FC = () => {
                 flexDirection: "column",
                 height: "100vh",
                 position: "relative",
+                touchAction: "manipulation", // Ensure proper touch handling
+                zIndex: 1,
               }}
             >
-              <div style={{ flex: 1, overflow: "auto" }}>
+              <div
+                style={{
+                  flex: 1,
+                  overflow: "auto",
+                  touchAction: "manipulation", // Ensure proper touch handling
+                  position: "relative",
+                  zIndex: 1,
+                  paddingBottom: "80px", // Space for tab bar above safe area
+                }}
+              >
                 <RootScreen />
               </div>
             </div>

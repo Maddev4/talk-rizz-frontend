@@ -26,6 +26,133 @@
   background-image: url("/assets/images/paywall_background.png");
 }
 
+/* iOS Safe Area handling for AdMob banner */
+ion-content {
+  --offset-top: env(safe-area-inset-top);
+  padding-top: var(--offset-top);
+}
+
+/* Ensure AdMob banner positions correctly on iOS */
+.admob-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  pointer-events: none; /* Prevent banner from intercepting touch events */
+}
+
+/* Fix for AdMob banner touch events */
+.admob-banner * {
+  pointer-events: none;
+}
+
+/* Ensure AdMob banner doesn't interfere with app interactions */
+.admob-banner ~ * {
+  pointer-events: auto;
+}
+
+/* Additional fixes for AdMob banner touch issues */
+.admob-banner-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  z-index: 999;
+  pointer-events: none;
+  /* Ensure banner is in safe area */
+  padding-top: env(safe-area-inset-top);
+}
+
+/* Fix touch event offset issues */
+ion-app {
+  touch-action: manipulation;
+}
+
+/* Ensure proper touch event handling */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Fix for iOS touch events */
+.ion-page {
+  touch-action: pan-y;
+}
+
+/* Ensure buttons and interactive elements work correctly */
+ion-button,
+button,
+[role="button"] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure app content is properly positioned */
+ion-app {
+  position: relative;
+  z-index: 1;
+}
+
+/* Fix for touch event coordinates */
+.ion-page {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Ensure proper touch handling for all interactive elements */
+ion-button,
+button,
+[role="button"],
+a,
+input,
+textarea,
+select {
+  position: relative;
+  z-index: 10;
+  touch-action: manipulation;
+}
+
+/* Fix for iOS Safari touch events */
+@supports (-webkit-touch-callout: none) {
+  ion-app {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ion-page {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Tab bar positioning above bottom safe area */
+ion-tab-bar {
+  position: fixed;
+  bottom: env(safe-area-inset-bottom);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.16);
+}
+
+/* Ensure content doesn't overlap with tab bar */
+ion-content {
+  padding-bottom: calc(80px + env(safe-area-inset-bottom));
+}
+
+/* Title banner positioning below AdMob banner */
+ion-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: transparent;
+}
+
+/* Ensure proper layering */
+ion-header ion-toolbar {
+  background: transparent;
+  --background: transparent;
+}
+
 *::-webkit-scrollbar {
   display: none !important;
 }

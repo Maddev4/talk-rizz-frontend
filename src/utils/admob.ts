@@ -64,8 +64,8 @@ export class AdMobService {
 
       const options: BannerAdOptions = {
         adId: "ca-app-pub-7556755881195797/2273722777",
-        position: BannerAdPosition.TOP_CENTER,
-        margin: 0,
+        position: BannerAdPosition.TOP_CENTER, // Position at the very top
+        margin: 0, // No margin to position in safe area
         isTesting: true,
         adSize: BannerAdSize.BANNER,
       };
@@ -89,11 +89,11 @@ export class AdMobService {
   async hideBannerAd(): Promise<void> {
     try {
       if (this.bannerVisible) {
-      await AdMob.hideBanner();
-      this.bannerVisible = false;
-      this.notifyVisibilityChange(false);
-      console.log("Banner ad hidden successfully");
-      console.log("Google Ad Displayed:", false);
+        await AdMob.hideBanner();
+        this.bannerVisible = false;
+        this.notifyVisibilityChange(false);
+        console.log("Banner ad hidden successfully");
+        console.log("Google Ad Displayed:", false);
       } else {
         // Banner is already hidden
         console.log("No banner ad to hide");
