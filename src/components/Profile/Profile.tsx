@@ -50,11 +50,11 @@ export const Profile: React.FC<ProfileProps> = ({
           <p>{generalProfile.professional}</p>
           <p>{generalProfile.dating}</p>
         </IonCardContent>
-        {/* <div className="flex justify-center mt-4">
+        <div className="flex justify-center mt-4">
           <IonButton expand="block" color="danger" onClick={() => signOut()}>
             Logout
           </IonButton>
-        </div> */}
+        </div>
       </IonCard>
     </div>
   );

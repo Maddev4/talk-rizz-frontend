@@ -62,10 +62,21 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
         // Listen for new messages
         wsService.onMessage((message: { _doc: ChatMessage; sender: any }) => {
           setMessages((prev) => {
+            const roomMessages = prev[message._doc.roomId] || [];
+
+            // Check if message already exists (prevent duplicates)
+            const messageExists = roomMessages.some(
+              (msg) => msg._id === message._doc._id
+            );
+
+            if (messageExists) {
+              return prev;
+            }
+
             return {
               ...prev,
               [message._doc.roomId]: [
-                ...(prev[message._doc.roomId] || []),
+                ...roomMessages,
                 { ...message._doc, sender: message.sender },
               ],
             };
