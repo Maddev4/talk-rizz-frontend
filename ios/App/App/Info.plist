@@ -2,8 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-7556755881195797~2273722777</string>
+	<!-- BLOCKED: Google AdMob Application ID - commented out to disable Google ads -->
+	<!-- <key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-7556755881195797~2273722777</string> -->
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -94,7 +95,8 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
-	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-7556755881195797~2273722777</string>
+	<!-- BLOCKED: Duplicate Google AdMob Application ID - commented out to disable Google ads -->
+	<!-- <key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-7556755881195797~2273722777</string> -->
 </dict>
 </plist>

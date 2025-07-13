@@ -10,12 +10,13 @@
     "PushNotifications": {
       "presentationOptions": ["badge", "sound", "alert"]
     },
-    "AdMob": {
-      "appId": "ca-app-pub-7556755881195797~4201273301",
-      "bannerAdId": "ca-app-pub-7556755881195797/2273722777",
-      "interstitialAdId": "ca-app-pub-7556755881195797/2273722777",
-      "rewardedAdId": "ca-app-pub-7556755881195797/2273722777",
-      "isTesting": true
+    "_BLOCKED_AdMob_Configuration": {
+      "_comment": "AdMob configuration commented out to disable Google ads",
+      "_appId": "ca-app-pub-7556755881195797~4201273301",
+      "_bannerAdId": "ca-app-pub-7556755881195797/2273722777",
+      "_interstitialAdId": "ca-app-pub-7556755881195797/2273722777",
+      "_rewardedAdId": "ca-app-pub-7556755881195797/2273722777",
+      "_isTesting": true
     },
     "FirebaseMessaging": {
       "presentationOptions": ["badge", "sound", "alert"],

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IonApp, setupIonicReact } from "@ionic/react";
-import { AdMobService } from "./utils/admob";
+// import { AdMobService } from "./utils/admob"; // BLOCKED: AdMob functionality
 import PushNotificationService from "./PushNotificationService";
 import { Capacitor } from "@capacitor/core";
 import { initializeApp } from "firebase/app";
@@ -44,9 +44,9 @@ if (Capacitor.getPlatform() === "android") {
 }
 
 const App: React.FC = () => {
-  const [adInitialized, setAdInitialized] = useState(false);
-  const [adError, setAdError] = useState<string | null>(null);
-  const [hideValue, setHideValue] = useState(false);
+  // const [adInitialized, setAdInitialized] = useState(false); // BLOCKED: AdMob state
+  // const [adError, setAdError] = useState<string | null>(null); // BLOCKED: AdMob error state
+  // const [hideValue, setHideValue] = useState(false); // BLOCKED: AdMob visibility state
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
@@ -99,6 +99,8 @@ const App: React.FC = () => {
       console.error("Error initializing push notifications:", err);
     });
 
+    // BLOCKED: AdMob functionality - commenting out all AdMob related code
+    /*
     const adMobService = AdMobService.getInstance();
 
     const handleAdVisibility = (isVisible: boolean) => {
@@ -154,11 +156,14 @@ const App: React.FC = () => {
     return () => {
       adMobService.removeVisibilityListener(handleAdVisibility);
     };
+    */
   }, []); // Remove dependencies since we want banner to show always
 
-  // Determine whether to show Google Ad or the image
-  const shouldShowImage = false; // Always show AdMob banner, never show image
+  // BLOCKED: No longer showing any banner - AdMob is fully disabled
+  // const shouldShowImage = true; // BLOCKED: Changed to always show image instead of AdMob banner
 
+  // BLOCKED: AdMob touch event fixes - commenting out
+  /*
   useEffect(() => {
     // Fix for touch event coordinates
     const fixTouchEvents = () => {
@@ -188,7 +193,10 @@ const App: React.FC = () => {
 
     return () => clearInterval(interval);
   }, [hideValue]);
+  */
 
+  // BLOCKED: AdMob logging - commenting out
+  /*
   useEffect(() => {
     console.log("Ad visibility state:", {
       hideValue,
@@ -198,10 +206,12 @@ const App: React.FC = () => {
       shouldShowImage,
     });
   }, [hideValue, isAuthenticated, currentPath]);
+  */
 
   return (
     <>
-      {shouldShowImage && (
+      {/* BLOCKED: No banner displayed - AdMob is fully disabled */}
+      {/* {shouldShowImage && (
         <div
           className="admob-banner-container"
           style={{
@@ -215,13 +225,14 @@ const App: React.FC = () => {
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
         </div>
-      )}
+      )} */}
 
       <IonApp
         className="background"
         style={{
           height: "100vh",
-          paddingTop: hideValue ? "50px" : "0px", // Space for AdMob banner
+          // BLOCKED: Removed top padding since no banner is displayed
+          // paddingTop: shouldShowImage ? "60px" : "0px", // BLOCKED: Changed from hideValue to shouldShowImage
           touchAction: "manipulation", // Ensure proper touch handling
           position: "relative",
           zIndex: 1,

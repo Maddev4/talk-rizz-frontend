@@ -13,6 +13,8 @@ const config: CapacitorConfig = {
     PushNotifications: {
       presentationOptions: ["badge", "sound", "alert"],
     },
+    // BLOCKED: AdMob configuration - commented out to disable Google ads
+    /*
     AdMob: {
       appId: "ca-app-pub-7556755881195797~4201273301",
       bannerAdId: "ca-app-pub-7556755881195797/2273722777",
@@ -20,6 +22,7 @@ const config: CapacitorConfig = {
       rewardedAdId: "ca-app-pub-7556755881195797/2273722777",
       isTesting: true,
     },
+    */
     SignInWithApple: {
       clientId: "com.catnnect.ios",
       redirectURI: "App://oauth",
@@ -30,25 +33,25 @@ const config: CapacitorConfig = {
       icon: "notification_icon",
       iconColor: "#488AFF",
       sound: "default",
-      platform: "android"
+      platform: "android",
     },
     LocalNotifications: {
       smallIcon: "ic_launcher_foreground",
       iconColor: "#488AFF",
-      sound: "default"
+      sound: "default",
     },
     CapacitorHttp: {
-      enabled: true
+      enabled: true,
     },
     App: {
       appUrlOpen: {
-        enabled: true
-      }
-    }
+        enabled: true,
+      },
+    },
   },
   ios: {
     scheme: "App",
-    contentInset: "always"
+    contentInset: "always",
   },
   android: {
     allowMixedContent: true,
@@ -56,7 +59,7 @@ const config: CapacitorConfig = {
       keystorePath: undefined,
       keystoreAlias: undefined,
     },
-    backgroundColor: "#ffffff"
+    backgroundColor: "#ffffff",
   },
 };
 

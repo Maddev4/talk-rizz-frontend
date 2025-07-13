@@ -1,3 +1,5 @@
+// BLOCKED: AdMob service - All functionality commented out to disable Google ads
+/*
 import {
   AdMob,
   BannerAdOptions,
@@ -22,17 +24,17 @@ export class AdMobService {
     return AdMobService.instance;
   }
 
-  addVisibilityListener(listener: (isVisible: boolean) => void) {
+  addVisibilityListener(listener: (isVisible: boolean) => void): void {
     this.visibilityListeners.push(listener);
   }
 
-  removeVisibilityListener(listener: (isVisible: boolean) => void) {
+  removeVisibilityListener(listener: (isVisible: boolean) => void): void {
     this.visibilityListeners = this.visibilityListeners.filter(
       (l) => l !== listener
     );
   }
 
-  private notifyVisibilityChange(isVisible: boolean) {
+  private notifyVisibilityChange(isVisible: boolean): void {
     this.visibilityListeners.forEach((listener) => listener(isVisible));
   }
 
@@ -106,10 +108,6 @@ export class AdMobService {
     }
   }
 
-  isBannerVisible(): boolean {
-    return this.bannerVisible;
-  }
-
   checkAdStatus(): void {
     console.log("Google Ad Displayed:", this.bannerVisible);
     this.notifyVisibilityChange(this.bannerVisible);
@@ -143,5 +141,45 @@ export class AdMobService {
       console.error("Error showing rewarded ad:", error);
       throw error;
     }
+  }
+}
+*/
+
+// BLOCKED: Dummy export to prevent import errors
+export class AdMobService {
+  static getInstance(): AdMobService {
+    return new AdMobService();
+  }
+
+  addVisibilityListener(listener: (isVisible: boolean) => void): void {
+    // No-op
+  }
+
+  removeVisibilityListener(listener: (isVisible: boolean) => void): void {
+    // No-op
+  }
+
+  async initialize(): Promise<void> {
+    // No-op
+  }
+
+  async showBannerAd(): Promise<void> {
+    // No-op
+  }
+
+  async hideBannerAd(): Promise<void> {
+    // No-op
+  }
+
+  checkAdStatus(): void {
+    // No-op
+  }
+
+  async showInterstitialAd(): Promise<void> {
+    // No-op
+  }
+
+  async showRewardedAd(): Promise<void> {
+    // No-op
   }
 }
