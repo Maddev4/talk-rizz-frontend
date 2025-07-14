@@ -59,13 +59,13 @@ ion-content {
   --offset-top: env(safe-area-inset-top);
   --offset-bottom: env(safe-area-inset-bottom);
   padding-top: var(--offset-top);
-  padding-bottom: var(--offset-bottom);
+  /* Add tab bar height as bottom padding for all platforms */
+  padding-bottom: calc(var(--offset-bottom) + 80px);
 }
 
-/* Tab bar positioning - fixed lower above bottom safe area */
+/* Tab bar positioning - platform specific */
 ion-tab-bar {
   position: fixed !important;
-  bottom: calc(env(safe-area-inset-bottom) - 60px) !important;
   left: 0 !important;
   right: 0 !important;
   z-index: 1000 !important;
@@ -81,6 +81,8 @@ ion-tab-bar {
   --background: #ffffff;
   --color: inherit;
   --border: 1px solid #e0e0e0;
+  /* Default Android positioning */
+  bottom: 0 !important;
 }
 
 /* Ensure tab buttons are clickable */
@@ -107,22 +109,45 @@ ion-tab-button {
 
 /* iOS-specific tab bar fixes */
 @supports (-webkit-touch-callout: none) {
-  /* Ensure tab bar is clickable */
+  /* Ensure tab bar is clickable and positioned properly for iOS */
   ion-tab-bar {
-    position: fixed;
-    bottom: env(safe-area-inset-bottom);
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background: #ffffff;
-    border-top: 1px solid #e0e0e0;
-    height: 80px;
-    pointer-events: auto;
+    position: fixed !important;
+    bottom: env(safe-area-inset-bottom) !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    background: #ffffff !important;
+    border-top: 1px solid #e0e0e0 !important;
+    height: 80px !important;
+    pointer-events: auto !important;
   }
 
   ion-tab-button {
-    pointer-events: auto;
-    z-index: 1001;
+    pointer-events: auto !important;
+    z-index: 1001 !important;
+  }
+}
+
+/* Android-specific tab bar positioning */
+@media screen and (min-width: 1px) {
+  /* This targets all devices, but will be overridden by iOS styles above */
+  body:not(.ios) ion-tab-bar {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    background: #ffffff !important;
+    border-top: 1px solid #e0e0e0 !important;
+    height: 80px !important;
+    pointer-events: auto !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* Ensure content doesn't overlap with tab bar on Android */
+  body:not(.ios) ion-content {
+    padding-bottom: 80px !important;
   }
 }
 
@@ -191,10 +216,10 @@ ion-tab-button {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
   }
 
-  /* Ensure tab bar is clickable and positioned lower above bottom safe area */
+  /* Ensure tab bar is clickable and positioned properly for iOS */
   ion-tab-bar {
     position: fixed !important;
-    bottom: calc(env(safe-area-inset-bottom) - 60px) !important;
+    bottom: env(safe-area-inset-bottom) !important;
     left: 0 !important;
     right: 0 !important;
     z-index: 1000 !important;

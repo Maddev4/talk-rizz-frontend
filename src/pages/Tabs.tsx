@@ -87,8 +87,16 @@ const Tabs: React.FC = () => {
     location.pathname.includes("/custominstruction") ||
     location.pathname.includes("/chooseCategory");
 
-  const tabBarMarginBottom =
-    Capacitor.getPlatform() === "ios" ? "mb-[60px]" : "";
+  // Platform-specific bottom positioning
+  const getTabBarBottom = () => {
+    const platform = Capacitor.getPlatform();
+    if (platform === "ios") {
+      return "env(safe-area-inset-bottom)";
+    } else {
+      // For Android, use a fixed bottom position
+      return "0px";
+    }
+  };
 
   const renderTabButton = ({ tab, href, icon, outlineIcon }: TabConfig) => {
     const isActive = location.pathname === href;
@@ -137,7 +145,7 @@ const Tabs: React.FC = () => {
         }`}
         style={{
           position: "fixed",
-          bottom: "calc(env(safe-area-inset-bottom) - 60px)",
+          bottom: getTabBarBottom(),
           left: "0",
           right: "0",
           zIndex: "1000",

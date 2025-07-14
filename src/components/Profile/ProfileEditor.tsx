@@ -63,6 +63,7 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({
 
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -143,13 +144,13 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({
   };
 
   const handleSubmit = async () => {
+    if (isLoading) {
+      return; // Prevent multiple submissions
+    }
+
     try {
+      setIsLoading(true);
       console.log("ProfileEditor - handleSubmit called");
-      console.log(
-        "ProfileEditor - profile data:",
-        JSON.stringify(profile, null, 2)
-      );
-      console.log("ProfileEditor - selectedFile:", selectedFile);
 
       // Validate required fields
       if (!profile.basicProfile.name?.trim()) {
@@ -161,20 +162,18 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({
       // Determine if we're uploading an image
       const hasImageUpload =
         selectedFile && selectedFile instanceof File && selectedFile.size > 0;
-      console.log("ProfileEditor - has image upload:", hasImageUpload);
 
-      if (hasImageUpload) {
-        console.log("ProfileEditor - updating profile WITH image upload");
-        console.log("ProfileEditor - image file:", {
-          name: selectedFile.name,
-          size: selectedFile.size,
-          type: selectedFile.type,
-        });
-      } else {
-        console.log(
-          "ProfileEditor - updating profile WITHOUT image upload (text-only changes)"
-        );
-      }
+      console.log("ProfileEditor - profile update:", {
+        hasImageUpload,
+        profileName: profile.basicProfile.name,
+        imageFile: hasImageUpload
+          ? {
+              name: selectedFile.name,
+              size: selectedFile.size,
+              type: selectedFile.type,
+            }
+          : null,
+      });
 
       // Call the profile update service
       const response = await profileService.updateProfile(
@@ -182,58 +181,46 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({
         selectedFile
       );
 
-      console.log("ProfileEditor - response status:", response.status);
-      console.log("ProfileEditor - response data:", response.data);
+      console.log("ProfileEditor - profile update successful");
+      const updatedProfile = response.data;
 
-      if (response.status === 200 || response.status === 201) {
-        const updatedProfile = response.data;
-        console.log("ProfileEditor - profile update successful");
+      // Pass the updated profile back to parent
+      onSave({
+        basicProfile: updatedProfile.basicProfile,
+        generalProfile: updatedProfile.generalProfile,
+        premiumFeatures: updatedProfile.premiumFeatures,
+        userId: updatedProfile.userId,
+        rizzCode: updatedProfile.rizzCode,
+        rizzPoint: updatedProfile.rizzPoint,
+      });
 
-        // Pass the updated profile back to parent
-        onSave({
-          basicProfile: updatedProfile.basicProfile,
-          generalProfile: updatedProfile.generalProfile,
-          premiumFeatures: updatedProfile.premiumFeatures,
-          userId: updatedProfile.userId,
-          rizzCode: updatedProfile.rizzCode,
-          rizzPoint: updatedProfile.rizzPoint,
-        });
-
-        // Clear the selected file after successful upload
-        if (hasImageUpload) {
-          setSelectedFile(null);
-          console.log(
-            "ProfileEditor - cleared selected file after successful upload"
-          );
+      // Clear the selected file after successful upload
+      if (hasImageUpload) {
+        setSelectedFile(null);
+        // Reset file input
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
         }
-
-        setToastMessage("Profile updated successfully!");
-        setShowToast(true);
-      } else {
-        throw new Error(`Unexpected response status: ${response.status}`);
+        console.log(
+          "ProfileEditor - cleared selected file after successful upload"
+        );
       }
+
+      setToastMessage("Profile updated successfully!");
+      setShowToast(true);
     } catch (error: any) {
       console.error("ProfileEditor - error updating profile:", error);
-      console.error("ProfileEditor - error response:", error?.response);
 
+      // Extract error message from the service layer
       let errorMessage = "Failed to save profile";
-
-      if (error?.response?.data?.message) {
-        errorMessage = error.response.data.message;
-      } else if (error?.message) {
+      if (error?.message) {
         errorMessage = error.message;
-      } else if (error?.response?.status === 413) {
-        errorMessage =
-          "Image file is too large. Please choose a smaller image.";
-      } else if (error?.response?.status === 415) {
-        errorMessage =
-          "Unsupported image format. Please use JPEG, PNG, GIF, or WebP.";
-      } else if (error?.response?.status >= 500) {
-        errorMessage = "Server error. Please try again later.";
       }
 
       setToastMessage(errorMessage);
       setShowToast(true);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -396,8 +383,8 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({
       )}
 
       <div className="ion-padding">
-        <IonButton expand="block" onClick={handleSubmit}>
-          Save Profile
+        <IonButton expand="block" onClick={handleSubmit} disabled={isLoading}>
+          {isLoading ? "Saving..." : "Save Profile"}
         </IonButton>
       </div>
 
