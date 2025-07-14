@@ -44,8 +44,8 @@ const Status: React.FC = () => {
       <IonHeader>
         <IonToolbar
           style={{
-            height: Capacitor.getPlatform() === "ios" ? "80px" : "60px",
-            paddingTop: "15px",
+            height: Capacitor.getPlatform() === "ios" ? "60px" : "60px",
+            paddingTop: "5px",
           }}
         >
           <IonTitle>Status</IonTitle>

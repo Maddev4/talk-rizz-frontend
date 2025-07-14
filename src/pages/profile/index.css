@@ -4,6 +4,7 @@
   margin: 0 auto;
   height: 100%;
   overflow-y: auto;
+  margin-bottom: 20px; /* Add margin to ensure content doesn't get cut off */
 }
 
 .profile-header {
@@ -122,3 +123,39 @@
 }
 
 /* Add any additional custom styling you need */
+
+/* Fix gender selection dropdown visibility */
+ion-select {
+  --color: #ffffff !important;
+  --placeholder-color: #ffffff !important;
+}
+
+/* Style the select options in the popover */
+ion-select-option {
+  --color: #ffffff !important;
+}
+
+/* Style the select interface (the popover itself) */
+.select-interface-option {
+  color: #ffffff !important;
+}
+
+/* Ensure the popover has proper styling */
+ion-popover.select-popover {
+  --color: #ffffff !important;
+}
+
+/* Style the select button text */
+ion-select::part(text) {
+  color: #ffffff !important;
+}
+
+ion-select::part(placeholder) {
+  color: #ffffff !important;
+}
+
+/* Additional fallback for select options */
+.alert-radio-label,
+.select-interface-option {
+  color: #ffffff !important;
+}

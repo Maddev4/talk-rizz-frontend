@@ -64,8 +64,48 @@ const ProfilePage: React.FC = () => {
     }
   };
 
+  // Debug logging
+  console.log("ProfilePage - authProfile:", authProfile);
+  console.log("ProfilePage - userProfile:", userProfile);
+
   if (!userProfile) {
-    return null; // or a loading spinner
+    return (
+      <IonPage className="h-full overflow-auto">
+        <IonHeader>
+          <IonToolbar
+            style={{
+              height: Capacitor.getPlatform() === "ios" ? "60px" : "60px",
+              paddingTop: "5px",
+            }}
+          >
+            <IonTitle
+              style={{
+                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+                width: "100%",
+              }}
+            >
+              Profile
+            </IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent
+          className="ion-padding"
+          style={{
+            paddingBottom: "120px",
+            minHeight: "100%",
+          }}
+        >
+          <div style={{ textAlign: "center", marginTop: "50px" }}>
+            <p>Loading profile...</p>
+            <p>Debug: authProfile is {authProfile ? "available" : "null"}</p>
+          </div>
+        </IonContent>
+      </IonPage>
+    );
   }
 
   return (
@@ -73,9 +113,8 @@ const ProfilePage: React.FC = () => {
       <IonHeader>
         <IonToolbar
           style={{
-            height: Capacitor.getPlatform() === "ios" ? "80px" : "60px",
-            paddingTop: Capacitor.getPlatform() === "ios" ? "0px" : "0px",
-            position: "relative",
+            height: Capacitor.getPlatform() === "ios" ? "60px" : "60px",
+            paddingTop: "5px",
           }}
         >
           <IonTitle
@@ -110,7 +149,13 @@ const ProfilePage: React.FC = () => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="ion-padding">
+      <IonContent
+        className="ion-padding"
+        style={{
+          paddingBottom: "120px", // Add extra padding to account for the fixed tab bar
+          minHeight: "100%",
+        }}
+      >
         {isEditing ? (
           <ProfileEditor
             initialProfile={userProfile}

@@ -132,16 +132,19 @@ const Tabs: React.FC = () => {
       </IonRouterOutlet>
       <IonTabBar
         slot="bottom"
-        className={`bg-white h-20 w-full ${shouldHideTabBar ? "hidden" : ""}`}
+        className={`bg-white h-20 w-full ${
+          shouldHideTabBar ? "hidden" : "flex"
+        }`}
         style={{
           position: "fixed",
-          bottom: "env(safe-area-inset-bottom)",
+          bottom: "calc(env(safe-area-inset-bottom) - 60px)",
           left: "0",
           right: "0",
           zIndex: "1000",
-          borderTop: "1px solid #e0e0e0",
           height: "80px",
           display: shouldHideTabBar ? "none" : "flex",
+          pointerEvents: "auto",
+          touchAction: "manipulation",
         }}
       >
         {tabConfig.map(renderTabButton)}

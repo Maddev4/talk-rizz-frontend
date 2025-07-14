@@ -25,14 +25,22 @@ export const Profile: React.FC<ProfileProps> = ({
   const { basicProfile, generalProfile } = profile;
   const { signOut } = useAuth();
 
+  // Debug logging
+  console.log("Profile component - profile:", profile);
+  console.log("Profile component - basicProfile:", basicProfile);
+  console.log("Profile component - generalProfile:", generalProfile);
+
   return (
-    <div className="profile-container">
+    <div
+      className="profile-container"
+      style={{ minHeight: "100%", paddingBottom: "20px" }}
+    >
       <IonCard>
         <IonCardHeader>
           <div className="flex flex-col justify-center items-center gap-2">
             <img
               src={
-                basicProfile.profilePicture ||
+                basicProfile?.profilePicture ||
                 "https://img.icons8.com/?size=100&id=tZuAOUGm9AuS&format=png&color=000000"
                 // "https://ionicframework.com/docs/img/demos/avatar.svg"
               }
@@ -40,15 +48,17 @@ export const Profile: React.FC<ProfileProps> = ({
               className="flex justify-center items-center w-24 h-24 rounded-full text-center"
             />
             <IonCardTitle style={{ color: "var(--ion-text-color-secondary)" }}>
-              {basicProfile.name}
+              {basicProfile?.name || "No name set"}
             </IonCardTitle>
           </div>
         </IonCardHeader>
         <IonCardContent>
-          <p>{generalProfile.general}</p>
-          <p>{generalProfile.friendship}</p>
-          <p>{generalProfile.professional}</p>
-          <p>{generalProfile.dating}</p>
+          <p>{generalProfile?.general || "No general info available"}</p>
+          <p>{generalProfile?.friendship || "No friendship info available"}</p>
+          <p>
+            {generalProfile?.professional || "No professional info available"}
+          </p>
+          <p>{generalProfile?.dating || "No dating info available"}</p>
         </IonCardContent>
         <div className="flex justify-center mt-4">
           <IonButton expand="block" color="danger" onClick={() => signOut()}>

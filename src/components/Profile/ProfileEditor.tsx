@@ -35,25 +35,31 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({
   const [activeSegment, setActiveSegment] = useState<"general" | "profile">(
     "general"
   );
-  const [profile, setProfile] = useState<UserProfile>(
-    initialProfile || {
-      basicProfile: {
-        name: "",
-        displayName: "",
-        location: "",
-        languages: [],
-        birthday: "",
-        gender: "",
-        profilePicture: "",
-      },
-      generalProfile: {
-        friendship: "",
-        professional: "",
-        dating: "",
-        general: "",
-      },
-    }
-  );
+  const [profile, setProfile] = useState<UserProfile>(() => {
+    console.log("ProfileEditor - initialProfile:", initialProfile);
+    return (
+      initialProfile || {
+        basicProfile: {
+          name: "",
+          displayName: "",
+          location: "",
+          languages: [],
+          birthday: "",
+          gender: "",
+          profilePicture: "",
+        },
+        generalProfile: {
+          friendship: "",
+          professional: "",
+          dating: "",
+          general: "",
+        },
+        userId: undefined,
+        rizzCode: undefined,
+        rizzPoint: 0,
+      }
+    );
+  });
 
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
@@ -88,36 +94,145 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
+    console.log("ProfileEditor - file selected:", file);
+
     if (file) {
+      // Validate file type
+      const validTypes = [
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+      ];
+      if (!validTypes.includes(file.type)) {
+        setToastMessage(
+          "Please select a valid image file (JPEG, PNG, GIF, or WebP)"
+        );
+        setShowToast(true);
+        return;
+      }
+
+      // Validate file size (max 5MB)
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxSize) {
+        setToastMessage("Image file size must be less than 5MB");
+        setShowToast(true);
+        return;
+      }
+
+      console.log("ProfileEditor - valid file, creating preview");
       setSelectedFile(file);
-      // Create a preview URL
+
+      // Create a preview URL for display
       const reader = new FileReader();
       reader.onloadend = () => {
+        console.log("ProfileEditor - preview created");
         handleBasicProfileChange("profilePicture", reader.result as string);
       };
+      reader.onerror = () => {
+        console.error("ProfileEditor - error reading file");
+        setToastMessage("Error reading image file");
+        setShowToast(true);
+      };
       reader.readAsDataURL(file);
+    } else {
+      console.log("ProfileEditor - no file selected, clearing selection");
+      setSelectedFile(null);
     }
   };
 
   const handleSubmit = async () => {
     try {
-      console.log("Profile:", profile);
+      console.log("ProfileEditor - handleSubmit called");
+      console.log(
+        "ProfileEditor - profile data:",
+        JSON.stringify(profile, null, 2)
+      );
+      console.log("ProfileEditor - selectedFile:", selectedFile);
+
+      // Validate required fields
+      if (!profile.basicProfile.name?.trim()) {
+        setToastMessage("Name is required");
+        setShowToast(true);
+        return;
+      }
+
+      // Determine if we're uploading an image
+      const hasImageUpload =
+        selectedFile && selectedFile instanceof File && selectedFile.size > 0;
+      console.log("ProfileEditor - has image upload:", hasImageUpload);
+
+      if (hasImageUpload) {
+        console.log("ProfileEditor - updating profile WITH image upload");
+        console.log("ProfileEditor - image file:", {
+          name: selectedFile.name,
+          size: selectedFile.size,
+          type: selectedFile.type,
+        });
+      } else {
+        console.log(
+          "ProfileEditor - updating profile WITHOUT image upload (text-only changes)"
+        );
+      }
+
+      // Call the profile update service
       const response = await profileService.updateProfile(
         profile,
-        selectedFile || undefined
+        selectedFile
       );
-      const updatedProfile = response.data;
-      console.log("Updated profile:", updatedProfile);
-      onSave({
-        basicProfile: updatedProfile.basicProfile,
-        generalProfile: updatedProfile.generalProfile,
-        premiumFeatures: updatedProfile.premiumFeatures,
-        userId: updatedProfile.userId,
-        rizzCode: updatedProfile.rizzCode,
-        rizzPoint: updatedProfile.rizzPoint,
-      });
-    } catch (error) {
-      setToastMessage("Failed to save profile");
+
+      console.log("ProfileEditor - response status:", response.status);
+      console.log("ProfileEditor - response data:", response.data);
+
+      if (response.status === 200 || response.status === 201) {
+        const updatedProfile = response.data;
+        console.log("ProfileEditor - profile update successful");
+
+        // Pass the updated profile back to parent
+        onSave({
+          basicProfile: updatedProfile.basicProfile,
+          generalProfile: updatedProfile.generalProfile,
+          premiumFeatures: updatedProfile.premiumFeatures,
+          userId: updatedProfile.userId,
+          rizzCode: updatedProfile.rizzCode,
+          rizzPoint: updatedProfile.rizzPoint,
+        });
+
+        // Clear the selected file after successful upload
+        if (hasImageUpload) {
+          setSelectedFile(null);
+          console.log(
+            "ProfileEditor - cleared selected file after successful upload"
+          );
+        }
+
+        setToastMessage("Profile updated successfully!");
+        setShowToast(true);
+      } else {
+        throw new Error(`Unexpected response status: ${response.status}`);
+      }
+    } catch (error: any) {
+      console.error("ProfileEditor - error updating profile:", error);
+      console.error("ProfileEditor - error response:", error?.response);
+
+      let errorMessage = "Failed to save profile";
+
+      if (error?.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      } else if (error?.message) {
+        errorMessage = error.message;
+      } else if (error?.response?.status === 413) {
+        errorMessage =
+          "Image file is too large. Please choose a smaller image.";
+      } else if (error?.response?.status === 415) {
+        errorMessage =
+          "Unsupported image format. Please use JPEG, PNG, GIF, or WebP.";
+      } else if (error?.response?.status >= 500) {
+        errorMessage = "Server error. Please try again later.";
+      }
+
+      setToastMessage(errorMessage);
       setShowToast(true);
     }
   };
@@ -220,6 +335,12 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({
               onIonChange={(e) =>
                 handleBasicProfileChange("gender", e.detail.value!)
               }
+              interface="popover"
+              placeholder="Select gender"
+              style={{
+                "--color": "#ffffff",
+                "--placeholder-color": "#ffffff",
+              }}
             >
               <IonSelectOption value="male">Male</IonSelectOption>
               <IonSelectOption value="female">Female</IonSelectOption>

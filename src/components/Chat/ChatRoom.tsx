@@ -257,17 +257,21 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
       <IonFooter
         className="chat-footer"
         style={{
-          backgroundColor: "#e6e6e8",
+          backgroundColor: "#f8f9fa",
           position: "relative",
-          zIndex: 9999,
+          zIndex: 1999,
+          pointerEvents: "auto",
+          touchAction: "manipulation",
+          borderTop: "1px solid #e9ecef",
+          boxShadow: "0 -2px 10px rgba(0,0,0,0.1)",
         }}
       >
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            padding: "8px 16px",
-            paddingBottom: "calc(8px + env(safe-area-inset-bottom))",
+            padding: "12px 16px",
+            paddingBottom: "calc(env(safe-area-inset-bottom) + 70px)",
           }}
         >
           <div
@@ -277,21 +281,31 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
               display: "flex",
               alignItems: "center",
               backgroundColor: "#ffffff",
-              borderRadius: "8px",
-              padding: "6px 12px",
-              zIndex: 10000,
+              borderRadius: "24px",
+              padding: "8px 16px",
+              zIndex: 2000,
+              pointerEvents: "auto",
+              touchAction: "manipulation",
+              border: "1px solid #e9ecef",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+              minHeight: "44px",
             }}
           >
             <IonInput
               value={message}
-              placeholder="Message"
+              placeholder="Type a message..."
               onIonInput={(e) => setMessage(e.detail.value || "")}
               onKeyDown={handleKeyPress}
               style={{
                 "--placeholder-color": "#8696A0",
-                "--color": "#000000",
+                "--color": "#2c3e50",
                 position: "relative",
-                zIndex: 10001,
+                zIndex: 2001,
+                pointerEvents: "auto",
+                touchAction: "manipulation",
+                flex: 1,
+                fontSize: "16px",
+                padding: "0",
               }}
             />
             <IonButton
@@ -300,14 +314,25 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
               fill="clear"
               style={{
                 margin: 0,
-                "--color": "#F46F1C",
+                "--color": message.trim() ? "#007AFF" : "#8696A0",
                 "--padding-start": "8px",
                 "--padding-end": "8px",
                 position: "relative",
-                zIndex: 10001,
+                zIndex: 2001,
+                pointerEvents: "auto",
+                touchAction: "manipulation",
+                minWidth: "44px",
+                height: "44px",
+                borderRadius: "50%",
               }}
             >
-              <IonIcon icon={sendOutline} style={{ fontSize: "24px" }} />
+              <IonIcon
+                icon={sendOutline}
+                style={{
+                  fontSize: "20px",
+                  transition: "all 0.2s ease",
+                }}
+              />
             </IonButton>
           </div>
         </div>

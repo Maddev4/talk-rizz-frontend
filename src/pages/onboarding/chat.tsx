@@ -92,9 +92,11 @@ const OnboardingChat: React.FC = () => {
         <div
           className="p-4 border-t border-[#FFFFFF30]"
           style={{
-            paddingBottom: "calc(16px + env(safe-area-inset-bottom))",
+            paddingBottom: "40px",
             position: "relative",
-            zIndex: 9999,
+            zIndex: 1999,
+            pointerEvents: "auto",
+            touchAction: "manipulation",
           }}
         >
           <input
@@ -103,7 +105,9 @@ const OnboardingChat: React.FC = () => {
             className="w-full p-3 rounded-lg bg-[#e6e6e8] text-black outline-none"
             style={{
               position: "relative",
-              zIndex: 10000,
+              zIndex: 2000,
+              pointerEvents: "auto",
+              touchAction: "manipulation",
             }}
             onKeyPress={(e) => {
               if (

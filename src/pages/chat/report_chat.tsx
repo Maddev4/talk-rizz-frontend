@@ -142,8 +142,8 @@ const ReportChat: React.FC = () => {
       <IonHeader>
         <IonToolbar
           style={{
-            height: Capacitor.getPlatform() === "ios" ? "80px" : "60px",
-            paddingTop: "0px",
+            height: Capacitor.getPlatform() === "ios" ? "60px" : "60px",
+            paddingTop: "5px",
           }}
         >
           <IonButtons

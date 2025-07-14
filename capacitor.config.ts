@@ -28,6 +28,7 @@ const config: CapacitorConfig = {
       redirectURI: "App://oauth",
       scopes: "email name",
     },
+    // Firebase messaging configuration (Android only - excluded from iOS via includePlugins)
     FirebaseMessaging: {
       presentationOptions: ["badge", "sound", "alert"],
       icon: "notification_icon",
@@ -52,6 +53,22 @@ const config: CapacitorConfig = {
   ios: {
     scheme: "App",
     contentInset: "always",
+    includePlugins: [
+      "@capacitor-community/apple-sign-in",
+      "@capacitor-community/in-app-review",
+      "@capacitor/app",
+      "@capacitor/camera",
+      "@capacitor/clipboard",
+      "@capacitor/device",
+      "@capacitor/haptics",
+      "@capacitor/keyboard",
+      "@capacitor/local-notifications",
+      "@capacitor/push-notifications",
+      "@capacitor/screen-reader",
+      "@capacitor/share",
+      "@capacitor/status-bar",
+      "capacitor-voice-recorder",
+    ],
   },
   android: {
     allowMixedContent: true,
@@ -60,6 +77,23 @@ const config: CapacitorConfig = {
       keystoreAlias: undefined,
     },
     backgroundColor: "#ffffff",
+    includePlugins: [
+      "@capacitor-community/apple-sign-in",
+      "@capacitor-community/in-app-review",
+      "@capacitor-firebase/messaging",
+      "@capacitor/app",
+      "@capacitor/camera",
+      "@capacitor/clipboard",
+      "@capacitor/device",
+      "@capacitor/haptics",
+      "@capacitor/keyboard",
+      "@capacitor/local-notifications",
+      "@capacitor/push-notifications",
+      "@capacitor/screen-reader",
+      "@capacitor/share",
+      "@capacitor/status-bar",
+      "capacitor-voice-recorder",
+    ],
   },
 };
 
