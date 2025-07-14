@@ -69,8 +69,8 @@ const OnboardingChat: React.FC = () => {
                   message.sender === "bot"
                     ? "bg-[#e8e8e8] --ion-text-primary"
                     : "bg-[#007aff] text-white"
-                    // ? "bg-[#FFFFFF15] text-[var(--ion-text-primary)]"
-                    // : "bg-[var(--ion-color-primary)] text-black"
+                  // ? "bg-[#FFFFFF15] text-[var(--ion-text-primary)]"
+                  // : "bg-[var(--ion-color-primary)] text-black"
                 }`}
               >
                 {message.text}
@@ -89,11 +89,22 @@ const OnboardingChat: React.FC = () => {
           )}
         </div>
 
-        <div className="p-4 border-t border-[#FFFFFF30]">
-          <input  
+        <div
+          className="p-4 border-t border-[#FFFFFF30]"
+          style={{
+            paddingBottom: "calc(16px + env(safe-area-inset-bottom))",
+            position: "relative",
+            zIndex: 9999,
+          }}
+        >
+          <input
             type="text"
             placeholder="Type your response..."
             className="w-full p-3 rounded-lg bg-[#e6e6e8] text-black outline-none"
+            style={{
+              position: "relative",
+              zIndex: 10000,
+            }}
             onKeyPress={(e) => {
               if (
                 e.key === "Enter" &&

@@ -79,17 +79,13 @@ const Tabs: React.FC = () => {
   ];
 
   const shouldHideTabBar =
-    [
-      "/app/settings",
-      "/app/custominstruction",
-      "/app/chooseCategory",
-      "/app/chat/:roomId",
-      "/app/connect/:mode",
-      "/app/chatbot/:mode",
-    ].includes(location.pathname) ||
     location.pathname.startsWith("/app/chat/") ||
     location.pathname.startsWith("/app/connect/") ||
-    location.pathname.startsWith("/app/chatbot/");
+    location.pathname.startsWith("/app/chatbot/") ||
+    location.pathname.includes("/report") ||
+    location.pathname.includes("/settings") ||
+    location.pathname.includes("/custominstruction") ||
+    location.pathname.includes("/chooseCategory");
 
   const tabBarMarginBottom =
     Capacitor.getPlatform() === "ios" ? "mb-[60px]" : "";
@@ -136,13 +132,16 @@ const Tabs: React.FC = () => {
       </IonRouterOutlet>
       <IonTabBar
         slot="bottom"
-        className={`bg-white h-20 w-full ${shouldHideTabBar && "hidden"}`}
+        className={`bg-white h-20 w-full ${shouldHideTabBar ? "hidden" : ""}`}
         style={{
           position: "fixed",
           bottom: "env(safe-area-inset-bottom)",
           left: "0",
           right: "0",
-          zIndex: "100",
+          zIndex: "1000",
+          borderTop: "1px solid #e0e0e0",
+          height: "80px",
+          display: shouldHideTabBar ? "none" : "flex",
         }}
       >
         {tabConfig.map(renderTabButton)}

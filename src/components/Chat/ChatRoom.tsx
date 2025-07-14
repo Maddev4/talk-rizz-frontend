@@ -254,9 +254,21 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
           )}
         </div>
       </IonContent>
-      <IonFooter className="chat-footer" style={{ backgroundColor: "#e6e6e8" }}>
+      <IonFooter
+        className="chat-footer"
+        style={{
+          backgroundColor: "#e6e6e8",
+          position: "relative",
+          zIndex: 9999,
+        }}
+      >
         <div
-          style={{ display: "flex", alignItems: "center", padding: "8px 16px" }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            padding: "8px 16px",
+            paddingBottom: "calc(8px + env(safe-area-inset-bottom))",
+          }}
         >
           <div
             style={{
@@ -267,6 +279,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
               backgroundColor: "#ffffff",
               borderRadius: "8px",
               padding: "6px 12px",
+              zIndex: 10000,
             }}
           >
             <IonInput
@@ -277,6 +290,8 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
               style={{
                 "--placeholder-color": "#8696A0",
                 "--color": "#000000",
+                position: "relative",
+                zIndex: 10001,
               }}
             />
             <IonButton
@@ -288,6 +303,8 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
                 "--color": "#F46F1C",
                 "--padding-start": "8px",
                 "--padding-end": "8px",
+                position: "relative",
+                zIndex: 10001,
               }}
             >
               <IonIcon icon={sendOutline} style={{ fontSize: "24px" }} />

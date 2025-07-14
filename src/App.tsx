@@ -231,8 +231,6 @@ const App: React.FC = () => {
         className="background"
         style={{
           height: "100vh",
-          // BLOCKED: Removed top padding since no banner is displayed
-          // paddingTop: shouldShowImage ? "60px" : "0px", // BLOCKED: Changed from hideValue to shouldShowImage
           touchAction: "manipulation", // Ensure proper touch handling
           position: "relative",
           zIndex: 1,
@@ -241,29 +239,7 @@ const App: React.FC = () => {
         <IonReactRouter>
           <AuthProvider>
             <DeepLinkHandler />
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100vh",
-                position: "relative",
-                touchAction: "manipulation", // Ensure proper touch handling
-                zIndex: 1,
-              }}
-            >
-              <div
-                style={{
-                  flex: 1,
-                  overflow: "auto",
-                  touchAction: "manipulation", // Ensure proper touch handling
-                  position: "relative",
-                  zIndex: 1,
-                  paddingBottom: "80px", // Space for tab bar above safe area
-                }}
-              >
-                <RootScreen />
-              </div>
-            </div>
+            <RootScreen />
           </AuthProvider>
         </IonReactRouter>
       </IonApp>

@@ -196,7 +196,14 @@ const ReportChat: React.FC = () => {
                 </div>
               ))}
             </div>
-            <div className="p-4 border-t">
+            <div
+              className="p-4 border-t"
+              style={{
+                paddingBottom: "calc(16px + env(safe-area-inset-bottom))",
+                position: "relative",
+                zIndex: 9999,
+              }}
+            >
               <div className="flex items-center space-x-2">
                 <IonInput
                   value={newMessage}
@@ -204,11 +211,19 @@ const ReportChat: React.FC = () => {
                   placeholder="Type your message..."
                   className="flex-1"
                   onKeyPress={handleKeyPress}
+                  style={{
+                    position: "relative",
+                    zIndex: 10001,
+                  }}
                 />
                 <IonButton
                   onClick={handleSendMessage}
                   disabled={!newMessage.trim()}
                   color={reportReasons[parseInt(reason)].color as any}
+                  style={{
+                    position: "relative",
+                    zIndex: 10001,
+                  }}
                 >
                   Send
                 </IonButton>
